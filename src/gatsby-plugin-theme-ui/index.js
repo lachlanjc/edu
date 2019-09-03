@@ -56,7 +56,7 @@ export default merge(base, {
     modes: {
       dark: {
         text: palette.white,
-        background: palette.darker,
+        background: '#000',
         sunken: palette.darkless,
         primary: palette.violetBright,
         secondary: palette.muted,

@@ -100,12 +100,11 @@ export default props => {
       {props.children}
       <Box
         sx={{
-          py: [3, 4],
-          display: 'grid',
-          gridGap: [2, 3],
-          gridTemplateColumns: 'auto repeat(3, 36px)',
+          py: [3, 4, 5],
+          display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          a: { color: 'primary', mx: [2, 3] }
         }}
       >
         <A
@@ -113,7 +112,7 @@ export default props => {
           title="Personal site"
           target="_blank"
           variant="styles.navitem"
-          sx={{ color: 'primary', lineHeight: 0 }}
+          sx={{ lineHeight: 0 }}
         >
           <Avatar />
         </A>
@@ -122,7 +121,6 @@ export default props => {
           title="Twitter"
           target="_blank"
           variant="styles.navitem"
-          sx={{ color: 'primary' }}
         >
           <Icon glyph="twitter" size={36} />
         </A>
@@ -131,17 +129,23 @@ export default props => {
           title="GitHub"
           target="_blank"
           variant="styles.navitem"
-          sx={{ color: 'primary' }}
         >
           <Icon glyph="github" size={36} />
         </A>
         <A
+          href="https://instagram.com/lachlan.jc"
+          title="Instagram"
+          target="_blank"
+          variant="styles.navitem"
+        >
+          <Icon glyph="instagram" size={36} />
+        </A>
+        <A
           href="mailto:ljc451@nyu.edu"
           title="Email"
-          variant="styles.navitem"
           sx={{ color: 'primary' }}
         >
-          <Icon glyph="email-fill" size={36} />
+          <Icon glyph="email" size={36} />
         </A>
       </Box>
     </Styled.root>

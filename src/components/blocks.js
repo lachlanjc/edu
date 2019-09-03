@@ -4,23 +4,6 @@ import React from 'react'
 import { Box } from 'rebass'
 import theme from '../gatsby-plugin-theme-ui'
 
-export const Banner = props => (
-  <div
-    {...props}
-    sx={{
-      h1: {
-        mt: 0,
-        mb: 0
-      },
-      p: {
-        mt: 1,
-        fontSize: [2, 3],
-        color: 'secondary'
-      }
-    }}
-  />
-)
-
 export const Container = ({ wide, ...props }) => (
   <div
     {...props}
