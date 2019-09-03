@@ -7,7 +7,7 @@ dependencies:
   '@theme-ui/prism': 0.2.29
   date-fns: 2.0.1
   gatsby: 2.13.58
-  gatsby-plugin-catch-links: 2.1.7
+  gatsby-plugin-catch-links: 2.1.8
   gatsby-plugin-mdx: 1.0.25
   gatsby-plugin-theme-ui: 0.2.38
   lodash: 4.17.15
@@ -4904,7 +4904,7 @@ packages:
       gatsby: ^2.0.0
     resolution:
       integrity: sha512-yHL4OKgVEOWOuTUCO2ZPPmWyA1bAtSUPrf+W5w3p24pUwqMkz2Yu2hii/PhgQs+2ap6BkpSwBjBSYS2YLRmTNg==
-  /gatsby-plugin-catch-links/2.1.7:
+  /gatsby-plugin-catch-links/2.1.8:
     dependencies:
       '@babel/runtime': 7.5.5
       escape-string-regexp: 1.0.5
@@ -4914,7 +4914,7 @@ packages:
     peerDependencies:
       gatsby: ^2.0.0
     resolution:
-      integrity: sha512-Qz/wKW50qpFY0Nod07zfvntAkI52L4d92f6rNu0v9GXOJrrAAkueID34eBGQu02p1Rlz40UgqrsT7TX90bimrA==
+      integrity: sha512-jCwugtUcNWcLAG/PGNf7SPtoO1xJSyCaXHSxGqiJ+obPqKCRCftaXNvHPFwCUvEjYt0kTL8olXJ37jBlcY6NAg==
   /gatsby-plugin-mdx/1.0.25:
     dependencies:
       '@babel/core': 7.5.5
@@ -11427,7 +11427,7 @@ specifiers:
   '@theme-ui/prism': ^0.2.29
   date-fns: ^2.0.1
   gatsby: ^2.6.0
-  gatsby-plugin-catch-links: ^2.1.7
+  gatsby-plugin-catch-links: ^2.1.8
   gatsby-plugin-mdx: ^1.0.25
   gatsby-plugin-theme-ui: ^0.2.38
   lodash: ^4.17.15

@@ -55,7 +55,6 @@ const ColorSwitcher = props => {
 
 export default props => {
   const home = props.location.pathname === '/'
-  const dev = props.location.hostname === 'lachlanjc-ima.glitch.me'
 
   return (
     <Styled.root
@@ -98,17 +97,6 @@ export default props => {
         </Styled.a>
         <ColorSwitcher />
       </header>
-      {!dev &&
-        <p variant="container" sx={{ display: 'flex', alignItems: 'center', color: 'secondary', my: 0 }}>
-          <Icon glyph="view" sx={{ mr: 2 }} />
-          Page views:
-          <img
-            src={`https://lachlanjc-analytics.glitch.me/counter.png?fallback=ima.lachlanjc.me&color=%23${theme.colors.secondary.replace('#', '')}`}
-            alt="View counter"
-            style={{ verticalAlign: 'bottom' }}
-          />
-        </p>
-      }
       {props.children}
       <Box
         sx={{
