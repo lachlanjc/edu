@@ -2,6 +2,7 @@
 import { jsx } from 'theme-ui'
 import React from 'react'
 import { Box } from 'rebass'
+import theme from '../gatsby-plugin-theme-ui'
 
 export const Banner = props => (
   <div
@@ -10,17 +11,13 @@ export const Banner = props => (
       py: [4, 5, 6],
       fontWeight: 'bold',
       h1: {
-        fontSize: [6, 7, 8, 9]
+        mt: 0,
+        mb: 0
       },
-      p: {},
-      ul: {
-        listStyle: 'none',
-        display: 'flex',
-        p: 0,
-        m: 0
-      },
-      li: {
-        mr: 3
+      p: {
+        mt: 1,
+        fontSize: [2, 3],
+        color: 'secondary'
       }
     }}
   />
@@ -108,15 +105,8 @@ export const LinkList = props => (
 )
 
 
-const rainbow = {
-  red: '#ec3750',
-  orange: '#ff8c37',
-  yellow: '#f1c40f',
-  green: '#33d6a6',
-  cyan: '#5bc0de',
-  blue: '#338eda',
-  purple: '#8067c3'
-}
+const { red, orange, cyan, green, blue, violet } = theme.colors
+const rainbow = { red, orange, cyan, green, blue, violet }
 
 const rainbowKids = {}
 Object.entries(rainbow).map(([name, bg], i) => {

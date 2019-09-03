@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: 'Notebook',
+    title: 'IMA – @lachlanjc',
   },
   plugins: [
     'gatsby-plugin-mdx',

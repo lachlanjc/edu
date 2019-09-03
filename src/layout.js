@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx, Styled, useColorMode } from 'theme-ui'
 import { Link } from 'gatsby'
+import { Box, Link as A } from 'rebass'
 import Avatar from './components/avatar'
 import Icon from './components/icon'
 import theme from './gatsby-plugin-theme-ui'
@@ -54,6 +55,7 @@ const ColorSwitcher = props => {
 
 export default props => {
   const home = props.location.pathname === '/'
+  const dev = props.location.hostname === 'lachlanjc-ima.glitch.me'
 
   return (
     <Styled.root
@@ -96,51 +98,64 @@ export default props => {
         </Styled.a>
         <ColorSwitcher />
       </header>
-      <p variant="container" sx={{ display: 'flex', alignItems: 'center', color: 'secondary', my: 0 }}>
-        <Icon glyph="view" sx={{ mr: 2 }} />
-        Page views:
-        <img
-          src={`https://lachlanjc-analytics.glitch.me/counter.png?fallback=ima.lachlanjc.me&color=%23${theme.colors.secondary.replace('#', '')}`}
-          alt="View counter"
-          style={{ verticalAlign: 'bottom' }}
-        />
-      </p>
+      {!dev &&
+        <p variant="container" sx={{ display: 'flex', alignItems: 'center', color: 'secondary', my: 0 }}>
+          <Icon glyph="view" sx={{ mr: 2 }} />
+          Page views:
+          <img
+            src={`https://lachlanjc-analytics.glitch.me/counter.png?fallback=ima.lachlanjc.me&color=%23${theme.colors.secondary.replace('#', '')}`}
+            alt="View counter"
+            style={{ verticalAlign: 'bottom' }}
+          />
+        </p>
+      }
       {props.children}
-      <div
+      <Box
         sx={{
-          py: 4,
-          display: 'flex',
+          py: 3,
+          display: 'grid',
+          gridGap: [2, 3],
+          gridTemplateColumns: 'auto repeat(3, 36px)',
+          alignItems: 'center',
           justifyContent: 'center'
         }}
       >
-        <Avatar />
-        <a
+        <A
+          href="https://lachlanjc.me"
+          title="Personal site"
+          target="_blank"
+          variant="styles.navitem"
+          sx={{ color: 'primary', lineHeight: 0 }}
+        >
+          <Avatar />
+        </A>
+        <A
           href="https://twitter.com/lachlanjc"
           title="Twitter"
           target="_blank"
           variant="styles.navitem"
-          sx={{ color: 'primary', mx: 2 }}
+          sx={{ color: 'primary' }}
         >
           <Icon glyph="twitter" size={36} />
-        </a>
-        <a
+        </A>
+        <A
           href="https://github.com/lachlanjc/ima"
           title="GitHub"
           target="_blank"
           variant="styles.navitem"
-          sx={{ color: 'primary', mx: 2 }}
+          sx={{ color: 'primary' }}
         >
           <Icon glyph="github" size={36} />
-        </a>
-        <a
+        </A>
+        <A
           href="mailto:ljc451@nyu.edu"
           title="Email"
           variant="styles.navitem"
-          sx={{ color: 'primary', mx: 2 }}
+          sx={{ color: 'primary' }}
         >
           <Icon glyph="email-fill" size={36} />
-        </a>
-      </div>
+        </A>
+      </Box>
     </Styled.root>
   )
 }

@@ -12,11 +12,14 @@ export const palette = {
   smoke: '#e0e6ed',
   snow: '#f9fafc',
   white: '#ffffff',
-  pink: '#FF0080',
-  red: '#EE0000',
-  yellow: '#F5A623',
-  cyan: '#79FFE1',
-  blue: '#0070F3'
+  red: '#ec3750',
+  orange: '#ff8c37',
+  yellow: '#f1c40f',
+  green: '#33d6a6',
+  cyan: '#5bc0de',
+  blue: '#338eda',
+  violet: '#57068c',
+  violetBright: '#8900e1',
 }
 
 export default merge(base, {
@@ -46,19 +49,19 @@ export default merge(base, {
     text: palette.black,
     background: palette.white,
     sunken: palette.snow,
-    primary: palette.blue,
+    primary: palette.violetBright,
     secondary: palette.muted,
     muted: palette.smoke,
-    accent: palette.pink,
+    accent: palette.cyan,
     modes: {
       dark: {
         text: palette.white,
         background: palette.darker,
         sunken: palette.darkless,
-        primary: palette.cyan,
+        primary: palette.violetBright,
         secondary: palette.muted,
-        accent: palette.pink,
-        muted: palette.darkless,
+        accent: palette.cyan,
+        muted: palette.darkless
       }
     }
   },
@@ -108,6 +111,7 @@ export default merge(base, {
       }
     },
     navitem: {
+      display: 'inline-block',
       color: 'inherit',
       textDecoration: 'none',
       fontWeight: 'bold',
