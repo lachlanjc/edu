@@ -112,7 +112,7 @@ export default props => {
       {props.children}
       <Box
         sx={{
-          py: 3,
+          py: [3, 4],
           display: 'grid',
           gridGap: [2, 3],
           gridTemplateColumns: 'auto repeat(3, 36px)',

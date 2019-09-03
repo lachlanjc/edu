@@ -8,8 +8,6 @@ export const Banner = props => (
   <div
     {...props}
     sx={{
-      py: [4, 5, 6],
-      fontWeight: 'bold',
       h1: {
         mt: 0,
         mb: 0
