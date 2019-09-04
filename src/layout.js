@@ -104,7 +104,7 @@ export default props => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          a: { color: 'primary', mx: [2, 3] }
+          a: { color: 'primary', mx: 2 }
         }}
       >
         <A
