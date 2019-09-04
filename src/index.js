@@ -49,7 +49,7 @@ export const Nav = props => {
   const data = useStaticQuery(pages)
   const nodes = filter(data.allSitePage.nodes, n => !includes(['/', '/dev-404-page/'], n.path))
   
-  const getName = path => startCase(path.replace(/(\d{4}-\d{2}-\d{2})/, '').replace('-', ' ').replace('/', ''))
+  const getName = path => startCase(path.replace(/(\d{4}-\d{2}-\d{2})/, '').replace('-', ' ').replace('/', '')).replace(/^Cc/, 'CC').replace(/^Cl/, 'CL')
   const hasDate = path => !isEmpty(path.match(/^\/\d{4}-/))
   const getDate = path => path.match(/(\d{4}-\d{2}-\d{2})/)[0]
   
@@ -60,7 +60,7 @@ export const Nav = props => {
     if (hasDate(path) && node.name === '') {
       const date = new Date(node.date)
       date.setDate(date.getDate() + 1) // I hate everything & everything hates me
-      node.name = format(date, 'MMMM dd, yyyy')
+      node.date = format(date, 'MMMM dd, yyyy')
     }
     return node
   }), ['date', 'name'], ['desc', 'asc'])
