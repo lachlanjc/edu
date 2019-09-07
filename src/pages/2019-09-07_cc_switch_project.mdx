@@ -1,0 +1,71 @@
+import { YouTube } from '../components/blocks'
+
+# Creative Computing – Week 1: Switch – Notebook
+
+As a very young child, I was fascinated by switches of all kinds. I would turn on lights, fans, lamps, & anything else connected to a switch, for hours, just for the fun of it.
+
+It didn’t stop, apparently. Let’s build a switch!
+
+***
+
+## Building the basic switch
+
+![Notes](https://cdn.glitch.com/88875449-2775-45de-b608-0c258718185e%2F2019-09-07_notes.png?v=1567832243474)
+
+Plugging the power cable into my iPad, & it works! Touch the wires together, & lo & behold:
+
+![Demo one](https://cdn.glitch.com/88875449-2775-45de-b608-0c258718185e%2F2019-09-07_demo_1.gif?v=1567832214961)
+
+***
+
+## Prior art
+
+Two years ago, in September 2017, I attended [PennApps](https://pennapps.com), a 48-hour hackathon for high school & college students. With a team of 3 hours, I helped build [Blink](https://blink.care), a hardware + software medical product to assist people who are locked-in (can’t move body parts, though oftentimes still have control of their eyes). While existing communication devices exist, they rely on expensive equipment, are often not covered by insurance, & cost $20k+.
+
+Blink cost $20 to make. At its core, it’s similar to this project, with a piece of foil (conductive) wrapped around an electrical sensor, hooked onto a hat with a custom 3D-printed mount, connected to an Arduino. As the wearer blinks, the switch is turned on & off. We wrote a Python server to interpret the blinks as Morse code, then I designed a React/[Next.js](https://nextjs.org) app to show the results live on an iPad, like for a caretaker or family member.
+
+Here’s a video demo of the project: (made at 1am after nearly no sleep for two days so excuse the cringiness)
+
+<YouTube url="https://youtu.be/f2C1TL8X2ds" />
+
+Though the project won the Best of Health category award & a $1k grant at the event, unfortunately, producing hardware in bulk is incredibly difficult & expensive, & our team hasn’t pushed the project very meaningfully forward since the event.
+
+It does prove, however, that a very simple contraption—the hardware was barely more complex than this assignment—can be used incredibly meaningfully. It’s all about the application.
+
+***
+
+## Creative application
+
+It’s time to apply this switch to something new—less impressive than the, but more relevant to my daily life.
+
+I wish I journaled more. Taking a few minutes to write in my notebook about what I’m thinking about—just for me, not for an online audience—is something I don’t do often enough. The first step of writing in my journal is just opening my notebook:
+
+![Opening my notebook](https://cdn.glitch.com/88875449-2775-45de-b608-0c258718185e%2F2019-09-07_notebook.gif?v=1567832312421)
+
+What about hooking the switch up to my notebook? When the notebook is closed, the wires will touch, then when I open the notebook, the wires will separate.
+
+Connected to software, we could add the dimension of time, tracking what days I open Notebook & how many times.
+
+Connected to a Node server/database & a simple visualization on a website, I could make a public tracker of my journaling habit, akin to [GitHub profiles’ contribution graphs](https://github.com/lachlanjc):
+
+![My GitHub contribution graph](https://cdn.glitch.com/88875449-2775-45de-b608-0c258718185e%2F2019-09-07_github_graph.png?v=1567832277807)
+
+Let’s get started!
+
+### Iteration 1
+
+I need to connect these wires to the notebook, preferably without buying anything. Opening my desk drawer, I grab some Scotch tape, & connect the wires to the inside cover & first page. (I’m using a blank notebook to avoid publishing my real one!)
+
+![Wires connected to the notebook](https://cdn.glitch.com/88875449-2775-45de-b608-0c258718185e%2F2019-09-07_dual.jpeg?v=1567832332151)
+
+Trying it out…
+
+![Opening my notebook now changes the LED’s status](https://cdn.glitch.com/88875449-2775-45de-b608-0c258718185e%2F2019-09-07_demo_2.gif)
+
+Well that’s a good start! Though it sounds simple, this operation took about 10 minutes. Look no farther than the first frame of the animation to see a critical flaw:
+
+![The wires don’t always touch](https://cdn.glitch.com/88875449-2775-45de-b608-0c258718185e%2F2019-09-07_problem.jpeg)
+
+The wires are small & firm, the tape is loose & not very adherent, & most of the time, the wires don’t touch one another. The tape kept coming off, & positioning the wires with the same inset on both sides is difficult. This isn’t going to work.
+
+To be continued…

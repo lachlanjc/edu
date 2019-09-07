@@ -3,6 +3,7 @@ import { jsx } from 'theme-ui'
 import React from 'react'
 import { Box } from 'rebass'
 import theme from '../gatsby-plugin-theme-ui'
+import YouTubePlayer from 'react-player/lib/players/YouTube'
 
 export const Container = ({ wide, ...props }) => (
   <div
@@ -37,6 +38,17 @@ export const Tiles = props => (
       },
       ...props.sx
     }}
+  />
+)
+
+
+export const YouTube = ({ url, ...props }) => (
+  <YouTubePlayer
+    url={url}
+    width="100%"
+    height={384}
+    controls
+    config={{ youtube: { playerVars: { showinfo: 1 } } }}
   />
 )
 
