@@ -2,9 +2,11 @@ import { YouTube } from '../components/blocks'
 
 # Creative Computing – Week 1: Switch – Notebook
 
-As a very young child, I was fascinated by switches of all kinds. I would turn on lights, fans, lamps, & anything else connected to a switch, for hours, just for the fun of it.
+As a very young child, ages 1–2, I was fascinated by electrical switches of all kinds. I would turn on lights, fans, lamps, & anything else connected to a switch, for hours, just for the fun of it. My mom reports that before I could speak, I had a “word,” “Aa-taa,” which seemed to mean “turn on or off the switch.” My parents would hold me up to the switch, & I’d flip it while watching the light/fan. Apparently, not yet being able to make things happen on my own, I liked making something happen with the switch.
 
-The fascination didn’t stop there, apparently. Let’s build a switch!
+My interest in switches didn’t stop, apparently. Let’s build a switch!
+
+![Very young Lachlan with a screwdriver](https://cdn.glitch.com/88875449-2775-45de-b608-0c258718185e%2F8F63DC6D-9032-4B2A-BF86-7D56510D4CC6.jpeg?v=1567997797394)
 
 ***
 
@@ -22,7 +24,7 @@ Plugging the power cable into my iPad, & it works! Touch the wires together, & l
 
 Two years ago, in September 2017, I attended [PennApps](https://pennapps.com), a 48-hour hackathon for high school & college students. With a team of 3 hours, I helped build [Blink](https://blink.care), a hardware + software medical product to assist people who are locked-in (can’t move body parts, though oftentimes still have control of their eyes). While existing communication devices exist, they rely on expensive equipment, are often not covered by insurance, & cost $20k+.
 
-Blink cost $20 to make. At its core, it’s similar to this project, with a piece of foil (conductive) wrapped around an electrical sensor, hooked onto a hat with a custom 3D-printed mount, connected to an Arduino. As the wearer blinks, the switch is turned on & off. We wrote a Python server to interpret the blinks as Morse code, then I designed a React/[Next.js](https://nextjs.org) app to show the results live on an iPad, like for a caretaker or family member.
+Blink cost $20 to make. At its core, it’s similar to this project, with a piece of foil (conductive) wrapped around an electrical sensor, hooked onto a hat with a custom 3D-printed mount, connected to an Arduino. As the wearer blinks, the switch is turned on & off. We wrote a Python server to interpret the blinks as Morse code, then I designed a React/[Next.js](https://nextjs.org) app to [show the results live](https://blink.now.sh), like for a caretaker or family member using an iPad.
 
 Here’s a video demo of the project: (made at 1am after nearly no sleep for two days so excuse the cringiness)
 
@@ -36,7 +38,7 @@ It does prove, however, that a very simple contraption—the hardware was barely
 
 ## Creative application
 
-It’s time to apply this switch to something new—perhaps less impressive than Blink, but more relevant to my daily life.
+It’s time to apply this switch to something new—more relevant to my daily life.
 
 I wish I journaled more. Taking a few minutes to write in my notebook about what I’m thinking about—just for me, not for an online audience—is something I don’t do often enough. The first step of writing in my journal is just opening my notebook:
 
@@ -68,4 +70,28 @@ Well that’s a good start! Though it sounds simple, this operation took about 1
 
 The wires are small & firm, the tape is loose & not very adherent, & most of the time, the wires don’t touch one another. The tape kept coming off, & positioning the wires with the same inset on both sides is difficult. This isn’t going to work.
 
-To be continued…
+### Iteration 2
+
+I got a piece of foil! From a friend who has a kitchen :) & cut off two pieces. Also upgraded to a larger journal that stays flat/closes more tightly so that’s not such an issue for this round.
+
+First attempt here was the add “contacts” to the same spots as I used on the previous notebook. I cut two small pieces of foil:
+
+![Cutting the foil](https://cdn.glitch.com/88875449-2775-45de-b608-0c258718185e%2F2019-09-08_cut_foil-2.jpeg?v=1567998546802)
+
+At first I taped over the contacts to adhere the foil, before realizing this defeated the whole project. Properly adhering them didn’t work at all either—the strong wires ripped through the foil.
+
+![Torn foil](https://cdn.glitch.com/88875449-2775-45de-b608-0c258718185e%2F2019-09-08_torn_foil.jpeg?v=1567998606513)
+
+I started considering ways to snake the wires through the notebook before making the realization they could both be close to the spine, sharing one piece of foil, more reliably. I braided the cables together to increase stability:
+
+![Braided cables](https://cdn.glitch.com/88875449-2775-45de-b608-0c258718185e%2F2019-09-08_braided_wires.jpeg?v=1567998607887)
+
+Iteration 2 completed:
+
+![It’s working!](https://cdn.glitch.com/88875449-2775-45de-b608-0c258718185e%2F08EB055D-186F-4211-B398-BD9F87CD5B13.jpeg?v=1567998383779)
+
+Working, mostly! It’s got a not-insignificant failure/false positive rate, but definitely functional.
+
+***
+
+With that, the project is finished! We’ve successfully made how often I write in my journal computationally accessible. We’ll need to hook up the Arduino to a piece of software to make the automated habit tracking software, but we’ve got the hardware side down.
