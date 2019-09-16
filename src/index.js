@@ -50,7 +50,7 @@ export const Nav = props => {
   const nodes = filter(data.allSitePage.nodes, n => !includes(['/', '/dev-404-page/'], n.path))
   
   const getName = path => startCase(path.replace(/(\d{4}-\d{2}-\d{2})/, '').replace('-', ' ').replace('/', ''))
-    .replace('To', 'to').replace('Via', 'via').replace('Dslr', 'DSLR')
+    .replace('To', 'to').replace('Via', 'via').replace('Dslr', 'DSLR').replace('And', '&')
     .replace(/^Cc/, 'CC').replace(/^Cl/, 'CL')
   const hasDate = path => !isEmpty(path.match(/^\/\d{4}-/))
   const getDate = path => path.match(/(\d{4}-\d{2}-\d{2})/)[0]
