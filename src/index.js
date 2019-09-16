@@ -51,7 +51,7 @@ export const Nav = props => {
   
   const getName = path => startCase(path.replace(/(\d{4}-\d{2}-\d{2})/, '').replace('-', ' ').replace('/', ''))
     .replace('To', 'to').replace('Via', 'via').replace('Dslr', 'DSLR').replace('And', '&')
-    .replace(/^Cc/, 'CC').replace(/^Cl/, 'CL')
+    .replace(/^Cc/, 'CC').replace(/^Cl/, 'CL').replace('Wte', 'WTE')
   const hasDate = path => !isEmpty(path.match(/^\/\d{4}-/))
   const getDate = path => path.match(/(\d{4}-\d{2}-\d{2})/)[0]
   
