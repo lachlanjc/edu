@@ -46,7 +46,7 @@ export const YouTube = ({ url, ...props }) => (
   <YouTubePlayer
     url={url}
     width="100%"
-    height={384}
+    height={400}
     controls
     config={{ youtube: { playerVars: { showinfo: 1 } } }}
   />
