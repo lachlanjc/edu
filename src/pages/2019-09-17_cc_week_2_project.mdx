@@ -46,14 +46,51 @@ void loop() {
 }
 ```
 
-Or we could go a little wild with random delays in the blinking:
+# Creative Computing – Week 2: Software – Log
+
+> Software is the revolution of our times.
+
+The “universal machine” is a long-promised device that can do anything. An iPad is pretty close, if you ask me. But today we’re just building an LED connected to a button—perhaps the most simplified essence of what an iPad is!
+
+***
+
+## Step 1: lighting up the LED with software
+
+This week, we’re going to control the Arduino microcontroller not via a physical switch, but via software written on a computer.
+
+First, I’m setting up a basic circuit on a small breadboard with the Arduino & a resistor.
+
+<img src="http://itp.nyu.edu/classes/cc-f19-do/files/2019/09/IMG_0829.jpeg" alt="Most basic circuit on the Arduino + breadboard" />
+
+Next, I’m adding an LED, and a button we can eventually control it with.
+The LED will be off, because we haven’t written the code that will turn it on.
+
+<img src="http://itp.nyu.edu/classes/cc-f19-do/files/2019/09/IMG_0830.jpeg" alt="Circuit with accessories" />
+
+In the Arduino IDE, we can turn on the LED with some basic code:
+
+```
+void setup() {
+  pinMode(2, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(2, HIGH);
+}
+```
+
+Output the code to the Arduino, & voila! The LED is on.
+
+## Step 2: making it blink
+
+Now we’ll make the LED blink, using the `delay` function.
 
 ```
 void loop() {
   digitalWrite(2, HIGH);
-  delay(random(0, 1000));
+  delay(1000);
   digitalWrite(2, LOW);
-  delay(random(0, 1000));
+  delay(1000);
 }
 ```
 
@@ -88,6 +125,19 @@ void loop() {
 ```
 
 <img src="http://itp.nyu.edu/classes/cc-f19-do/files/2019/09/2019-09-17_final.jpeg" alt="Finished project" />
+
+## Step 4: done
+
+Let’s make it go a little wild with random delays in the blinking:
+
+```
+void loop() {
+  digitalWrite(2, HIGH);
+  delay(random(0, 1000));
+  digitalWrite(2, LOW);
+  delay(random(0, 1000));
+}
+```
 
 ***
 
