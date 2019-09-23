@@ -52,6 +52,27 @@ export const YouTube = ({ url, ...props }) => (
   />
 )
 
+export const MLA = props => (
+  <div
+    {...props}
+    sx={{
+      'p, li': {
+        fontFamily: '"Times New Roman", serif',
+        lineHeight: 2,
+      },
+      p: {
+        my: 0,
+        textIndent: '3em'
+      },
+      blockquote: {
+        pl: '3em',
+        fontStyle: 'italic',
+        p: { textIndent: 0 }
+      }
+    }}
+  />
+)
+
 export const Columns = props => (
   <div
     {...props}
