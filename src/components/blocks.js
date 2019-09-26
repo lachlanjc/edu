@@ -4,6 +4,7 @@ import React from 'react'
 import { Box } from 'rebass'
 import theme from '../gatsby-plugin-theme-ui'
 import YouTubePlayer from 'react-player/lib/players/YouTube'
+import P5Wrapper from 'react-p5-wrapper'
 
 export const Container = ({ wide, ...props }) => (
   <div
@@ -51,6 +52,8 @@ export const YouTube = ({ url, ...props }) => (
     config={{ youtube: { playerVars: { showinfo: 1 } } }}
   />
 )
+
+export const P5 = props => <P5Wrapper {...props} />
 
 export const MLA = props => (
   <div
