@@ -4,7 +4,8 @@ import React from 'react'
 import { Box } from 'rebass'
 import theme from '../gatsby-plugin-theme-ui'
 import YouTubePlayer from 'react-player/lib/players/YouTube'
-import P5Wrapper from 'react-p5-wrapper'
+import Sketch from './sketch'
+import prettier from 'prettier'
 
 export const Container = ({ wide, ...props }) => (
   <div
@@ -53,7 +54,32 @@ export const YouTube = ({ url, ...props }) => (
   />
 )
 
-export const P5 = props => <P5Wrapper {...props} />
+export const P5 = props => (
+  <>
+    <Sketch {...props} />
+    <pre
+      sx={{
+        ...theme.styles.pre,
+        display: 'block',
+        wordWrap: 'break-word',
+        whiteSpace: 'pre-wrap',
+        my: 3
+      }}
+      children={
+        prettier(
+          props.sketch.toString()
+            .replace('function _default(p){', '')
+            .replace(/\;\}$/, '')
+            .replace(/\=function\(\)\{/g, `= () => {
+  `),
+          { semi: false, singleQuote: true })
+          // .replace(/\;/g, `  `)
+          // .replace(/\,/g, ', ')
+          // .replace(/\=/g, ' = ')
+      }
+    />
+  </>
+)
 
 export const MLA = props => (
   <div
@@ -133,7 +159,6 @@ export const LinkList = props => (
     }}
   />
 )
-
 
 const { red, orange, cyan, green, blue, violet } = theme.colors
 const rainbow = { red, orange, cyan, green, blue, violet }

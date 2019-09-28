@@ -20,10 +20,17 @@ const colors = {
 export default (p) => {
   p.setup = () => {
     p.createCanvas(512, 192)
+    p.background(245)
   }
   
+  let textY = 84
+  let textOpacity = 255
+  let circleX = 0
+  let circleY = 0
+  let deltaX = 4
+  let deltaY = 4
+
   p.draw = () => {
-    p.background(245)
     p.noStroke()
     p.textFont('AvenirNext-Medium')
     p.fill(colors.red)
@@ -45,9 +52,14 @@ export default (p) => {
     p.rotate(120)
     p.text('NB', 128 + 8, -40)
     p.rotate(-120)
-    p.fill(colors.cyan)
-    p.text('Lachlan', 256, 84)
-    p.text('Campbell', 256, 142)
+    
+    p.fill(50, 50, 50, textOpacity)
+    p.text('Lachlan', 256, textY)
+    p.text('Campbell', 256, textY + 60)
+    textY++
+    if (textOpacity === 255) textOpacity = 0
+    textOpacity += .1
+    
     p.fill(colors.blue)
     p.circle(64, 144, 96, 96)
     p.fill(colors.white)
@@ -58,6 +70,17 @@ export default (p) => {
     p.textSize(24)
     p.text('HACK', 140, 140)
     p.text('CLUB', 140, 165)
-    // p.fill('#1f5927')
+    
+    p.fill(colors.white)
+
+    p.ellipse(circleX, circleY, 16, 16)
+    circleX += deltaX
+    circleY += deltaY
+    if (circleX >= p.width || circleX <= 0) {
+      deltaX = deltaX * -1
+    }
+    if (circleY >= p.height || circleY <= 0) {
+      deltaY = deltaY * -1
+    }
   }
 }
