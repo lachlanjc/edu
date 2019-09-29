@@ -19,14 +19,14 @@ export const palette = {
   cyan: '#5bc0de',
   blue: '#338eda',
   violet: '#57068c',
-  violetBright: '#8900e1',
+  violetBright: '#8900e1'
 }
 
 export default merge(base, {
   fonts: {
     body: 'system-ui, Roboto, sans-serif',
     heading: 'system-ui, Roboto, sans-serif',
-    monospace: 'Menlo, monospace',
+    monospace: '"SF Mono", Menlo, monospace'
   },
   fontSizes: [14, 18, 24, 28, 36, 48, 64, 72, 96, 128],
   fontWeights: {
@@ -74,6 +74,7 @@ export default merge(base, {
       my: [3, 4]
     },
     pre: {
+      fontFamily: 'monospace',
       p: 3,
       bg: 'muted',
       borderRadius: 6
@@ -105,7 +106,7 @@ export default merge(base, {
     li: {
       '&.task-list-item': {
         my: 1,
-        'input': {
+        input: {
           mr: 2
         }
       }

@@ -140,11 +140,7 @@ export default props => {
         >
           <Icon glyph="instagram" size={36} />
         </A>
-        <A
-          href="mailto:ljc451@nyu.edu"
-          title="Email"
-          sx={{ color: 'primary' }}
-        >
+        <A href="mailto:ljc451@nyu.edu" title="Email" sx={{ color: 'primary' }}>
           <Icon glyph="email" size={36} />
         </A>
       </Box>

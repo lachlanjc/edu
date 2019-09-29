@@ -4,8 +4,7 @@ import React from 'react'
 import { Box } from 'rebass'
 import theme from '../gatsby-plugin-theme-ui'
 import YouTubePlayer from 'react-player/lib/players/YouTube'
-import Sketch from './sketch'
-import prettier from 'prettier'
+import { SketchSource, SketchPreview } from './sketch'
 
 export const Container = ({ wide, ...props }) => (
   <div
@@ -43,7 +42,6 @@ export const Tiles = props => (
   />
 )
 
-
 export const YouTube = ({ url, ...props }) => (
   <YouTubePlayer
     url={url}
@@ -56,28 +54,8 @@ export const YouTube = ({ url, ...props }) => (
 
 export const P5 = props => (
   <>
-    <Sketch {...props} />
-    <pre
-      sx={{
-        ...theme.styles.pre,
-        display: 'block',
-        wordWrap: 'break-word',
-        whiteSpace: 'pre-wrap',
-        my: 3
-      }}
-      children={
-        prettier(
-          props.sketch.toString()
-            .replace('function _default(p){', '')
-            .replace(/\;\}$/, '')
-            .replace(/\=function\(\)\{/g, `= () => {
-  `),
-          { semi: false, singleQuote: true })
-          // .replace(/\;/g, `  `)
-          // .replace(/\,/g, ', ')
-          // .replace(/\=/g, ' = ')
-      }
-    />
+    <SketchPreview {...props} />
+    <SketchSource {...props} />
   </>
 )
 
@@ -87,7 +65,7 @@ export const MLA = props => (
     sx={{
       'p, li': {
         fontFamily: '"Times New Roman", serif',
-        lineHeight: 2,
+        lineHeight: 2
       },
       p: {
         my: 0,
@@ -165,7 +143,9 @@ const rainbow = { red, orange, cyan, green, blue, violet }
 
 const rainbowKids = {}
 Object.entries(rainbow).map(([name, bg], i) => {
-  rainbowKids[`&:nth-child(${Object.keys(rainbow).length}n + ${i + 1}) a`] = { bg }
+  rainbowKids[`&:nth-child(${Object.keys(rainbow).length}n + ${i + 1}) a`] = {
+    bg
+  }
 })
 
 export const ShortcutsList = props => (
@@ -179,7 +159,7 @@ export const ShortcutsList = props => (
       li: {
         display: 'flex',
         ...rainbowKids,
-        p: { my: 0 },
+        p: { my: 0 }
       },
       a: {
         bg: 'primary',

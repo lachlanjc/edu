@@ -1,20 +1,12 @@
+/** @jsx jsx */
+import { jsx } from 'theme-ui'
 import React, { Component } from 'react'
-import styled from '@emotion/styled'
 import p5 from 'p5'
+import prettier from 'prettier/standalone'
+import parser from 'prettier/parser-babylon'
+import theme from '../gatsby-plugin-theme-ui'
 
-const SketchWrapper = styled.div`
-  & > canvas {
-    position: absolute;
-    display: block;
-    margin: 0 auto;
-    padding: 0 auto;
-    top: 0;
-    left: 0;
-    z-index: -2;
-  }
-`
-
-class Sketch extends Component {
+export class SketchPreview extends Component {
   constructor(props) {
     super(props)
     this.sketchRef = React.createRef()
@@ -35,8 +27,29 @@ class Sketch extends Component {
   }
 
   render() {
-    return <SketchWrapper ref={this.sketchRef} />
+    return <div ref={this.sketchRef} />
   }
 }
 
-export default Sketch
+export const SketchSource = props => (
+  <pre
+    sx={{
+      ...theme.styles.pre,
+      display: 'block',
+      wordWrap: 'break-word',
+      my: 3
+    }}
+    children={prettier.format(
+      props.sketch
+        .toString()
+        .replace('function _default(p){', '')
+        .replace(/;\}$/, '')
+        .replace(
+          /=function\(\)\{/g,
+          ` = () => {
+  `
+        ),
+      { parser: 'babel', plugins: [parser], semi: false, singleQuote: true }
+    )}
+  />
+)
