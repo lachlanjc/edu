@@ -17,20 +17,19 @@
     "@mdx-js/react": "^1.5.0",
     "@theme-ui/preset-base": "^0.2.29",
     "@theme-ui/prism": "^0.2.29",
+    "date-fns": "^2.4.1",
     "gatsby": "^2.6.0",
     "gatsby-plugin-catch-links": "^2.1.10",
     "gatsby-plugin-mdx": "^1.0.25",
     "gatsby-plugin-theme-ui": "^0.2.41",
+    "lodash": "^4.17.15",
     "react": "^16.10.0",
     "react-dom": "^16.10.0",
-    "resize-observer-polyfill": "^1.5.1",
-    "theme-ui": "^0.2.42",
-    "lodash": "^4.17.15",
-    "rebass": "^4.0.6",
-    "date-fns": "^2.4.1",
     "react-music-embed": "^1.0.0",
-    "react-song-embed": "^1.0.0",
     "react-player": "^1.13.0",
-    "prettier": "^1.17.1"
+    "react-song-embed": "^1.0.0",
+    "rebass": "^4.0.6",
+    "resize-observer-polyfill": "^1.5.1",
+    "theme-ui": "^0.2.42"
   }
 }
