@@ -30,7 +30,7 @@ export default p => {
 
   p.draw = () => {
     p.noStroke()
-    p.textFont('AvenirNext-Medium')
+    // p.textFont('AvenirNext-Medium')
     p.fill(colors.red)
     p.rect(0, 0, 128, 16)
     p.fill(colors.orange)
