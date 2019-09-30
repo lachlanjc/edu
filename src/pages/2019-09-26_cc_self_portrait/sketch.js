@@ -1,5 +1,3 @@
-import React from 'react'
-
 const colors = {
   black: '#1f2d3d',
   steel: '#273444',

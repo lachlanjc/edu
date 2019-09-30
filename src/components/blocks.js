@@ -146,6 +146,7 @@ Object.entries(rainbow).map(([name, bg], i) => {
   rainbowKids[`&:nth-child(${Object.keys(rainbow).length}n + ${i + 1}) a`] = {
     bg
   }
+  return bg
 })
 
 export const ShortcutsList = props => (

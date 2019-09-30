@@ -4,7 +4,7 @@ import { Link } from 'gatsby'
 import { Box, Link as A } from 'rebass'
 import Avatar from './components/avatar'
 import Icon from './components/icon'
-import theme from './gatsby-plugin-theme-ui'
+// import theme from './gatsby-plugin-theme-ui'
 
 const ColorSwitcher = props => {
   const [mode, setMode] = useColorMode()
