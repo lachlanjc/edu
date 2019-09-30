@@ -51,8 +51,6 @@ export const YouTube = ({ url, ...props }) => (
   />
 )
 
-)
-
 export const P5 = props => {
   if (typeof window !== 'undefined') {
     const { SketchPreview } = require('./sketch')
