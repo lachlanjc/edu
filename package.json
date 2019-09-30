@@ -6,7 +6,7 @@
     "start": "gatsby develop",
     "build": "gatsby build"
   },
-  "author": "Lachlan Campbell <ljc451@nyu.edu>",
+  "author": "Lachlan Campbell <lachlanjc@nyu.edu>",
   "license": "MIT",
   "private": true,
   "dependencies": {
