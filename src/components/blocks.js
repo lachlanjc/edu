@@ -65,6 +65,20 @@ export const P5 = props => {
   }
 }
 
+export const Glitch = ({ title, ...props }) => (
+  <div
+    className="glitch-embed-wrap"
+    sx={{ height: 420, width: '100%', ...props.sx }}
+  >
+    <iframe
+      title={title}
+      sx={{ height: '100%', width: '100%', border: 0 }}
+      allow="geolocation; microphone; camera; midi; vr; encrypted-media"
+      {...props}
+    />
+  </div>
+)
+
 export const MLA = props => (
   <div
     {...props}
