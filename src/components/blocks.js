@@ -3,7 +3,6 @@ import { jsx } from 'theme-ui'
 import React from 'react'
 import theme from '../gatsby-plugin-theme-ui'
 import YouTubePlayer from 'react-player/lib/players/YouTube'
-import { SketchSource } from './sketch'
 
 export const Container = ({ wide, ...props }) => (
   <div
@@ -51,19 +50,12 @@ export const YouTube = ({ url, ...props }) => (
   />
 )
 
-export const P5 = props => {
-  if (typeof window !== 'undefined') {
-    const { SketchPreview } = require('./sketch')
-    return (
-      <>
-        <SketchPreview {...props} />
-        <SketchSource {...props} />
-      </>
-    )
-  } else {
-    return <SketchSource {...props} />
-  }
-}
+export const P5 = props => (
+  <iframe
+    sx={{ minHeight: '100%', width: '100%', border: 0, ...props.sx }}
+    {...props}
+  ></iframe>
+)
 
 export const Glitch = ({ title, ...props }) => (
   <div

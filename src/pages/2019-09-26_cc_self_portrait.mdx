@@ -1,6 +1,67 @@
 import { P5 } from '../components/blocks'
-import sketch from '../sketches/2019-09-26_cc_self_portrait'
 
 # CC – p5.js self portrait
 
-<P5 sketch={sketch} />
+<P5 src="https://editor.p5js.org/lachlanjc/embed/a8oSdaJzk" height={192} />
+
+```js
+function setup() {
+  createCanvas(512, 192)
+}
+
+const colors = {
+  black: '#1f2d3d',
+  steel: '#273444',
+  slate: '#3c4858',
+  muted: '#8492a6',
+  smoke: '#e0e6ed',
+  snow: '#f9fafc',
+  white: '#ffffff',
+  red: '#ec3750',
+  orange: '#ff8c37',
+  yellow: '#f1c40f',
+  green: '#33d6a6',
+  cyan: '#5bc0de',
+  blue: '#338eda',
+  violet: '#8067C3'
+}
+
+function draw() {
+  background(250)
+  noStroke()
+  textFont('AvenirNext-Medium')
+  fill(colors.red)
+  rect(0, 0, 128, 16)
+  fill(colors.orange)
+  rect(0, 16, 128, 16)
+  fill(colors.yellow)
+  rect(0, 32, 128, 16)
+  fill(colors.green)
+  rect(0, 48, 128, 16)
+  fill(colors.blue)
+  rect(0, 64, 128, 16)
+  fill(colors.violet)
+  rect(0, 80, 128, 16)
+  fill(colors.black)
+  rect(128, 0, 96, 96)
+  fill(colors.white)
+  textSize(52)
+  rotate(120)
+  text('NB', 128 + 8, -40)
+  rotate(-120)
+  fill(colors.cyan)
+  text('Lachlan', 256, 84)
+  text('Campbell', 256, 142)
+  fill(colors.blue)
+  circle(64, 144, 96, 96)
+  fill(colors.white)
+  text('D', 46, 164)
+  fill(colors.red)
+  circle(175, 144, 96, 96)
+  fill(colors.white)
+  textSize(24)
+  text('HACK', 140, 140)
+  text('CLUB', 140, 165)
+  fill('#1f5927')
+}
+```
