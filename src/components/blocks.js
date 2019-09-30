@@ -71,9 +71,15 @@ export const MLA = props => (
   <div
     {...props}
     sx={{
-      'p, li': {
+      'p, li, h2': {
         fontFamily: '"Times New Roman", serif',
         lineHeight: 2
+      },
+      h2: {
+        fontSize: 'inherit',
+        fontWeight: 'inherit',
+        textAlign: 'center',
+        my: 0
       },
       p: {
         my: 0,
