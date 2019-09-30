@@ -1,13 +1,13 @@
 import { Button } from 'rebass'
 import { YouTube, Glitch } from '../components/blocks'
 
-# Creative Computing – Week 2: Drawing – Log
+# Creative Computing – Week 4: Drawing – Log
 
 One of my favorite songs of last year was “Make Me Feel” by Janelle Monáe. It’s a pop masterpiece, and Monáe expresses her queerness beautifully in the music video.
 
 <YouTube url="https://www.youtube.com/watch?v=tGRzz0oqgUE" height={512} />
 
-For this project, I’m using p5.js to site centered around the Make Me Feel music video, with a dynamic music visualizer as the video plays.
+For this project, I’m using [p5.js](https://p5js.org) to make a site site centered around the Make Me Feel music video, with a dynamic music visualizer as the video plays.
 
 <Button as="a" href="https://makemefeel.glitch.me" target="\_blank">View App</Button>
 
@@ -120,7 +120,7 @@ function draw() {
 }
 ```
 
-There we go!
+There we go.
 
 ## Embedding the video
 
@@ -260,7 +260,7 @@ for (let y = 0; y < height; y += 16) {
 
 Except…we also need to filter out white pixels. The first way that came to mind was to check if all the RGB values summed was equal to the sum of `[255, 255, 255]`.
 
-Now, JavaScript doesn’t include a `sum()` function in its standard library, and I want to avoid adding utility libraries like [Lodash](https://lodash.com) for the time being. We can make use of the `reduce` operator, starting at 0, to calculate the sum, like this:
+Now, JavaScript doesn’t include a `sum()` function in its standard library, and I want to avoid adding a utility library like [Lodash](https://lodash.com) for the time being. We can make use of the `reduce` operator, starting at 0, to calculate the sum, like this:
 
 ```js
 // Filter out white or near-black pixels
@@ -299,7 +299,7 @@ const size = 16 + rms
 ellipse(random(0, width), random(0, height), size, size)
 ```
 
-Actually, `rms` is usually like `.03xxxxxxx`, so let’s make it a small integer:
+Actually, `rms` is usually a value around `.03xx`, so let’s convert it to a small integer:
 
 ```
 const size = 8 + rms * 768
@@ -314,7 +314,9 @@ Thinking back the class snow example, can we just add an alpha channel to the `f
 
 ### Coloring the volume graph
 
-Dynamically finding a dominant color out of all the pixels is going to be memory-intensive & frustrating to code, but luckily my first idea worked! I set `let dominant = []` before the confetti, then after the filtering, set `dominant = [rgb[0], rgb[1], rgb[2]]`, and changed the frequency graph to use that color. It’s not an ideal implementation, but it’s 90%.
+Dynamically finding a dominant color out of all the pixels would be memory-intensive & frustrating to code, but luckily my simpler idea first.
+
+I set `let dominant = []` before the confetti, then after the filtering, set `dominant = [rgb[0], rgb[1], rgb[2]]`, and changed the frequency graph to use that color. It’s not an ideal implementation, but it’s 90%.
 
 At this point, my “now playing” code looks like this:
 
@@ -409,6 +411,6 @@ We did it!!
 
 <Button as="a" href="https://makemefeel.glitch.me" target="\_blank">View App</Button>
 
-The final code, in all its glory:
+The final code, in all its glory. It’s amazing what p5 lets you do with ~90-ish lines of code.
 
 <Glitch src="https://glitch.com/embed/#!/embed/makemefeel?path=sketch.js&previewSize=0" title="makemefeel on Glitch" />
