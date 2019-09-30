@@ -9,13 +9,15 @@ One of my favorite songs of last year was “Make Me Feel” by Janelle Monáe. 
 
 For this project, I’m using p5.js to site centered around the Make Me Feel music video, with a dynamic music visualizer as the video plays.
 
+<Button as="a" href="https://makemefeel.glitch.me" target="\_blank">View App</Button>
+
 ---
 
 ## Starting out
 
-I found a p5 sketch implementing basic sound analysis.
+I found [a p5 sketch](https://editor.p5js.org/paigem/sketches/KLvXoDZZ_) implementing basic sound analysis.
 
-Here’s the code, after I reformatted it, removed the microphone integration, increased the canvas size, adjusted
+Here’s the code, after I reformatted it, removed the microphone integration, increased the canvas size, & made some other adjustments:
 
 ```js
 let song, analyzer, fft
@@ -389,6 +391,14 @@ function setup() {
 }
 ```
 
+I added a rounded rectangular frame to the video:
+
+```js
+// Add rounded frame
+fill(0)
+rect(width / 4 - 48, 128 + 40, 768 + 96, 512 - 80, 24)
+```
+
 I fixed a few bugs, like the audio & video tracks playing simultaneously (set the video’s volume to 0), adjusted the confetti size some more, & stopped the filtering from generating particles with undefined fills.
 
 This app doesn’t work well on mobile browsers at all, but that’s a bit outside the scope of this prototype.
@@ -397,7 +407,7 @@ This app doesn’t work well on mobile browsers at all, but that’s a bit outsi
 
 We did it!!
 
-<Button as="a" href="https://makemefeel.glitch.me" target="\_blank">View app</Button>
+<Button as="a" href="https://makemefeel.glitch.me" target="\_blank">View App</Button>
 
 The final code, in all its glory:
 
