@@ -1,10 +1,9 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui'
 import React from 'react'
-import { Box } from 'rebass'
 import theme from '../gatsby-plugin-theme-ui'
 import YouTubePlayer from 'react-player/lib/players/YouTube'
-import { SketchSource, SketchPreview } from './sketch'
+import { SketchSource } from './sketch'
 
 export const Container = ({ wide, ...props }) => (
   <div
@@ -52,12 +51,21 @@ export const YouTube = ({ url, ...props }) => (
   />
 )
 
-export const P5 = props => (
-  <>
-    <SketchPreview {...props} />
-    <SketchSource {...props} />
-  </>
 )
+
+export const P5 = props => {
+  if (typeof window !== 'undefined') {
+    const { SketchPreview } = require('./sketch')
+    return (
+      <>
+        <SketchPreview {...props} />
+        <SketchSource {...props} />
+      </>
+    )
+  } else {
+    return <SketchSource {...props} />
+  }
+}
 
 export const MLA = props => (
   <div

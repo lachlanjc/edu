@@ -1,9 +1,9 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui'
 import React, { Component } from 'react'
-import p5 from 'p5'
-import prettier from 'prettier/standalone'
-import parser from 'prettier/parser-babylon'
+import p5 from '../sketches/p5'
+// import prettier from 'prettier/standalone'
+// import parser from 'prettier/parser-flow'
 import theme from '../gatsby-plugin-theme-ui'
 
 export class SketchPreview extends Component {
@@ -39,7 +39,7 @@ export const SketchSource = props => (
       wordWrap: 'break-word',
       my: 3
     }}
-    children={prettier.format(
+    children={
       props.sketch
         .toString()
         .replace('function _default(p){', '')
@@ -48,8 +48,8 @@ export const SketchSource = props => (
           /=function\(\)\{/g,
           ` = () => {
   `
-        ),
-      { parser: 'babel', plugins: [parser], semi: false, singleQuote: true }
-    )}
+        )
+      // { parser: 'flow', plugins: [parser], semi: false, singleQuote: true }
+    }
   />
 )
