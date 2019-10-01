@@ -104,6 +104,9 @@ export const Columns = props => (
     sx={{
       columnWidth: 256,
       columnGap: theme.space[4],
+      p: {
+        my: 0
+      },
       'h2:first-child': {
         mt: 0
       }
