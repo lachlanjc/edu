@@ -1,5 +1,5 @@
 import { Button } from 'rebass'
-import { Embed } from '../components/blocks'
+import { Glitch } from '../components/blocks'
 
 # CC – Week 5: Functions – Log
 
@@ -7,15 +7,15 @@ This week, I’m jumping into using [React](https://reactjs.org) and a server-re
 
 I’m using NASA’s CO₂ measurements, taken daily at [Mauna Loa observatory](https://en.wikipedia.org/wiki/Mauna_Loa_Observatory) in Hawaii.
 
-<Button as="a" href="https://co2.now.sh" children="View App" />
+<Button as="a" href="https://co2.now.sh" target="_blank" children="View App" />
 
-<Embed url="https://co2.now.sh" />
+<Glitch src="https://glitch.com/embed/#!/embed/ppm?path=pages/index.js&previewSize=100" title="Finished app" />
 
 ## Starting out
 
 I thought of this project last July, and made a super-simple version of it, but I want to take it way further today. Here’s our starting point:
 
-<Embed url="https://co2-e9fexpkld.now.sh" />
+<Glitch src="https://glitch.com/embed/#!/embed/ppm-prototype?path=pages/index.js&previewSize=100" title="Protoype app" />
 
 (Easter egg: if you turn on Dark Mode on macOS/iOS, the site will automatically restyle! It’s also responsive to all screen sizes.)
 
@@ -105,9 +105,7 @@ We are:
 - Rendering a React component with the 3 props
 - Exporting the Page component, so Next.js renders it at the root path for the app
 
-With all the styling & page metadata, here’s the full code:
-
-<script src="https://gist.github.com/lachlanjc/4abd46beec37a4d152abc86536422aa7.js"></script>
+With all the styling & page metadata, [here’s the full code](https://gist.github.com/lachlanjc/4abd46beec37a4d152abc86536422aa7).
 
 ### The configuration
 
@@ -206,7 +204,6 @@ const Graph = ({ data }) => {
           data: {
             stroke: colors.red,
             strokeWidth: 0.25
-            // fill: colors.cyan
           }
         }}
       />
@@ -363,13 +360,15 @@ Page.getInitialProps = async ({ req }) => {
 }
 ```
 
+Adding the `<Graph />` component to the page & adjusting the props, it works!
+
 ![Graph on homepage, but messily](http://assets.lachlanjc.me/60acabb14926/graph-added.png)
 
 ### Redesigning the stats
 
-Those stats are still awfully dry. How can we make them more visually interesting?
+But the layout really does not make sense anymore. Specifically, those stats are awfully dry. How can we make them more visually interesting?
 
-At this point I thought of my (Apple) Watch, and realized the design of the “complications” might be exactly what I was looking for. (Image credit to [iphonehacks.com](http://www.iphonehacks.com/2018/09/best-apple-watch-series-4-features.html))
+At this point I thought of my (Apple) Watch, and realized the design of the “complications” might be exactly what I was looking for. (Image credit to [iphonehacks.com](http://www.iphonehacks.com/2018/09/best-apple-watch-series-4-features.html)). Check out the AQI measurement:
 
 ![Apple Watch Series 4](http://assets.lachlanjc.me/c2e450107846/series-4.png)
 
@@ -753,6 +752,8 @@ Page.getInitialProps = async ({ req }) => {
 export default Page
 ```
 
-<Button as="a" href="https://co2.now.sh" children="View App" />
+I deployed it on [ZEIT Now](https://zeit.co), and [open sourced all the code on GitHub](https://github.com/lachlanjc/co2).
 
-<Embed url="https://co2.now.sh" />
+<Button as="a" href="https://co2.now.sh" target="_blank" children="View App" />
+
+<Glitch src="https://glitch.com/embed/#!/embed/ppm?path=pages/index.js&previewSize=100" title="Finished app" />

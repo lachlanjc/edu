@@ -50,6 +50,19 @@ export const YouTube = ({ url, ...props }) => (
   />
 )
 
+export const Embed = ({ src, sx, ...props }) => (
+  <div variant="sheet" {...props} sx={{ p: 0, maxHeight: 512, width: '100%', mt: [3, 4], ...sx }}>
+    <iframe
+      src={src}
+      frameBorder={0}
+      onMouseWheel=""
+      width="100%"
+      height={512}
+      style={{ display: 'block', maxWidth: '100%' }}
+    />
+  </div>
+)
+
 export const P5 = props => (
   <iframe
     sx={{ minHeight: '100%', width: '100%', border: 0, ...props.sx }}
@@ -60,7 +73,7 @@ export const P5 = props => (
 export const Glitch = ({ title, ...props }) => (
   <div
     className="glitch-embed-wrap"
-    sx={{ height: 420, width: '100%', ...props.sx }}
+    sx={{ height: 420, width: '100%', my: [3, 4], ...props.sx }}
   >
     <iframe
       title={title}
