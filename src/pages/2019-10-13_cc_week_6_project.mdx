@@ -1,0 +1,260 @@
+# CC – Week 6: Connection – Project
+
+This week we’re using a combination of p5.js & the Arduino hardware to make something. I got inspired by the auto-brightness functionality on my laptop/devices—it automatically senses ambient light, then dynamically, subtly adjusts my screen brightness in the background.
+
+Let’s recreate it!
+
+![GIF demo](http://assets.lachlanjc.me/320327e28be4/IMG_0048.gif)
+
+## Beginning the software
+
+I’m going to jump into the p5 first, then we’ll sort out the hardware.
+
+### Starting point
+
+Using the sample code provided, here we are:
+
+```js
+let serial
+let payload = 'waiting for data'
+
+function setup() {
+  createCanvas(500, 300)
+
+  serial = new p5.SerialPort()
+  serial.open('/dev/tty.usbmodem142101')
+  serial.on('data', onData)
+}
+
+const onData = () => {
+  const currentString = trim(serial.readLine())
+  if (!currentString) return
+  payload = int(currentString)
+}
+
+function draw() {
+  background(255, 255, 255)
+  fill(0, 0, 0)
+  const data = int(map(payload, 0, 360, 0, height))
+  ellipse(100, data, 50, 50)
+  text(data, 10, 10)
+}
+```
+
+### Adding a background image
+
+I turned to [Unsplash](https://unsplash.com), a stock photo website, & found [this image](https://unsplash.com/photos/j4uuKnN43_M) of a MacBook. Here’s loading a background image into the canvas with p5:
+
+```js
+let bg
+
+function preload() {
+  bg = loadImage('https://images.unsplash.com/photo-1484788984921-03950022c9ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2004&q=80')
+}
+
+function setup() {
+  createCanvas(796, 496)
+	// …
+}
+
+function draw() {
+  background(bg)
+  // …
+}
+```
+
+### Adding the screen
+
+Next up, simulating the screen. It required a bit of trial-and-error, but here’s a rectangular screen on the laptop:
+
+```js
+function draw() {
+  background(bg)
+  noStroke(0)
+  // const data = int(map(payload, 0, 360, 0, height))
+  fill(255)
+  // ellipse(100, data, 50, 50)
+  rect(275, 140, 282, 175, 2)
+}
+```
+
+## Hardware interlude
+
+### The breadboard
+
+The only notable feature here is a light sensor, coupled with a resistor. Both are critical features.
+
+![Breadboard](http://assets.lachlanjc.me/de7458f6e425/IMG_0045.jpg)
+
+### Arduino program
+
+The code for the Arduino is incredibly simple:
+
+```
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int input = analogRead(A7);
+  Serial.println(input);
+  delay(10);
+}
+```
+
+### Connecting to the computer
+
+Using the [p5.serialcontrol](https://github.com/p5-serial/p5.serialcontrol) app, I connected the Arduino to my MacBook over USB, & now data from the Arduino program is accessible at a local URL.
+
+Magic, basically!
+
+## Back to the software
+
+Where we left off:
+
+```js
+let serial
+let payload = 'waiting for data'
+let bg
+
+function preload() {
+  bg = loadImage(
+    'https://images.unsplash.com/photo-1484788984921-03950022c9ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2004&q=80'
+  )
+}
+
+function setup() {
+  createCanvas(796, 496)
+
+  serial = new p5.SerialPort()
+  serial.open('/dev/tty.usbmodem142101')
+  serial.on('data', onData)
+}
+
+const onData = () => {
+  const currentString = trim(serial.readLine())
+  if (!currentString) return
+  payload = int(currentString)
+}
+
+function draw() {
+  background(bg)
+  noStroke(0)
+  const color = int(map(payload, 30, 180, 0, 255))
+  fill(color)
+  rect(275, 140, 282, 175, 2)
+}
+```
+
+### Fixing the flickering
+
+With readouts 100 times per second, the screen was flickering wildly. I tried various debounce options & timeouts in JavaScript, but couldn’t get anything suitable.
+
+I went with the simple fix: increasing the delay in the Arduino code, from `10` to `500` (half a second).
+
+Without getting into animation, this is a little crude, but it’s better than the flickering.
+
+### Adding a brightness indicator
+
+The screen’s a little empty still though. Let’s add a brightness indicator!
+
+1. Map the brightness level to a percentage
+2. Display the text
+3. Make the text look nice.
+
+First up, adding the text:
+
+```js
+function draw() {
+  // …
+  const brightness = int(map(payload, 30, 180, 0, 100))
+  fill(75)
+  text(`Brightness: ${brightness}%`, 290, 170)
+}
+```
+
+But…could look better.
+
+#### Dark mode!
+
+Gotta hop on the trend :) A "dark mode" for the indicator:
+
+```js
+fill(brightness < 50 ? 200 : 55)
+textFont('system-ui, sans-serif')
+textSize(18)
+text(…)
+```
+
+### Edge case
+
+I adjusted my lamp & the brightness shot past 200%. Let’s prevent that from ever happening:
+
+```js
+let brightness = int(map(payload, 30, 280, 0, 99))
+fill(brightness < 50 ? 200 : 55)
+if (brightness > 100) brightness = 100
+```
+
+## Final project
+
+Here’s the full code for the Arduino:
+
+```
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int input = analogRead(A7);
+  Serial.println(input);
+  delay(500);
+}
+```
+
+[Finished p5 code](https://editor.p5js.org/lachlanjc/sketches/TraGjwvyr):
+
+```js
+let serial
+let payload = 'waiting for data'
+let bg
+
+function preload() {
+  bg = loadImage(
+    'https://images.unsplash.com/photo-1484788984921-03950022c9ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2004&q=80'
+  )
+}
+
+function setup() {
+  createCanvas(796, 496)
+
+  serial = new p5.SerialPort()
+  serial.open('/dev/tty.usbmodem142101')
+  serial.on('data', onData)
+}
+
+const onData = () => {
+  const currentString = trim(serial.readLine())
+  if (!currentString) return
+  payload = int(currentString)
+}
+
+function draw() {
+  background(bg)
+  noStroke(0)
+  const color = int(map(payload, 30, 280, 0, 255))
+  fill(color)
+  rect(275, 140, 282, 175, 2)
+  const brightness = int(map(payload, 30, 280, 0, 100))
+  fill(brightness < 50 ? 200 : 55)
+  textFont('system-ui, sans-serif')
+  textSize(18)
+  text(`Brightness: ${brightness}%`, 290, 170)
+}
+```
+
+### Demo
+
+![GIF demo](http://assets.lachlanjc.me/320327e28be4/IMG_0048.gif)
+
+![Final screenshots](http://assets.lachlanjc.me/7c689903ed61/IMG_0055.png)
