@@ -35,8 +35,8 @@ function draw() {
 const colors = []
 
 function parseResult() {
-  if (myRec.resultValue) {
-    const color = myRec.resultString.split(' ').pop().toUpperCase()
+  if (speech.resultValue) {
+    const color = speech.resultString.split(' ').pop().toUpperCase()
     colors.push(color)
     background(color)
     text(color, width / 2, height / 2)
