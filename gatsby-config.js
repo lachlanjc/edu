@@ -1,10 +1,11 @@
 module.exports = {
   siteMetadata: {
-    title: 'IMA – @lachlanjc',
+    title: '@lachlanjc/ima'
   },
   plugins: [
     'gatsby-plugin-mdx',
     'gatsby-plugin-theme-ui',
-    'gatsby-plugin-catch-links'
+    'gatsby-plugin-catch-links',
+    'gatsby-plugin-react-helmet'
   ]
 }
