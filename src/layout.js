@@ -5,7 +5,7 @@ import { Box, Link as A } from 'rebass'
 import Avatar from './components/avatar'
 import Icon from './components/icon'
 import Meta from './components/meta'
-import { getName } from './util'
+import { getName, getDescription, getImage } from './util'
 // import theme from './gatsby-plugin-theme-ui'
 
 const ColorSwitcher = props => {
@@ -56,10 +56,10 @@ const ColorSwitcher = props => {
 }
 
 export default props => {
-  const home = props.location.pathname === '/'
+  const path = props.location.pathname
+  const home = path === '/'
   const base = '@lachlanjc/ima'
-  const name = home ? base : getName(props.location.pathname)
-  const title = home ? base : `${name} – ${base}`
+  const name = home ? base : getName(path)
 
   return (
     <Styled.root
@@ -71,8 +71,10 @@ export default props => {
       }}
     >
       <Meta
-        title={title}
+        title={home ? base : `${name} – ${base}`}
         name={name}
+        description={getDescription(path)}
+        image={getImage(path)}
       />
       <header
         sx={{

@@ -4,8 +4,8 @@ import Helmet from 'react-helmet'
 export default ({
   title = '@lachlanjc/ima',
   name = '@lachlanjc/ima',
-  description = 'Lachlan Campbell’s coursework blog for their major, Interactive Media Arts, at NYU.'
-  // image = 'https://ima-cards.lachlanjc.now.sh/Coursework.png'
+  description = 'Lachlan Campbell’s coursework blog for their major, Interactive Media Arts, at NYU.',
+  image = 'https://ima-cards.lachlanjc.now.sh/Coursework.png'
 }) => (
   <Helmet>
     <title>{title}</title>
@@ -16,5 +16,8 @@ export default ({
     <meta name="description" content={description} />
     <meta property="og:description" content={description} />
     <meta name="twitter:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={image} />
   </Helmet>
 )
