@@ -4,6 +4,8 @@ import { Link } from 'gatsby'
 import { Box, Link as A } from 'rebass'
 import Avatar from './components/avatar'
 import Icon from './components/icon'
+import Meta from './components/meta'
+import { getName, getDescription, getImage } from './util'
 // import theme from './gatsby-plugin-theme-ui'
 
 const ColorSwitcher = props => {
@@ -54,7 +56,10 @@ const ColorSwitcher = props => {
 }
 
 export default props => {
-  const home = props.location.pathname === '/'
+  const path = props.location.pathname
+  const home = path === '/'
+  const base = '@lachlanjc/ima'
+  const name = home ? base : getName(path)
 
   return (
     <Styled.root
@@ -65,6 +70,12 @@ export default props => {
         mx: 'auto'
       }}
     >
+      <Meta
+        title={home ? base : `${name} – ${base}`}
+        name={name}
+        description={getDescription(path)}
+        image={getImage(path)}
+      />
       <header
         sx={{
           display: 'flex',
@@ -140,7 +151,11 @@ export default props => {
         >
           <Icon glyph="instagram" size={36} />
         </A>
-        <A href="mailto:lachlanjc@nyu.edu" title="Email" sx={{ color: 'primary' }}>
+        <A
+          href="mailto:lachlanjc@nyu.edu"
+          title="Email"
+          sx={{ color: 'primary' }}
+        >
           <Icon glyph="email" size={36} />
         </A>
       </Box>
