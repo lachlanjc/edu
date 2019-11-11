@@ -1,0 +1,170 @@
+import { Glitch } from '../components/blocks'
+
+# CC – Week 10: Data – Project
+
+This week I’m making a simple website to find your Congressional Representative, using the [Google Civic API](https://developers.google.com/civic-information) + [Next.js](https://nextjs.org)/React.
+
+<Glitch src="https://glitch.com/embed/#!/embed/usrep?path=pages/index.js&previewSize=100" />
+
+## Backend API
+
+First, we need to interface with the Google Civic API, which is pretty messy. I’m using the [Lodash](https://lodash.com) utility library + [isomorphic-unfetch](https://github.com/developit/unfetch/tree/master/packages/isomorphic-unfetch), my favorite `fetch` ponyfill.
+
+This is a Next.js API route with `address` as a query param, which means it’s accessible at `/api/rep?address=…`, and returns JSON.
+
+```js
+import { find } from 'lodash'
+import fetch from 'isomorphic-unfetch'
+
+export default (req, res) => {
+  const { address } = req.query
+  const payload = {
+    key: 'AIzaSyAC098ZQK-jP_Q5fRpG_0of9LCTvOtdEFA',
+    address,
+    fields: 'divisions,officials',
+    includeOffices: true.toString()
+  }
+  const query = Object.keys(payload)
+    .map(key => [key, payload[key]].map(encodeURIComponent).join('='))
+    .join('&')
+  const keyMatch = key =>
+    key.match(
+      /ocd-division\/country:us\/(?:state|district):(\w+)(?:\/cd:)(\d+)/
+    )
+  const url = `https://www.googleapis.com/civicinfo/v2/representatives?${query}`
+  fetch(url)
+    .then(res => civic.json())
+    .then(res => {
+      const divKey = find(Object.keys(civic.divisions), key => keyMatch(key))
+      const record = civic.divisions[divKey]
+      const rep = civic.officials[record.officeIndices[0] + 1]
+      res.json(rep)
+    })
+    .catch(e => {
+      console.error(e)
+    })
+}
+```
+
+## Frontend
+
+Setting up `pages/index.js`, here’s the most basic form of the homepage functionality:
+
+- H1 heading describing the page
+- Label + text input for address
+- Submit button for searching
+- On search, ping the backend while showing “loading…”
+- When results arrive, render (upcoming) Profile component
+
+```js
+import React, { useState } from 'react'
+import fetch from 'isomorphic-unfetch'
+import Profile from '../components/profile'
+
+export default () => {
+  const [address, setAddress] = useState('')
+  const [rep, setRep] = useState(null)
+  let value = <div />
+
+  const fetchRep = async () => {
+    const res = await fetch(`/api/rep?address=${encodeURIComponent(address)}`)
+    const data = await res.json()
+    setRep(data)
+  }
+  const onSubmit = e => {
+    e.preventDefault()
+    value = <p>Loading…</p>
+    fetchRep()
+  }
+  const onChange = e => {
+    setAddress(e.target.value)
+  }
+
+  if (rep) value = <Profile {...rep} />
+
+  return (
+    <main>
+      <h1>Find Your Representative</h1>
+      <form onSubmit={onSubmit}>
+        <div>
+          <label htmlFor="address">Home address</label>
+          <input type="text" name="address" onChange={onChange} />
+        </div>
+        <input type="submit" />
+      </form>
+      {value}
+    </main>
+  )
+}
+```
+
+### Profile component
+
+Here’s a basic version of Profile:
+
+- Show profile picture if one is provided
+- Show name + party
+- Add a button to call their phone number
+- Show elegant links to their websites
+
+```js
+const Profile = ({ name, party, phones = [], photoUrl, urls = [] }) => (
+  <article>
+    <header>
+      {photoUrl && <img src={photoUrl} />}
+      <h2>{name}</h2>
+      <p>{party}</p>
+    </header>
+    <section>
+      {phones && <a href={`tel:${phones[0]}`}>{phones[0]}</a>}
+      {urls
+        ? urls.map(url => (
+            <a href={url} target="_blank" key={url}>
+              {url
+                .replace('http://', '')
+                .replace('https://', '')
+                .replace('www.', '')}
+            </a>
+          ))
+        : null}
+    </section>
+  </article>
+)
+
+export default Profile
+```
+
+### Styling
+
+I used [styled-jsx](https://github.com/zeit/styled-jsx), which is built into Next.js, after spending over an hour trying to get [Theme UI](https://theme-ui.com/) working correctly. I wrote responsive CSS on the homepage & the profile components, giving the site some basic design with ~150 lines of CSS.
+
+## Deployment
+
+First, I added some social meta tags, so the site is more easily shareable.
+
+```js
+<Head>
+  <title>Find Your Rep</title>
+  <meta property="twitter:card" content="summary" />
+  <meta property="twitter:site" content="@lachlanjc" />
+  <meta
+    property="twitter:description"
+    content="Find and contact your Congressional Representative."
+  />
+  <meta property="og:title" content="Find Your Rep" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://usrep.now.sh/" />
+  <meta
+    property="description"
+    content="Find and contact your Congressional Representative."
+  />
+</Head>
+```
+
+Second, I [published to GitHub](https://github.com/lachlanjc/rep).
+
+Third, I deployed on now.sh: [**usrep.now.sh**](https://usrep.now.sh/)
+
+## Final source code
+
+<Glitch src="https://glitch.com/embed/#!/embed/usrep?path=pages/index.js&previewSize=0" />
