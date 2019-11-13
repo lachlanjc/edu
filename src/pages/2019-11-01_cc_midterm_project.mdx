@@ -1,0 +1,45 @@
+import { Glitch, YouTube } from '../components/blocks'
+
+# CC Midterm Project
+
+With two classmates, I made a frightening physical photobooth experience for Halloween. Under a cloth tent, you crawled in, putting their heads through a cardboard cutout of a clown. On the screen of a laptop in front, you saw yourself through a creepily-filtered tint, with the facial features of the Joker overlaid. Words you said aloud were transcribed (with the Web Speech API) live onto the photo’s caption, but your audio. The experience was completely overwhelming, with a bright blue light shining in your eyes, creepy, reactive, laughing noise playing in the headphones, and the wild screen experience, all in a dark, enclosed space. You could click a button to capture a photo of yourself, enter your email address, and have it emailed to you.
+
+_Lachlan Campbell, Sydney Hu, David Yang. On display: ITP/IMA Halloween Show, Fall 2019_
+
+## Photos
+
+<a href="http://assets.lachlanjc.me/ff847e7fddaa" target="_blank"><img alt="Two tripods with black cloth covering & project underneath" src="https://d2wkqk610zk1ag.cloudfront.net/items/3G2v1O0e2n3p051D3F33/88p6g0uwzcn2grra4cuwg6myutda8q54.jpeg" style="display: block;height: auto;width: 100%;"/></a>
+
+<a href="http://assets.lachlanjc.me/32919c30fce4" target="_blank"><img alt="Headphones through cutout with project behind" src="https://d2wkqk610zk1ag.cloudfront.net/items/1S0Z2p0a3A0d0s1j1M0X/bv5dpep05jnpmgycyvfqbwkvt7603yf4.jpeg" style="display: block;height: auto;width: 100%;"/></a>
+
+<a href="http://assets.lachlanjc.me/cd96229f9485" target="_blank"><img alt="MacBook Pro bathed in blue light with project onscreen" src="https://d2wkqk610zk1ag.cloudfront.net/items/070M220Z0A153Z2F3B2o/gyqv0arqxa2tuvz0d9wf7kwubb7mzzaq.jpeg" style="display: block;height: auto;width: 100%;"/></a>
+
+<YouTube url="https://youtu.be/qGdlvJ0wrMY" />
+
+## App
+
+Here’s the app itself, to try in your browser:
+
+<Glitch src="https://glitch.com/embed/#!/embed/cc-halloween?path=script.js&previewSize=100" />
+
+I wrote the majority of the code for the project, using p5.js and a separate Node.js service for sending the emails.
+
+<Glitch src="https://glitch.com/embed/#!/embed/cc-halloween?path=script.js&previewSize=0" />
+
+<Glitch src="https://glitch.com/embed/#!/embed/cc-halloween-emails?path=server.js&previewSize=0" />
+
+## Project log
+
+### October 24
+
+In class, we checked in on our progress on the web interface, but mostly prototyped our physical installation. The website still needed significant work, such as filling the screen with the camera without stretching the video feed, and integrating the sound work Sydney did in another codebase. But we decided that since we were physically together in Brooklyn, we went up to the installation space to plan. At first we wanted to use the space under the stairs, but opted for the space at the corner of the room next to the entrance pillar instead. We considered various options for hanging the cloth, installing the monitor/camera, and made a materials list.
+
+My primary task before our next meetup was to redesign the web interface.
+
+### October 28
+
+I pushed the website forward significantly today, completing most of my tasks. I switched the entirely-p5 approach out for a static HTML & CSS page, using p5 only for the video feed, and added jQuery like it’s 2009 for simple interactions. This proved much better for the UI I wanted to design, because I had a full toolbox of CSS. I replaced the live caption text with HTML, asking it to poll more frequently so the interface would feel less sluggish, and added a Capture button, styled like that of the iconic iPhone Camera app, with mouse action micro-interactions (custom hover/active animated states), and a flash effect. The capture used [html2canvas](https://html2canvas.hertzen.com) and downloaded a file to your computer.
+
+### November 1
+
+I wrote a Node service for uploading the photos and emailing them to users, using [Nodemailer](https://nodemailer.com/about/) and Amazon SES. On the frontend, I switched out the file download for a prompt for your email address and making a request to the email service.
