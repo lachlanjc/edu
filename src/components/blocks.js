@@ -58,7 +58,7 @@ export const Glitch = ({ title, ...props }) => (
   </div>
 )
 
-const CodePen = props => (
+export const CodePen = props => (
   <CodePenEmbed user="lachlanjc" {...props} />
 )
 
