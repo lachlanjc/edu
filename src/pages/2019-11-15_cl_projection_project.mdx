@@ -1,0 +1,62 @@
+import { CodePen, Glitch } from '../components/blocks'
+
+# CL Projection Mapping Project
+
+⚠️ **This post is in-progress :)**
+
+_Lachlan Campbell, Sydney Hu, Irene Li_
+
+## Log
+
+### 2019-11-13
+
+Today I created the Apple Pencil-based drawing app for our project.
+
+To start off, I investigated browser access to the Apple Pencil, since I knew I wanted to make a web app to keep things simple. Wading through the [Touch Events API docs](https://w3c.github.io/touch-events/#dom-touch-force), I discovered the API for accessing touch input metadata is not too difficult to use. Here’s a quick demo—if you have an Apple Pencil, press it onscreen & rotate it onscreen, making a sunrise/sunset gesture side-to-side.
+
+<CodePen hash="GRRYqdK" />
+
+I then found [this project by @quiteshu](https://github.com/quietshu/apple-pencil-safari-api-test) on GitHub, which provided the base code for what I wanted to do. I upgraded the code and rewrote much of it, then decided I wanted it to go further.
+
+On any stroke of the Apple Pencil, JavaScript exposes these 5 (relevant) properties:
+
+- X coordinate
+- Y coordinate
+- Force/pressure
+- Altitude angle
+- Azimuth angle
+
+Of course I’m using the x & y coordinates for the location of the stroke, but that leaves 3 channels. I’d like to avoid adding the UI for a colorpicker, but with 3 channels…that could map perfectly to color! RGB wouldn’t make any sense—there would be no pattern users could understand—but HSL (hue, saturation, lightness) could be super interesting.
+
+I mapped azimuth to color, so users can imagine a virtual colorwheel, and pick a color by rotating the Pencil in their hand. I mapped altitude to saturation, controlled by a shading/tilt gesture. Finally, force is mapped to the line width but also the lightness, darkening the stroke with increased pressure. Though the end code is simple, it took two hours to get there…
+
+Here’s a sample of relevant code:
+
+```js
+const settings = {
+  lineCap: 'round',
+  lineJoin: 'round',
+  strokeStyle: 'black'
+}
+
+const mapNum = (input, inMin, inMax, outMin, outMax) =>
+  ((input - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin
+
+const touch = e.touches[0]
+if (touch['force'] > 0) pressure = touch['force']
+x = touch.pageX * 2
+y = touch.pageY * 2
+
+const azi = mapNum(touch.azimuthAngle, 0, Math.PI * 2, 0, 360)
+const alt = mapNum(touch.altitudeAngle, 0, Math.PI / 2, 50, 100)
+const frc = mapNum(100 - pressure * 100, 0, 100, 33, 95)
+settings.strokeStyle = `hsl(${azi}, ${alt}%, ${frc}%)`
+```
+
+Here’s the final demo:
+
+<Glitch src="https://glitch.com/embed/#!/embed/cl-drawing?path=index.html&previewSize=100" />
+
+& source code:
+
+<Glitch src="https://glitch.com/embed/#!/embed/cl-drawing?path=index.html&previewSize=0" />
