@@ -25,6 +25,7 @@
     "gatsby-plugin-theme-ui": "^0.2.43",
     "lodash": "^4.17.15",
     "react": "^16.11.0",
+    "react-codepen-embed": "^1.0.1",
     "react-dom": "^16.11.0",
     "react-helmet": "^5.2.1",
     "react-music-embed": "^1.0.0",

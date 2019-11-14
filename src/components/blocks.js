@@ -3,39 +3,13 @@ import { jsx } from 'theme-ui'
 import React from 'react'
 import theme from '../gatsby-plugin-theme-ui'
 import YouTubePlayer from 'react-player/lib/players/YouTube'
-
+import CodePenEmbed from 'react-codepen-embed'
+ 
 export const Container = ({ wide, ...props }) => (
   <div
     {...props}
     sx={{
       maxWidth: wide ? 'wide' : 'container'
-    }}
-  />
-)
-
-export const Tiles = props => (
-  <div
-    {...props}
-    sx={{
-      ul: {
-        listStyle: 'none',
-        p: 0,
-        m: 0,
-        display: 'grid',
-        gridGap: 4,
-        gridTemplateColumns: 'repeat(auto-fit, minmax(256px, 1fr))'
-      },
-      h2: {
-        fontSize: 2
-      },
-      img: {
-        display: 'block',
-        width: 128,
-        maxWidth: '100%',
-        height: 'auto',
-        m: 'auto'
-      },
-      ...props.sx
     }}
   />
 )
@@ -82,6 +56,10 @@ export const Glitch = ({ title, ...props }) => (
       {...props}
     />
   </div>
+)
+
+const CodePen = props => (
+  <CodePenEmbed user="lachlanjc" {...props} />
 )
 
 export const MLA = props => (
