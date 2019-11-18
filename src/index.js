@@ -41,7 +41,7 @@ export const Banner = props => (
       src={`https://contrast.now.sh/fff/${theme.colors.violetBright.replace(
         '#',
         ''
-      )}?text=%F0%9F%91%A9%F0%9F%8F%BB%E2%80%8D%F0%9F%8E%93&radius=999&size=512&fontSize=2&baseline=1`}
+      )}?text=🧑🏻%E2%80%8D🎓&radius=999&size=512&fontSize=2&baseline=1`}
       alt="Logo"
     />
     <div>
