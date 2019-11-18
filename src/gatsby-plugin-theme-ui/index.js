@@ -43,12 +43,17 @@ export default merge(base, {
     extra: 9,
     circle: 9999
   },
+  shadows: {
+    card: '0 4px 8px rgba(0, 0, 0, 0.125)',
+    sheet: '0 8px 32px rgba(0, 0, 0, 0.0625)'
+  },
   initialColorMode: 'light',
   useColorSchemeMediaQuery: true,
   colors: {
     ...palette,
     text: palette.black,
     background: palette.white,
+    elevated: palette.white,
     sunken: palette.snow,
     primary: palette.violetBright,
     secondary: palette.muted,
@@ -58,7 +63,8 @@ export default merge(base, {
       dark: {
         text: palette.white,
         background: '#000',
-        sunken: palette.darkless,
+        elevated: palette.darkless,
+        sunken: palette.darker,
         primary: '#c975ff',
         secondary: palette.muted,
         accent: palette.cyan,
