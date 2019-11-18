@@ -1,0 +1,97 @@
+import { Button } from 'rebass'
+import { P5 } from '../components/blocks'
+
+# CC – Week 12: Automation – Project
+
+This week, we’re using Google’s [Teachable Machine](https://teachablemachine.withgoogle.com/) with [ml5.js](https://ml5js.org/) to use ~machine learning~ to identify if you’re a human, a phone, or a human holding a phone 👀 & speak the result aloud!
+
+_(Note: requires Chrome or another browser that supports the Web Speech API.)_
+
+<Button as="a" href="https://editor.p5js.org/lachlanjc/sketches/VGu5JNX7F">
+  View demo
+</Button>
+
+## The model
+
+Plum & I trained a simple model using Teaching Machine with pictures of us & our iPhones:
+
+<Button as="a" href="https://teachablemachine.withgoogle.com/models/AI5i76oG/">
+  Try on Teachable Machine
+</Button>
+
+## Making a web app
+
+With p5, ml5, & the pre-made model, it’s pretty straightforward to show a camera feed & the model’s identification on a website:
+
+```js
+let classifier
+let imageModelURL = 'https://teachablemachine.withgoogle.com/models/AI5i76oG/'
+
+let video
+let flippedVideo
+let label = ''
+
+function preload() {
+  classifier = ml5.imageClassifier(imageModelURL + 'model.json')
+}
+
+function setup() {
+  createCanvas(windowWidth, windowWidth * 0.75)
+  video = createCapture(VIDEO)
+  video.size(width, height)
+  video.hide()
+
+  flippedVideo = ml5.flipImage(video)
+  classifyVideo()
+}
+
+function draw() {
+  background(0)
+  image(flippedVideo, 0, 0)
+
+  noStroke()
+  fill(100, 100, 100, 200)
+  rect(0, height - 64, width, 64)
+  fill(255)
+  textFont('system-ui')
+  textSize(48)
+  textAlign(CENTER)
+  text(label, width / 2, height - 15)
+}
+
+function classifyVideo() {
+  flippedVideo = ml5.flipImage(video)
+  classifier.classify(flippedVideo, gotResult)
+}
+
+function gotResult(error, results) {
+  if (error) {
+    console.error(error)
+    return
+  }
+  label = results[0].label
+  classifyVideo()
+}
+```
+
+## Adding a voice
+
+But that’s boring! A few weeks ago I used [p5.speech for speech recognition](https://ima.lachlanjc.me/2019-10-20_cc_week_7_project/), but the library also allows text-to-speech. What if we announced the label aloud every time it changed?
+
+To inititalize the voice, this is all we need, at the top of the JavaScript file:
+
+```js
+let voice = new p5.Speech()
+```
+
+Then in the `gotResult` function:
+
+```js
+const newLabel = results[0].label
+if (newLabel !== label) {
+  voice.speak(label)
+  label = newLabel
+}
+```
+
+That’s it!
