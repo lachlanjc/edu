@@ -50,6 +50,7 @@ export const getImage = path => {
   let theme = 'light'
   let name = getName(path.toString()).toString()
   let caption = name.split(' ')[0]
+  let tail = ''
   name = name.split(' ').join(' ')
   Object.keys(courses).forEach(key => {
     name = name.replace(`${key} `, '')
@@ -60,9 +61,13 @@ export const getImage = path => {
     let date = new Date(getDate(path))
     date = format(date, 'MMM d, yyyy')
     caption += ` – ${date}`
+  } else {
+    caption = ''
+    theme = 'dark'
+    tail = '&fontSize=300px'
   }
   console.log(path, name, caption)
   name = encodeURIComponent(name)
   caption = encodeURIComponent(caption)
-  return `https://ima-cards.lachlanjc.now.sh/${name}.png?caption=${caption}&theme=${theme}`
+  return `https://ima-cards.lachlanjc.now.sh/${name}.png?caption=${caption}&theme=${theme}${tail}`
 }
