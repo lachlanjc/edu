@@ -186,7 +186,6 @@ export const Citations = props => (
         mt: 0
       },
       li: {
-        pl: 0,
         mt: 2,
         fontFamily: theme.fonts.heading,
         color: 'secondary',
