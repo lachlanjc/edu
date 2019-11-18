@@ -21,7 +21,7 @@ export const Banner = props => (
       sx={{
         h1: {
           fontFamily: theme.fonts.heading,
-          fontSize: [5, 6, 7, 8],
+          fontSize: [6, 7, 8],
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -39,17 +39,11 @@ export const Banner = props => (
             width: 'min-content',
             fontWeight: 'bold',
             fontSize: [3, 4, 5],
-            my: [2, 3],
-            ml: [3, 4],
+            my: 2,
             transform: 'rotate(-6deg)'
           },
           'span span': {
             borderBottom: '8px double currentColor'
-          }
-        },
-        '@supports (-webkit-initial-letter: 2)': {
-          'h1:first-letter': {
-            WebkitInitialLetter: '2'
           }
         },
         h2: {
@@ -172,7 +166,6 @@ export const Citations = props => (
         mt: 0,
         color: 'secondary',
         fontSize: 1,
-        fontWeight: 'body',
         letterSpacing: '.04em',
         lineHeight: 'body',
         textTransform: 'uppercase',
@@ -201,6 +194,34 @@ export const Citations = props => (
     }}
   />
 )
+
+export const Lyric = styled('span')`
+  font-family: ${theme.fonts.heading};
+  font-weight: bold;
+  display: block;
+  font-size: 2em;
+  line-height: 125%;
+  margin: 1rem 0;
+  padding-left: 2rem;
+  text-indent: -0.4em;
+  @supports (-webkit-background-clip: text) {
+    // We love HomePod
+    color: transparent;
+    background-image: linear-gradient(
+        to left,
+        #777dff 0px,
+        #f154ff 200px,
+        #f0357c 400px
+      ),
+      linear-gradient(to right, #777dff 0, #497ce2 200px, #37bdde 400px);
+    background-size: 51% 100%;
+    background-position: top left, top right;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-bottom: 6px;
+  }
+`
 
 const Caption = styled(Text)`
   display: block;
