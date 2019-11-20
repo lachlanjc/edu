@@ -66,8 +66,7 @@ export const getImage = path => {
     theme = 'dark'
     tail = '&fontSize=300px'
   }
-  console.log(path, name, caption)
   name = encodeURIComponent(name)
   caption = encodeURIComponent(caption)
-  return `https://ima-cards.lachlanjc.now.sh/${name}.png?caption=${caption}&theme=${theme}${tail}`
+  return `https://ima-cards.lachlanjc.now.sh/${name}.png?theme=${theme}&caption=${caption}&${theme}${tail}`
 }
