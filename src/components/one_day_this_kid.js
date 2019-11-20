@@ -134,16 +134,25 @@ export const Troye = props => (
       mx: [null, -3, -5],
       p: {
         flex: '1 1 auto',
+        fontWeight: 'bold',
         fontFamily: 'heading',
+        textAlign: ['center', 'left'],
         color: 'secondary',
         lineHeight: '1.5',
-        fontSize: [1, 2],
-        py: [3, 4],
-        px: [2, 3, 4]
+        fontSize: 2,
+        py: 4,
+        px: 4,
+        my: 0,
+        small: {
+          display: 'block',
+          fontWeight: 'normal'
+        }
       },
       video: {
         flexShrink: 'none',
         borderRadius: 'extra',
+        objectFit: 'cover',
+        width: ['100%', 256],
         minWidth: 256,
         height: 256,
         bg: 'muted'
