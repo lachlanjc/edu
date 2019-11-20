@@ -122,6 +122,43 @@ export const Callout = props => (
   />
 )
 
+export const Listen = props => (
+  <Callout
+    {...props}
+    sx={{
+      display: 'flex',
+      alignItems: 'center',
+      flexDirection: ['column', null, 'row'],
+      mx: [null, -3, -5],
+      px: 4,
+      py: 4,
+      p: {
+        flex: '1 1 auto',
+        fontWeight: 'bold',
+        fontFamily: 'heading',
+        textAlign: ['center', 'left'],
+        lineHeight: '1.5',
+        fontSize: 2,
+        mt: 0,
+        mb: [3, 0],
+        small: {
+          fontSize: 0,
+          display: 'block',
+          fontWeight: 'normal',
+          color: 'secondary'
+        }
+      },
+      audio: {
+        flexShrink: 'none',
+        borderRadius: 'extra',
+        width: ['100%', 256],
+        minWidth: 256,
+        bg: 'muted'
+      }
+    }}
+  />
+)
+
 export const Troye = props => (
   <Callout
     {...props}
