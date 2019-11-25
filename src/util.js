@@ -12,6 +12,7 @@ export const getName = path =>
     .replace('Via', 'via')
     .replace('Dslr', 'DSLR')
     .replace('And', '&')
+    .replace('Ar ', 'AR ')
     .replace(/^Cc/, 'CC')
     .replace(/^Cl/, 'CL')
     .replace('Wte', 'WTE')
