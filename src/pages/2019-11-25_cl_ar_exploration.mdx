@@ -1,21 +1,31 @@
 # CL – AR Exploration
 
+## Blender/Aero
+
 I’ve used [Blender](https://www.blender.org) in a minimal capacity for modeling/3D animation in the past, so I decided to try it out to model some new props for my AR scene. They had completely redesigned it since last fall, and the design is much more intuitive, even if everything I remembered was no longer applicable.
 
 I modeled a pine tree, to the best of my (limited) abilities, uses a handful of meshes. I wanted to use a hair emission to add some texture to the surface, but attempts with the Principled Hair BDSF as well as additional particle systems led to unsatisfying results. I colored the default material and refined the shape, then decided to get the model working in Aero before continuing working on the texturing.
 
-Exporting was difficult—OBJs, I learned, have no texture (insert Cybertruck design joke here), and some of the other file formats weren’t [accepted by Aero](https://helpx.adobe.com/aero/using/supported-file-formats.html#Fileformatsthatyoucanimport).
+Exporting was difficult--OBJs, I learned, have no texture (insert Cybertruck design joke here), and some of the other file formats weren’t [accepted by Aero](https://helpx.adobe.com/aero/using/supported-file-formats.html#Fileformatsthatyoucanimport).
 
 ![Models in Aero with no textures](https://d2wkqk610zk1ag.cloudfront.net/items/211D2h1V0h3I3E2k2f18/dk0rz2e76b646yqmrhve7m84heubpu1r.png)
 
-Doing a second pass on the tree was fruitful—I figured out the hair emission to add some colored 3D texture to the pine surface.
+Doing a second pass on the tree was fruitful--I figured out the hair emission to add some colored 3D texture to the pine surface.
 
 ![Modeling the tree in Blender](https://d2wkqk610zk1ag.cloudfront.net/items/1m3Z3G3y142g3s2x3X2e/vj3yqyfu6h0kqvfjxvxp3ngj7pqxjz6u.png)
 
-I tried to model some falling snow, following [various](https://www.youtube.com/watch?v=_BmlSEoTkJY) [tutorials](https://www.youtube.com/watch?v=E8NnENBLRf8). I got the particle effect animation to work in Blender, but even exporting in GLB, the animation did not work whatsoever in Aero.
+I modeled some falling snow, following [various](https://www.youtube.com/watch?v=_BmlSEoTkJY) [tutorials](https://www.youtube.com/watch?v=E8NnENBLRf8). I got the particle effect animation to work in Blender, but even exporting in GLB, the animation did not work whatsoever in Aero.
 
 ![Modeling the snow in Blender](https://d2wkqk610zk1ag.cloudfront.net/items/0c2q2q0o2M3z1y2e2c1T/e9cmqa34e6xp7n0ufjd03z37cyq78ygh.png)
 
 ![Models in Aero](https://d2wkqk610zk1ag.cloudfront.net/items/0T0P1I0K1k3d1J43393s/zww550pnx774q8mh81jm3rkuq7naguph.png)
 
 Though I spent several hours on this, modeling & testing in Aero, the results are wholeheartedly disappointing. I’m not sure if I’m just exporting/importing the wrong way or Aero just does not yet support the file formats Blender does, but what made it into Aero is wholly uninteresting, so I had nothing to add interactivity to. Using Aero’s starter assets I made a fun scene, but it felt like a cop-out versus my own models.
+
+## Unity
+
+Using Unity, I was able to create a more functional scene. I modeled a little tree inside Unity, as well as a reflective capsule playing video of [Windy City Hacks 2019](https://windyhacks.com).
+
+![Unity editor](https://d2wkqk610zk1ag.cloudfront.net/items/3Y1G3n1z1G1F2F3l1h1m/18b23y0mja2hk31r11hp22tg8mumn7y9.png)
+
+![Playing scene in Unity](https://d2wkqk610zk1ag.cloudfront.net/items/2u1o3U3l2m3k0V204125/q51yqgkakk2y2chgce7g2tpcdg7qnx3a.png)
