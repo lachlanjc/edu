@@ -43,7 +43,7 @@ export const getDescription = path => {
     date = new Date(getDate(path))
     date = ` on ${format(date, 'MMMM d, yyyy')}`
   }
-  return `Post for ${course} at NYU${date}, by Lachlan Campbell.`
+  return `${course ? `Blog post for ${course} ` : 'Project '}at NYU${date}, by Lachlan Campbell.`
 }
 
 export const getImage = path => {
@@ -69,5 +69,5 @@ export const getImage = path => {
   }
   name = encodeURIComponent(name)
   caption = encodeURIComponent(caption)
-  return `https://ima-cards.lachlanjc.now.sh/${name}.png?theme=${theme}&caption=${caption}&${theme}${tail}`
+  return `https://ima-cards.lachlanjc.now.sh/${name}.png?theme=${theme}&caption=${caption}${tail}`
 }
