@@ -9,12 +9,93 @@ import Embed from 'react-song-embed'
 
 _Lachlan Campbell, Sydney Hu, David Yang_
 
-We’re making a (model of a) vending machine, with the contents projected onto the face, and a physical keypad. Upon entering the code for an item (no payment), the item will come to the front and the viewer will watch the machine eat the item itself through sound and video. It’s a humorous piece, a commentary on the American obsession with convenience, and also a joke since the vending machines at IMA have a reputation of unreliability.
+We’re making a small vending machine with a screen and physical keypad. Three typical snack items will rotate in the showcase. Then, upon entering the accompanying code for an item (no payment), the machine will show a subversive animation, such as the machine eating the food itself with sound and video. It’s a humorous and slightly subversive piece. (The self-consumption is a commentary on the American obsession with convenience—what could be more convenient than having the machine eat the food for you‽—plus a joke since the vending machines at IMA have a reputation of unreliability.)
 
-## 2019-12-01
+## Try the app
 
-Lachlan: I made the UI for the vending machine today. It shows looping videos of all the products, with their ID numbers below. On top, there is a keypad, which can be controlled via keyboard as well. (Use delete to clear, enter to submit.) Upon selection, a video plays full-screen with the food being consumed, & closes when finished. I used React/Next.js with styled-jsx to build the site.
+(Requires/optimized for large screens)
+
+<Glitch src="https://glitch.com/embed/#!/embed/autovendor?path=pages/index.js&previewSize=100" />
+
+Code:
 
 <Glitch src="https://glitch.com/embed/#!/embed/autovendor?path=pages/index.js&previewSize=0" />
 
-<Glitch src="https://glitch.com/embed/#!/embed/autovendor?path=pages/index.js&previewSize=100" />
+## 2019-12-07
+
+I finished the software today. It now goes through the full flow without bugs (I think!):
+
+- Showing the 3 products spinning with an onscreen keypad that responds to keyboard input
+- Upon selection, showing a full-screen video player with a random variant of the product
+- When the video is done, show a modal allowing input of a phone number (or pressing a keypad key to dismiss the modal)
+- Sending a receipt over SMS if a phone number is provided
+
+Also bought the numeric keypad:
+
+![Numeric keypad in packaging at Best Buy](https://d2wkqk610zk1ag.cloudfront.net/items/3u3D0N1s3y3l3y130B3E/m0d68y0x9x5qmab7u36a3n7akvfqyuhf.jpeg)
+
+At IMA, I made hardware sketches with David. We worked together for awhile on two different plans for the architecture:
+
+![Two competing plans for hardware design, one selected](https://d2wkqk610zk1ag.cloudfront.net/items/0M1Q393P3o3Y1j1Y1V2e/Clipboard%20Dec%207,%202019%20at%2022.12.jpeg)
+
+Eventually, we decided to go the extra mile with the top plan, for a more seamless design with more complex construction. David bought the acrylic at Canal Plastics, drew up the laser cut patterns, then made the cuts and constructed the box.
+
+![David posing with the box he made](https://d2wkqk610zk1ag.cloudfront.net/items/1N2o30373S3J2L0G111v/xqa1ugp4jcrxw16xq6cpmta811788efg.jpeg)
+
+## 2019-12-06
+
+I made initial progress on allowing multiple variants tonight, but the interface is bug-ridden and crashes frequently. Also changed the interface to use a pixel font.
+
+## 2019-12-04
+
+We planned out the hardware and project timeline today. Optimistically:
+
+- Friday: all software & animations done
+- Saturday: all materials acquired, hardware designed
+- Monday: initial construction done
+- Tuesday/Wednesday: iteration & documentation
+
+We acquired the monitor from the Equipment Room we’ll use in the project, & Sydney applied for the IMA/ITP Winter Show.
+
+## 2019-12-03
+
+I created an API endpoint for sending receipts over SMS with Twilio. It ended up being super straightforward: (using [Next.js API Routes](https://nextjs.org/docs#api-routes))
+
+```js
+const twilio = require('twilio')('XYZ', process.env.TWILIO_AUTH)
+
+export default (req, res) => {
+  const { to, text = 'Testing receipts' } = req.query
+  console.log('SENDING', to, text)
+  if (!to) res.status(422).json({ error: 'Missing phone number' })
+  const body = `
+RECEIPT---------
+${text}`
+
+  twilio.messages
+    .create({ body, to: `+1${to}`, from: '+18649736177' })
+    .then(message => {
+      const { date_sent, status } = message
+      res.json({ date_sent, status, body })
+    })
+    .catch(error => console.error(error))
+}
+```
+
+## 2019-12-02
+
+David, Sydney, & I made some changes to the idea today. For posterity, the original description:
+
+> We’re making a (model of a) vending machine, with the contents projected onto the face, and a physical keypad. Upon entering the code for an item (no payment), the item will come to the front and the viewer will watch the machine eat the item itself through sound and video. It’s a humorous piece, a commentary on the American obsession with convenience, and also a joke since the vending machines at IMA have a reputation of unreliability.
+
+We auditioned a whole set of ideas of varying scope, before deciding on a fairly straightforward evolution from the original conception:
+
+- Instead of projection, we’ll use a regular computer monitor to simplify construction
+- We’ll build a case for the display by laser-cutting acrylic—will make the project a lot more polished
+- We’ll use a physical numerical keypad
+- On the idea side, instead of just the self-consumption—which becomes predictable & unsurprising after 1 or 2 looks—we’ll have a few different animations, randomly picked, for each of the 3 products
+- After viewing an animation, users can input their phone number to have a “receipt” texted to them
+
+## 2019-12-01
+
+I made the basic UI for the vending machine today. It shows looping videos of all the products, with their ID numbers below. On top, there is a keypad, which can be controlled via keyboard as well. (Use delete to clear, enter to submit.) Upon selection, a video plays full-screen with the food being consumed, & closes when finished. I used React/Next.js with styled-jsx to build the site.
