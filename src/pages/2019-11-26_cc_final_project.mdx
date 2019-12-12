@@ -9,7 +9,101 @@ import { Glitch } from '../components/blocks'
 
 <Button as="a" href="https://glitch.com/~gunfunded">Glitch</Button>
 
-![Muse board](https://d2wkqk610zk1ag.cloudfront.net/items/0W3g1n0o1X3U3Z3G372K/m21b304bhgfz2b0jgzafgnjtr1by2qz2.png)
+![Muse board](https://d2wkqk610zk1ag.cloudfront.net/items/1k0C2e2s2X1k133v3H3L/f2zgux39h4xyby9e1hzjat4nmna2zxyr.png)
+
+## 2019-12-11
+
+- [Added image cards to profile meta tags](https://github.com/lachlanjc/gunfunded/commit/42ce65b04a2a9e044f6268f25ae6cf539f6c26c4)
+
+## Behind the scenes: shareable image profiles
+
+_[Cross-posted from notebook.lachlanjc.me](https://notebook.lachlanjc.me/2019-12-11_shareable_profiles_for_gun_funded/)_
+
+![A grid of 4 examples of the social cards](https://d2wkqk610zk1ag.cloudfront.net/items/1u1c1M1j0L2B04082U3O/30jf53wht60447457zcr123c7maehrp4.png)
+
+I’m working on a new project called [Gun Funded](https://gunfunded.com), showcasing the gun lobby’s funding of the U.S. Congress. Sharing links to Congresspeople’s profiles on Twitter, Facebook, etc, I wanted to highlight the gun funding amount before people even open the site. But I also wanted the profiles to be shareable on Instagram Stories (for us youths), which requires a vertical format (as seen on the left & right). Here’s how I made a social cards service for Gun Funded.
+
+### Avatars
+
+Before we can get to the cards, each Congress member needs an avatar.
+
+The [unitedstates.io](https://theunitedstates.io/) project has the [unitedstates/images](https://github.com/unitedstates/images) archive on GitHub, but it’s unfortunately out of date. [Someone forked it](https://github.com/SeanKMcGinnis/images) with updates, then I [added](https://github.com/SeanKMcGinnis/images/pull/1) a few missing members.
+
+Next, I wanted to compress the images (they’re also used on the main website, where Google PageSpeed flagged their extra size as slowing down the site). I wrote a quick Bash script to run Google’s fantastic [Guetzli](http://github.com/google/guetzli) image compressing library on the folder. (There’s probably a better way to do this, but I’m terrible at Bash.)
+
+```sh
+#!/bin/bash
+
+for file in $@
+do
+  guetzli $file $file
+done
+```
+
+It took about half an hour & drained half my laptop’s battery, fans up 100% 😅
+
+#### Getting online
+
+I’ve been using & loving [ZEIT Now](https://now.sh) for the main Gun Funded site, so I deployed the static folder to a new Now project:
+
+![Hyper terminal window open running now](https://d2wkqk610zk1ag.cloudfront.net/items/2Y3j37001L0k1h0f0B3Q/zq6d83r41hxve1u92t244awm6vtec8qh.png)
+
+One more command (`now alias gunfunded-avatars.now.sh avatars.gunfunded.com`) and our images are live!
+
+#### The lineup, visually
+
+I wrote a quick iOS Shortcut to get the headshots of every member of Congress, ranked by their gun funding, & create a grid of them all:
+
+![Shortcut on vertical iPad Pro](https://d2wkqk610zk1ag.cloudfront.net/items/202V2Q3N310G2j3G3x2H/7qkvtky698dtbbk4zwr1cr3qubucd57c.png)
+
+It took a few minutes to run, since it has to download hundreds of photos individually, but here’s the result:
+
+![Grid of every Congressperson’s portraits](https://d2wkqk610zk1ag.cloudfront.net/items/351W0P230F3F102R0t20/pb0az1r8xagu1wj021dvcbyugm80xzyf.jpeg)
+
+Yes, Congress is that white.
+
+### Social cards
+
+Back to the original mission. I’ve written in the past about [making custom social card services](https://notebook.lachlanjc.me/2019-11-05_custom_social_card_services/) based on [ZEIT’s og-image](https://github.com/zeit/og-image), but this project is more complicated.
+
+- I need to fetch data from the Gun Funded records database, to show funding
+- I need to change styling based on the data
+- I want variants for Twitter/Facebook/Open Graph social cards as well as vertical Instagram Stories
+
+I cloned my [ima-cards](https://github.com/lachlanjc/ima-cards) project, and removed [the web testing UI](https://ima-cards.lachlanjc.now.sh) code to simplify development.
+
+The development process took several hours but wasn’t too hard--mostly, I don’t have much experience using TypeScript, but running the project with [`now dev`](https://zeit.co/blog/now-dev) was great. I copied the full data JSON file directly over, then worked on the design.
+
+![Editing the template TypeScript file in VSCode on a MacBook Pro](https://d2wkqk610zk1ag.cloudfront.net/items/040A3L3H2H0G3v1N200h/ehp65gdmc7knyf0e90v5ch53wrr4nk20.png)
+
+The design references the "I Voted" stickers, but with the brand, candidate, and funding amount. For Instagram Stories, I used the Instagram handle (@gunfunded), whereas on the web it uses the domain (gunfunded.com). With the Stories’ extra vertical space, it also shows the current term of the Congressperson.
+
+I copied the same color palette as the site to keep the vibe/brand consistent. Though the site uses San Francisco/system-ui for typography, the incredible [Inter](https://rsms.me/inter/) font stepped in here.
+
+Deployment was just as easy as for Avatars--just `now` & `now alias` to `cards.gunfunded.com`.
+
+#### End results
+
+Whether for Representatives or Senators, funded or not funded, Republican or Democrat, Instagram or Twitter, cards for all!
+
+
+## 2019-12-10
+
+- [Remove unused imports](https://github.com/lachlanjc/gunfunded/commit/2bc6daaf7aca92a113f0177708cbf939dee89366) 
+- [Fixed data fetching once & for all](https://github.com/lachlanjc/gunfunded/commit/0964b5685cf27441d9b477625483e197117ce43f)
+- [Added Search & more content to profile pages](https://github.com/lachlanjc/gunfunded/commit/cf03802540ab71e3e9a4d13825e00960e7c97046)
+- [Simplified Header/Meta integration](https://github.com/lachlanjc/gunfunded/commit/a0ee1ecc984a46f1ecb50770abf2448298e1f01e)
+- [Added filtering to state list](https://github.com/lachlanjc/gunfunded/commit/198b084bd9fb3d97507e73e2d2fe9f3056a024db)
+- [Created useFocusable](https://github.com/lachlanjc/gunfunded/commit/814c520f8a6774b84e5c117e31ccb87d3e42bec2)
+- [Added useFocusable to Search](https://github.com/lachlanjc/gunfunded/commit/efa2379beaef7c64c5fed47d09e0a56d46dbaae1)
+- [Improved search design](https://github.com/lachlanjc/gunfunded/commit/7720829b2c78eac3ffd4d5a4c9006b7a051dbf92)
+- [Added filtering + dynamic stats to PACs](https://github.com/lachlanjc/gunfunded/commit/7361012342c5662253909911630802cb01c42f5b) 
+- [Added meta tags to Groups page](https://github.com/lachlanjc/gunfunded/commit/ac2ef555a34f021e584ae66646634cb443047e96) 
+- [Fixed search inputs](https://github.com/lachlanjc/gunfunded/commit/5c624c9b926fed477668f9e95c6a9a7b12196de8)
+- [Fixed search](https://github.com/lachlanjc/gunfunded/commit/64faeead80f7aef6b4a62c0f5ea9dd3057b5cca5) 
+- [Improved footer](https://github.com/lachlanjc/gunfunded/commit/dd6bd0bf164dcb940e6eaab91b94b6399aedfc42)
+- [Added privacy disclaimer to search](https://github.com/lachlanjc/gunfunded/commit/f7d4b32366bb5450786f8f6671e016b73c166bbc)
+- [Made PAC cycle stats recalculate on filter](https://github.com/lachlanjc/gunfunded/commit/8c57fa55d8f743bbd67c25fc0fb02d8d6fcaca91) 
 
 ## 2019-12-07
 
@@ -29,9 +123,8 @@ import { Glitch } from '../components/blocks'
 
 Did user testing in class today. People really liked the site, especially the design, though were confused about some of the stats on profiles as well as how to navigate the site. Based on people’s feedback & my observations, I made a checklist of improvements to make to the site:
 
-- [ ] Show state card on search
-- [ ] Need navigation on state pages
-- [ ] State link on profile pages is broken
+- [ ] Add navigation on state pages
+- [x] State link on profile pages is broken
 - [x] Whole profile card should link to profile page
 - [ ] Tooltips/asterisk to add explanation to opposition/support stats on profiles
 - [x] Fix stats on mobile
@@ -42,7 +135,8 @@ Did user testing in class today. People really liked the site, especially the de
 - [x] Form icon is unclear
 - [x] Add Search card to end of states pages
 - [x] Add party breakdown on states pages
-- [ ] Add About page & description on homepage
+- [ ] Add About page
+- [x] Add description on homepage
 - [x] Remove WebKit highlights from states on homepage cards
 - [ ] Clarify PACs page description
 - [ ] Better navigation across the site
