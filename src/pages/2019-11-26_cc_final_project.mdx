@@ -1,27 +1,23 @@
 import { Button } from 'rebass'
-import { Glitch } from '../components/blocks'
+import { Glitch, CommitList } from '../components/blocks'
 
 # CC – Final Project
 
-<Button as="a" href="https://gunfunded.now.sh" sx={{ bg: '#ec3750' }}>Open Gun Funded</Button>
+<Button as="a" href="https://gunfunded.com" sx={{ bg: '#ec3750' }}>Open Gun Funded</Button>
 
-<Button as="a" href="https://github.com/lachlanjc/gunfunded" sx={{ bg: 'text', mx: 3 }}>GitHub</Button>
+<Button as="a" href="https://github.com/lachlanjc/gunfunded" sx={{ bg: 'text', color: 'background', mx: 3 }}>GitHub</Button>
 
 <Button as="a" href="https://glitch.com/~gunfunded">Glitch</Button>
 
 ![Muse board](https://d2wkqk610zk1ag.cloudfront.net/items/1k0C2e2s2X1k133v3H3L/f2zgux39h4xyby9e1hzjat4nmna2zxyr.png)
 
-## 2019-12-11
-
-- [Added image cards to profile meta tags](https://github.com/lachlanjc/gunfunded/commit/42ce65b04a2a9e044f6268f25ae6cf539f6c26c4)
-
 ## Behind the scenes: shareable image profiles
 
-_[Cross-posted from notebook.lachlanjc.me](https://notebook.lachlanjc.me/2019-12-11_shareable_profiles_for_gun_funded/)_
+_Cross-posted to [notebook.lachlanjc.me](https://notebook.lachlanjc.me/2019-12-11_shareable_profiles_for_gun_funded/)_
 
 ![A grid of 4 examples of the social cards](https://d2wkqk610zk1ag.cloudfront.net/items/1u1c1M1j0L2B04082U3O/30jf53wht60447457zcr123c7maehrp4.png)
 
-I’m working on a new project called [Gun Funded](https://gunfunded.com), showcasing the gun lobby’s funding of the U.S. Congress. Sharing links to Congresspeople’s profiles on Twitter, Facebook, etc, I wanted to highlight the gun funding amount before people even open the site. But I also wanted the profiles to be shareable on Instagram Stories (for us youths), which requires a vertical format (as seen on the left & right). Here’s how I made a social cards service for Gun Funded.
+Sharing links to Congresspeople’s profiles on Twitter, Facebook, etc, I wanted to highlight the gun funding amount before people even open the site. But I also wanted the profiles to be shareable on Instagram Stories (for us youths), which requires a vertical format (as seen on the left & right). Here’s how I made the social cards service.
 
 ### Avatars
 
@@ -86,8 +82,17 @@ Deployment was just as easy as for Avatars--just `now` & `now alias` to `cards.g
 
 Whether for Representatives or Senators, funded or not funded, Republican or Democrat, Instagram or Twitter, cards for all!
 
+## 2019-12-11
+
+<CommitList>
+
+- [Added image cards to profile meta tags](https://github.com/lachlanjc/gunfunded/commit/42ce65b04a2a9e044f6268f25ae6cf539f6c26c4)
+
+</CommitList>
 
 ## 2019-12-10
+
+<CommitList>
 
 - [Remove unused imports](https://github.com/lachlanjc/gunfunded/commit/2bc6daaf7aca92a113f0177708cbf939dee89366) 
 - [Fixed data fetching once & for all](https://github.com/lachlanjc/gunfunded/commit/0964b5685cf27441d9b477625483e197117ce43f)
@@ -105,7 +110,11 @@ Whether for Representatives or Senators, funded or not funded, Republican or Dem
 - [Added privacy disclaimer to search](https://github.com/lachlanjc/gunfunded/commit/f7d4b32366bb5450786f8f6671e016b73c166bbc)
 - [Made PAC cycle stats recalculate on filter](https://github.com/lachlanjc/gunfunded/commit/8c57fa55d8f743bbd67c25fc0fb02d8d6fcaca91) 
 
+</CommitList>
+
 ## 2019-12-07
+
+<CommitList>
 
 - [Fixed](https://github.com/lachlanjc/gunfunded/commit/e985fba8359109eb37bc6f5c0dfe5c2f8bd3b521) state stats for ultra-blue states
 - [Added](https://github.com/lachlanjc/gunfunded/commit/62ca72bdcc4a04f3ad309a1bb19a317ffa39ddb2) comprehensive stats to state pages & /profiles
@@ -119,7 +128,18 @@ Whether for Representatives or Senators, funded or not funded, Republican or Dem
 - [Improved](https://github.com/lachlanjc/gunfunded/commit/bfd40bd732d454ccdbfd64c11557da2940b38e66) page alignment
 - [Linked](https://github.com/lachlanjc/gunfunded/commit/13b358650e355c67cfd8bcb76a860e78e2f59f2e) profile cards
 
-## 2019-12-05
+</CommitList>
+
+## 2019-12-05: User testing
+
+<CommitList>
+
+- [Improved](https://github.com/lachlanjc/gunfunded/commit/eec51b25aacaef85fb5773bb29e876969a038cfc) stats on mobile
+- [Separated](https://github.com/lachlanjc/gunfunded/commit/a2f1554ce6b8b6be97575884871d6e2c91e1b6ef) Senators & Reps on state pages
+- [Added](https://github.com/lachlanjc/gunfunded/commit/449f10c026a05e300073448e6c493e6601189e24) search to state pages
+- [Added](https://github.com/lachlanjc/gunfunded/commit/fb106f1a5b89b0b8365814066b8d51308609d7bc) breakdown stats to state pages
+
+</CommitList>
 
 Did user testing in class today. People really liked the site, especially the design, though were confused about some of the stats on profiles as well as how to navigate the site. Based on people’s feedback & my observations, I made a checklist of improvements to make to the site:
 
@@ -143,54 +163,77 @@ Did user testing in class today. People really liked the site, especially the de
 - [x] Titles on profile pages
 - [x] On state pages, separate Senators from Representatives
 
-- [Improved](https://github.com/lachlanjc/gunfunded/commit/eec51b25aacaef85fb5773bb29e876969a038cfc) stats on mobile
-- [Separated](https://github.com/lachlanjc/gunfunded/commit/a2f1554ce6b8b6be97575884871d6e2c91e1b6ef) Senators & Reps on state pages
-- [Added](https://github.com/lachlanjc/gunfunded/commit/449f10c026a05e300073448e6c493e6601189e24) search to state pages
-- [Added](https://github.com/lachlanjc/gunfunded/commit/fb106f1a5b89b0b8365814066b8d51308609d7bc) breakdown stats to state pages
-
 ## 2019-12-04
 
 Working on data visualizations with [vx](https://vx-demo.now.sh), nothing added to the app.
 
 ## 2019-12-03
 
+<CommitList>
+
 - [Fixed](https://github.com/lachlanjc/gunfunded/commit/0835dbbc863d339a35f3e489bbf95481c69bc508) search
 - [Improved](https://github.com/lachlanjc/gunfunded/commit/a23d579b799f890e69b23f9e8a8f812dfb18bdf2) homepage Explore tiles
 - [Fixed](https://github.com/lachlanjc/gunfunded/commit/d4843b54a712d5967a66cb4e1b6f7f898cd8185e) error handling
 
+</CommitList>
+
 ## 2019-12-02
+
+<CommitList>
 
 - [Added](https://github.com/lachlanjc/gunfunded/commit/b79abfddb43c7b62ed480805bd8412ee4dfdbf0d) average funding stat to state pages
 - [Started](https://github.com/lachlanjc/gunfunded/commit/fcd323fbb8958fb22149678f2b61f3385218c8c1) adding Explore tiles to homepage
 - [Improved](https://github.com/lachlanjc/gunfunded/commit/290c4158e6536585bec96893562ebd88532386e0) homepage
 
+</CommitList>
+
 ## 2019-12-01
 
+<CommitList>
+
 - [Grouped](https://github.com/lachlanjc/gunfunded/commit/337401fd3d766e76d7f66d6abd2c7084ffcd33a6) groups page by cycle
-	- [Added](https://github.com/lachlanjc/gunfunded/commit/e458750066ba71b294031bb25f6a247e72261a1b) stats/basic visualizations to groups
+- [Added](https://github.com/lachlanjc/gunfunded/commit/e458750066ba71b294031bb25f6a247e72261a1b) stats/basic visualizations to groups
 - [Added](https://github.com/lachlanjc/gunfunded/commit/337401fd3d766e76d7f66d6abd2c7084ffcd33a6) error handling (including 404s on state/profile pages)
 
+</CommitList>
+
 ## 2019-11-30
+
+<CommitList>
 
 - [Improved](https://github.com/lachlanjc/gunfunded/commit/a5ef8ca1a0b900c2cc0852d95c7c76bdcdf32c01) profile pages
 - [Refined](https://github.com/lachlanjc/gunfunded/commit/d298348cb867020bb7c0a2c847a3953448f051a5) rhythm—typography, whitespace, mobile design
 - [Added](https://github.com/lachlanjc/gunfunded/commit/f206070ac3c98d97c4175408b145ee62c632dd6d) detailed stats to profile pages
 - [Switched](https://github.com/lachlanjc/gunfunded/commit/114f3017e231327f3cf833dc89a297d0457e0fae) to [Feather icons](https://feathericons.com)
 
+</CommitList>
+
 ## 2019-11-26
+
+<CommitList>
 
 - Redesigned the dark mode
 - [Added](https://github.com/lachlanjc/gunfunded/commit/1b8329ee939d40ada2ee6baa202acf1d6dab3d11) a bunch of stats: Republican/male on Top Sen/Rep pages
 - [Unified](https://github.com/lachlanjc/gunfunded/commit/eb930e59adde3d46db6730e3df1f1f09f85921ef) design of page headers
 - First stab at PACs page
 
+</CommitList>
+
 ## 2019-11-24
+
+<CommitList>
 
 - [Started](https://github.com/lachlanjc/gunfunded/commit/eb930e59adde3d46db6730e3df1f1f09f85921ef) individual profile pages
 
+</CommitList>
+
 ## 2019-11-19
+
+<CommitList>
 
 - [Switched](https://github.com/lachlanjc/gunfunded/commit/577cf3ce074c8e1ac63c9e3c22703b76831a3a60) to showing only top 5 profiles on homepage
 - [Added](https://github.com/lachlanjc/gunfunded/commit/d131d33d0e9f8190b3f15c18051dd2907190e8e5) all profiles page
 - [Added](https://github.com/lachlanjc/gunfunded/commit/4251f5c9758bf63980e8067fd0a255f37d8f75c8) Donut charts to percent stats
 - [Switched](https://github.com/lachlanjc/gunfunded/commit/3f4f53555ae95b7372df1486f1b9ac10b99c56a5) to [Theme UI Components](https://theme-ui.com/components)
+
+</CommitList>

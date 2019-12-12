@@ -4,7 +4,7 @@ import React from 'react'
 import theme from '../gatsby-plugin-theme-ui'
 import YouTubePlayer from 'react-player/lib/players/YouTube'
 import CodePenEmbed from 'react-codepen-embed'
- 
+
 export const Container = ({ wide, ...props }) => (
   <div
     {...props}
@@ -25,7 +25,11 @@ export const YouTube = ({ url, ...props }) => (
 )
 
 export const Embed = ({ src, sx, ...props }) => (
-  <div variant="sheet" {...props} sx={{ p: 0, maxHeight: 512, width: '100%', mt: [3, 4], ...sx }}>
+  <div
+    variant="sheet"
+    {...props}
+    sx={{ p: 0, maxHeight: 512, width: '100%', mt: [3, 4], ...sx }}
+  >
     <iframe
       src={src}
       frameBorder={0}
@@ -58,8 +62,56 @@ export const Glitch = ({ title, ...props }) => (
   </div>
 )
 
-export const CodePen = props => (
-  <CodePenEmbed user="lachlanjc" {...props} />
+export const CodePen = props => <CodePenEmbed user="lachlanjc" {...props} />
+
+export const CommitList = props => (
+  <div
+    {...props}
+    sx={{
+      ul: {
+        pl: 0,
+        py: 2,
+        my: -3,
+        listStyle: 'none',
+        position: 'relative',
+        ':before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          bottom: 0,
+          left: '6px',
+          width: '4px',
+          height: '100%',
+          borderRadius: '2px',
+          bg: 'sunken',
+          zIndex: 0
+        }
+      },
+      li: {
+        py: 2,
+        pl: [3, 4],
+        position: 'relative',
+        fontWeight: '600',
+        ':before': {
+          content: '""',
+          width: '12px',
+          height: '12px',
+          bg: 'sunken',
+          borderWidth: '3px',
+          borderStyle: 'solid',
+          borderColor: 'muted',
+          borderRadius: '12px',
+          display: 'inline-block',
+          zIndex: 1,
+          position: 'absolute',
+          left: 0,
+          top: '.75em'
+        },
+        a: { textDecoration: 'none' }
+      },
+      ...props.sx
+    }}
+  />
 )
 
 export const MLA = props => (
