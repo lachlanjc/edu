@@ -89,7 +89,7 @@ export const CommitList = props => (
       },
       li: {
         py: 2,
-        pl: [3, 4],
+        pl: 4,
         position: 'relative',
         fontWeight: '600',
         ':before': {
