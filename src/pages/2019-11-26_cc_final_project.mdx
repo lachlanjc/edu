@@ -1,5 +1,5 @@
-import { Button } from 'rebass'
-import { Glitch, CommitList } from '../components/blocks'
+import { Box, Button } from 'rebass'
+import { Glitch, YouTube, CommitList } from '../components/blocks'
 
 # CC – Final Project
 
@@ -9,7 +9,40 @@ import { Glitch, CommitList } from '../components/blocks'
 
 <Button as="a" href="https://glitch.com/~gunfunded">Glitch</Button>
 
-![Muse board](https://d2wkqk610zk1ag.cloudfront.net/items/1k0C2e2s2X1k133v3H3L/f2zgux39h4xyby9e1hzjat4nmna2zxyr.png)
+Watch my demo: (37:00)
+
+<YouTube url="https://youtu.be/11M3RLmayz8?t=2222" />
+
+![Muse board](https://d2wkqk610zk1ag.cloudfront.net/items/0o0R2e2i3p03291q0S0B/twhejwqzzgf75xqxteufnpxubwj37m2u.png)
+
+## From the show
+
+<Box sx={{ display: 'grid', gridTemplateColumns: [null, 'repeat(2, 1fr)'], gridGap: [3, 4] }}>
+
+![Me standing next to the Gun Funded installation](https://d2wkqk610zk1ag.cloudfront.net/items/3k3m1A2j0a0N2R2r2W2s/ff63b6p81g7majtux3avxncndn0u853r.jpeg)
+
+![Show installation](https://d2wkqk610zk1ag.cloudfront.net/items/0G3v1s3i2t093q3u3q0B/nnayajk24h71jw9mjhvf7phyectbzu6y.jpeg)
+
+![Show installation, up close](https://d2wkqk610zk1ag.cloudfront.net/items/273F1k2m3B1e36282h3U/8mab9yvnre31xm2ezzt8f6n085y70a05.jpeg)
+
+![Me demoing the project during the Coding Train livestream](https://d2wkqk610zk1ag.cloudfront.net/items/3R3E3o0s3j443w0A351f/7wac2htp17p2x9p8063rk9xef07j0c5w.jpeg)
+
+</Box>
+
+## 2019-12-18
+
+Super happy with the progress (66 retweets, 166 likes now on Twitter). Made only a quick fix to the site today.
+
+<CommitList>
+
+- [Fix rounding on Top Reps](https://github.com/lachlanjc/gunfunded/commit/e0a9d1f687708bdb35019ad0d230f4831556a3dc)
+- [Fix rounding on Top Sens](https://github.com/lachlanjc/gunfunded/commit/51fe2a3106c8fbcb1c6d3cd5d924b580258fb082)
+
+</CommitList>
+
+Also, discovered this great carbon calculator:
+
+![Screenshot of Gun Funded on websitecarbon.com](https://d2wkqk610zk1ag.cloudfront.net/items/3V2L382p2F2w44010d2h/cdfbjut3m91bbhp3gzqyre073mmy1v7c.png)
 
 ## 2019-12-17
 
@@ -21,32 +54,77 @@ Launch went great! Slow start but really picked up later. [The tweet](https://tw
 
 Planning to post on Product Hunt/Hacker News in a day or two.
 
+A maintainer of the framework I’m using (Next.js), [Tim Neutkens](https://twitter.com/timneutkens), who does incredible work, reached out about trying some upcoming features of Next.js. I rewrote the whole data-fetching system, leading to fairly significant performance gains as the whole website (outside the API) became statically-prerendered at build time, instead of the server-rendered for each request. I can’t wait to use these new Next.js features on all my sites, as the performance and developer experiences upgrades are immense. Huge thanks to Tim for the assistance with the migration!
+
+<CommitList>
+
+- [Fix routing mistake](https://github.com/lachlanjc/gunfunded/commit/7603af3282e9f0b8b2746501bf8770c7f84a3ead)
+- [Remove Search page](https://github.com/lachlanjc/gunfunded/commit/4200157e91f39dec8f615057fe8af2871969d387)
+- [Switch to static props/paths](https://github.com/lachlanjc/gunfunded/commit/78a91e6359418c6356006f81b0b8616a6603bd16)
+- [Remove withError](https://github.com/lachlanjc/gunfunded/commit/322b6b1503e79da0788840d86b109bc22d7aeaf0)
+- [Update Next](https://github.com/lachlanjc/gunfunded/commit/e0f4e4581e7b662657a32f557058eb5c49d97821)
+
+</CommitList>
+
 ## 2019-12-16
 
-I want to launch tomorrow. Site changes that need to happen:
+Day 2 of the show wrapped up today! I hope to write a post about the experience for a first-timer in the IMA/ITP Show, but I’m super proud of my display and got only positive & constructive feedback. Overall, exhausting but fantastic experience.
 
-- [x] Fix mid breakpoint
-    - [x] Homepage grid items
-    - [x] Search disclaimer
-    - [x] Profile share/contact
-    - [x] Reduce Header padding
-- [x] Update dependencies
-- [x] Add PACs to Nav
-- [x] Fix broken profiles
-- [x] Add favicons
-- [x] Add label to first cycle stats
-- [x] Rename Groups → Contributors
-- [x] Fix homepage title
-- [x] Fix meta images
-- [x] Switch Republicans → Democrats if both are majority on state stats
-- [x] Fix tab navigation on profile card buttons
-- [x] Add NProgress
-- [x] Add Heap analytics
-- [x] Expand About page
-    - [x] Add stats (endpoint?)
-    - [x] Break down profile
+I want to launch tomorrow. I made a big checklist of what needs to happen:
+
+![iPad screenshot of long to-do list](https://d2wkqk610zk1ag.cloudfront.net/items/2l3u1Q3c2Q0z3L170l3O/t2z9tdk9tyb822072fzvrhwn2f4cmtpb.jpeg)
+
+<CommitList>
+
+- [Fix lobbying graph](https://github.com/lachlanjc/gunfunded/commit/b82d84324e3df4301c405bf4c5e49db4b7e47022)
+- [Edit tagline](https://github.com/lachlanjc/gunfunded/commit/3c8bd1a915c1088e2afb5133766ba159542065d2)
+- [Remove reference to @gunfunded](https://github.com/lachlanjc/gunfunded/commit/11a8d34ce57ae7b6aacf9a07d220b5510a0085a1)
+- [Put site name in OG/Twitter titles](https://github.com/lachlanjc/gunfunded/commit/0b730257e3338647b83b6725bc1d127fe9e52af5)
+- [Rewrite about page](https://github.com/lachlanjc/gunfunded/commit/52da05b08365fe19e173565337abadba62559e22)
+- [Minor typography fix](https://github.com/lachlanjc/gunfunded/commit/3e9a3bc829cd306fbe47669341f178b24f899efc)
+- [Fix accessibility issues](https://github.com/lachlanjc/gunfunded/commit/66b3211aa34f316352dfd098170d963f9654e037)
+- [Fix meta color](https://github.com/lachlanjc/gunfunded/commit/51545c46cfc65d5679dc5cbcab8d9e30603357c9)
+- [Fix ranking](https://github.com/lachlanjc/gunfunded/commit/71063548d8aca8da8bafad2aa9950201ceff7c91)
+- [Add Heap](https://github.com/lachlanjc/gunfunded/commit/dfc9eca08933aa23572e96a7841dcd608a7c994a)
+- [Add favicons](https://github.com/lachlanjc/gunfunded/commit/da9f8023fb86c1695a428165a928e425016015e0)
+- [Improve mid breakpoint](https://github.com/lachlanjc/gunfunded/commit/b773ce853431549861ac5db157bcf2cb1d23d240)
+- [Show Democrats on state stats when appropriate](https://github.com/lachlanjc/gunfunded/commit/7a118563d3b8e0fa53010ce35b6491b4872ed9ad)
+- [Add NProgress](https://github.com/lachlanjc/gunfunded/commit/da39c951e4b29bed3ebb1b09933f34876b5642a4)
+- [Fix tab navigation on profile grids](https://github.com/lachlanjc/gunfunded/commit/038b5e7375d6a5a1e397aecfd02d6eefb4ea8cb6)
+- [Label total funding Contributors stat](https://github.com/lachlanjc/gunfunded/commit/10cb96e8c8d83c116ec0c589bd52f4fa442e2a3e)
+- [Update Theme UI](https://github.com/lachlanjc/gunfunded/commit/c3cd055297a7eca3b6c5fe61fac660aac87e4395)
+- [Fix homepage title](https://github.com/lachlanjc/gunfunded/commit/b011b95c49cd54fa6f5137ca9f2fca46fbc61f2f)
+- [Link to PACs in Nav](https://github.com/lachlanjc/gunfunded/commit/e189304531028d170370049017e9debfce8de530)
+- [Rename Groups → Contributors](https://github.com/lachlanjc/gunfunded/commit/63dbafe880de7e6018e02a077e74b3a0026f00a1)
+- [Remove extra padding on Header](https://github.com/lachlanjc/gunfunded/commit/1dcb1f292d06ba860a25a4e672b57f8bdd7f4430)
+- [Fix net/ranking on broken profiles](https://github.com/lachlanjc/gunfunded/commit/e842fd743d21d78f8e75bd95f142e57e16c9d848)
+
+</CommitList>
+
+The primary issue I worked on is that last commit (plus the later [fix ranking](https://github.com/lachlanjc/gunfunded/commit/71063548d8aca8da8bafad2aa9950201ceff7c91)). Demoing the project for the first day of the show, I noticed a number of profiles showed no funding data. Eventually, I realized they all had multi-word last names. Because I’m using two different data sources (theunitedstates.io and OpenSecrets) and matching names to collate the funding data, I discovered they categorized the name parts differently (as last vs first). I solved by getting the last word of the last name. Then came names with capitalized letters in the middle—so had to lower-case both, in addition to removing accents, standardizing quotes, etc. Finally, two exception to the rule was names starting with "De" & "Des," of which there are 2—one source had a space after these, the other did not. I wrote a custom regex for this exception, which is insane. Look so simple on the outside!
+
+I’m rather proud of the [About page](https://gunfunded.com/about)—fairly succinctly, it explains a lot of the data on the site and how to interpret it. I modeled it directly after the questions I kept answering and what I said during demos while presenting the project at the show, so I hope it’s helpful to people.
 
 ## 2019-12-15
+
+<CommitList>
+
+- [Remove search placeholder](https://github.com/lachlanjc/gunfunded/commit/ed16e1a672abb7f956e1197b6c583c20cada17f1)
+- [Remove gun control funding from profile grids](https://github.com/lachlanjc/gunfunded/commit/eea2ad0f4f18b94c00217b1920ef7980539fa8f7)
+- [Use new data structure everywhere](https://github.com/lachlanjc/gunfunded/commit/12408d23efd920bf07a3f8b268c3686c57b5dabb)
+- [Rename Total → Direct](https://github.com/lachlanjc/gunfunded/commit/645c16cad308d3a7b6ea0a62cb1b10c904ab8a61)
+- [Add default meta image](https://github.com/lachlanjc/gunfunded/commit/f850424d380e0381f1a5322acb007c4964cbfdd0)
+- [Add states navigational link](https://github.com/lachlanjc/gunfunded/commit/9c747e12d91e0cf36da3efd6040fc1f7aa820830)
+- [Add preliminary about page](https://github.com/lachlanjc/gunfunded/commit/0655fccc44f0e3ac1ba95a4e4b8cdf238be80860)
+- [Flip opposition stats](https://github.com/lachlanjc/gunfunded/commit/94a61b2ed2d6b98764deff5feb54a173fac97d53)
+- [Update & retool data](https://github.com/lachlanjc/gunfunded/commit/2763598e095d203c481c3cca840189c696babc84)
+- [Fix theme](https://github.com/lachlanjc/gunfunded/commit/49fe3626afd663ebb8894815d3c750f924423599)
+- [Improve responsiveness on ultrawide displays](https://github.com/lachlanjc/gunfunded/commit/165f445ab6ee13a58f56a82840de8f87ff12dbb3)
+- [Color stats](https://github.com/lachlanjc/gunfunded/commit/a16dd39fe8aea15b435c85e2154a2347d00bec68)
+- [Improve system font stack compatibility](https://github.com/lachlanjc/gunfunded/commit/f5d7b0c2438edca8cc1861782fb4c6d7a7fc1bc6)
+- [Switch Call action to button](https://github.com/lachlanjc/gunfunded/commit/e8c42a14f09fbda6cb51401e44a3605f9222cd26)
+
+</CommitList>
 
 The biggest change I made today was updating & retooling the data:
 
@@ -188,10 +266,10 @@ Whether for Representatives or Senators, funded or not funded, Republican or Dem
 
 Did user testing in class today. People really liked the site, especially the design, though were confused about some of the stats on profiles as well as how to navigate the site. Based on people’s feedback & my observations, I made a checklist of improvements to make to the site:
 
-- [ ] Add navigation on state pages
+- [x] Add navigation on state pages
 - [x] State link on profile pages is broken
 - [x] Whole profile card should link to profile page
-- [ ] Tooltips/asterisk to add explanation to opposition/support stats on profiles
+- [x] Add explanations to opposition/support stats on profiles
 - [x] Fix stats on mobile
 - [x] Change “Share” to “More”
 - [x] Color More button based on party?
@@ -200,11 +278,11 @@ Did user testing in class today. People really liked the site, especially the de
 - [x] Form icon is unclear
 - [x] Add Search card to end of states pages
 - [x] Add party breakdown on states pages
-- [ ] Add About page
+- [x] Add About page
 - [x] Add description on homepage
 - [x] Remove WebKit highlights from states on homepage cards
-- [ ] Clarify PACs page description
-- [ ] Better navigation across the site
+- [x] Clarify PACs page description
+- [x] Better navigation across the site
 - [x] Titles on profile pages
 - [x] On state pages, separate Senators from Representatives
 
