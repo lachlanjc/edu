@@ -1,4 +1,4 @@
-import { Glitch } from '../components/blocks'
+import { Glitch, YouTube, CommitList } from '../components/blocks'
 import Embed from 'react-song-embed'
 
 # CL – Final Project
@@ -9,7 +9,17 @@ import Embed from 'react-song-embed'
 
 _Lachlan Campbell, Sydney Hu, David Yang_
 
-We’re making a small vending machine with a screen and physical keypad. Three typical snack items will rotate in the showcase. Then, upon entering the accompanying code for an item (no payment), the machine will show a subversive animation, such as the machine eating the food itself with sound and video. It’s a humorous and slightly subversive piece. (The self-consumption is a commentary on the American obsession with convenience—what could be more convenient than having the machine eat the food for you‽—plus a joke since the vending machines at IMA have a reputation of unreliability.)
+Enter **Autovendor**: We made a small vending machine with a screen and physical keypad. Three typical snack items  rotate in the showcase. Then, upon entering the accompanying code for an item, the machine shows a stop-motion animation, such as the machine eating the food itself with sound and video. (The self-consumption particularly is a joke since the vending machines at IMA have a reputation of unreliability.) Afterwards, users can enter their phone number to be texted a receipt, with a pun based on the animation they saw. It’s a humorous and slightly subversive piece.
+
+![Production photo of the installation at the show](https://d2wkqk610zk1ag.cloudfront.net/items/1c38273a1V3Q3e210f0f/vt3fuwfp8m56uju2ubwq5y6pbczred1h.jpeg)
+
+Watch Sydney’s demo (2:07:15):
+
+<YouTube url="https://youtu.be/11M3RLmayz8?t=7635" />
+
+## Reflection
+
+In the end, I’m super proud of the work we did, and I love how it turned out. The casing production was a new experience for all of us, but the work drove us all to do something new & challenging (David designing/fabricating, me writing the software, Sydney producing the animations/puns), as well as work together on a tight timeline. At the show, people found its functionality unexpected but delightful, and even Andy Hamilton (president of NYU) liked trying it out.
 
 ## Try the app
 
@@ -20,6 +30,64 @@ We’re making a small vending machine with a screen and physical keypad. Three 
 Code:
 
 <Glitch src="https://glitch.com/embed/#!/embed/autovendor?path=pages/index.js&previewSize=0" />
+
+## 2019-12-15
+
+Today was the first day of the show. We had some more software issues, which I fixed last-minute:
+
+<CommitList>
+
+- [Add remaining puns](https://github.com/lachlanjc/autovendor/commit/278f44c2d4272431fea8e38a143a73bab655534d)
+- [Fix backspacing on receipt number input](https://github.com/lachlanjc/autovendor/commit/51dad3ea6348d9cef665dfdd385ee5adc766c218)
+- [Prevent receipt sending if number is short](https://github.com/lachlanjc/autovendor/commit/44723f733ff43f42ce8aabf40f0038ee3ec9711c)
+- [Re-add ET](https://github.com/lachlanjc/autovendor/commit/5ed5d07c918a3f06a359f8feae443dffd9f0e8b8)
+- [Add secrets to now.json](https://github.com/lachlanjc/autovendor/commit/21924f6ecebd263a01c15716212fc9476ef06729)
+- [Attempt to fix date formatting](https://github.com/lachlanjc/autovendor/commit/a89cda885ff2db33dec0f956c3036301c5a9c0cd)
+
+</CommitList>
+
+## 2019-12-14
+
+![Vending machine casing](https://d2wkqk610zk1ag.cloudfront.net/items/303D1V443v2i2U0R352A/b9q7xefpe962z2x1twgw24r7qu8xrcz4.jpeg)
+
+On the hardware side, after David & Sydney’s spray-painting, microwaviness is down, and they re-glued the casing back together. But setting up the show today, we noticed tons of little issues. The display’s stand wouldn’t keep it totally upright, making the whole device tilt up, so David & Sydney painted some wood blocks for support in the back. The wire from the keypad kept the casing from being flush with the side of the display, exposing the bezel, so we routed it behind the isthmus between the display openings in the casing and taped it there.
+
+![Setting up the installation, with two laptops surrounding the vending machine](https://d2wkqk610zk1ag.cloudfront.net/items/0n383F1U2v2l0V0g0B0A/4pfmk7w76ywrpbmt150q59ja6gb4rqtm.jpeg)
+
+The software had a number of bugs too. The keypad’s number wasn’t visible for anyone tall (moved it down slightly), incorrectly-written phone numbers jammed up the app (I close the receipt flow if anything goes wrong), there was a lack of feedback (I added a “sending…” label), etc. Sydney noticed some clips were running short—eventually we realized that unlike in the first versions of the animations, each animation is now of a different length, so I allowed setting custom durations on each variant animation clip. Super excited for people to interact with the installation tomorrow!
+
+Code changes:
+
+<CommitList>
+
+- [Fix timezone math](https://github.com/lachlanjc/autovendor/commit/db52a10abef8babe9fedfe2922057a31e0445124)
+- [Fix messaging](https://github.com/lachlanjc/autovendor/commit/507a13a5328627f4eb28d9279c8425a9b39d1a15)
+- [Adjust keypad number display for tall people](https://github.com/lachlanjc/autovendor/commit/92750c3e5bb942215db0e8408d41bf275e42d949)
+- [Improve error handling](https://github.com/lachlanjc/autovendor/commit/16574b443c0fdd596cf82f5a55d3f68599e1adda)
+- [Set custom durations for variants](https://github.com/lachlanjc/autovendor/commit/74b178ecb2f9ddc18ee297f0c9c08468186cf253)
+- [Add sending status](https://github.com/lachlanjc/autovendor/commit/acb5f59b88f9efb21438ea6986e6c1db8e3efe06)
+
+</CommitList>
+
+![Me working on the vending machine hooked up to my laptop, the installation’s screen filled with code](https://d2wkqk610zk1ag.cloudfront.net/items/1U3c3n2u1A1v3n0B022s/3qu36whjpw7mwzk482kc23f67ekjc7z4.jpeg)
+
+## 2019-12-12
+
+Knowing now that we’re in the show this weekend, we internally made a timeline for integrating feedback from yesterday’s demo and getting the installation ready. We discussed a bunch of ideas, like turning the screen vertical. In the end, we decided we didn’t have the capacity to entirely redesign & refabricate the casing, but instead would spray-paint it black and inset the keypad to reduce the microwaviness.
+
+The software upgrade I made, via Gabe’s input, is to [ask if customers want a receipt](https://github.com/lachlanjc/autovendor/commit/643a4d5a2670b4adc3daac2697576763363435ef), to decrease friction for viewing several animations consecutively.
+
+## 2019-12-11
+
+Today we put the machine together for an in-class demo. Things *mostly* worked, but we got a bunch of great feedback from Gabe & the class to integrate into the final version.
+
+![The assembled prototype](https://d2wkqk610zk1ag.cloudfront.net/items/2047121K1S2Y2F073q0H/57v57kq9fqkj9gw0rjvv4q6tqrvkhgye.jpeg)
+
+## 2019-12-09
+
+At IMA with David, we made some measurements and designed the front panel laser cut/engraving design. We used two cut windows to let the display show through, then the title of the piece engraved at the top in the same font as the software.
+
+![Screenshot of front panel cutting/engraving pattern in Adobe Illustrator](https://d2wkqk610zk1ag.cloudfront.net/items/001m0i001J2e2a173v3j/zy0chvvhyry613c3029ee9bbv2d98tfp.png)
 
 ## 2019-12-07
 
@@ -101,3 +169,9 @@ We auditioned a whole set of ideas of varying scope, before deciding on a fairly
 ## 2019-12-01
 
 I made the basic UI for the vending machine today. It shows looping videos of all the products, with their ID numbers below. On top, there is a keypad, which can be controlled via keyboard as well. (Use delete to clear, enter to submit.) Upon selection, a video plays full-screen with the food being consumed, & closes when finished. I used React/Next.js with styled-jsx to build the site.
+
+## 2019-11-26
+
+Today we threw out our previous concepts and came up with the idea of the vending machine. Here was a whiteboard sketch of figuring out the early structure:
+
+![Early whiteboard sketch of the vending machine](https://d2wkqk610zk1ag.cloudfront.net/items/1V0w0d43091W2S3J1V2T/vqb32bdvwcbhx9d2j4z9dn0345up2j7r.jpeg)
