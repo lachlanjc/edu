@@ -15,6 +15,7 @@ export const getName = path =>
     .replace('Ar ', 'AR ')
     .replace(/^Cc/, 'CC')
     .replace(/^Cl/, 'CL')
+    .replace(/^Obj/, 'OBJ')
     .replace('Wte', 'WTE')
 
 export const hasDate = path =>
@@ -43,7 +44,9 @@ export const getDescription = path => {
     date = new Date(getDate(path))
     date = ` on ${format(date, 'MMMM d, yyyy')}`
   }
-  return `${course ? `Blog post for ${course} ` : 'Project '}at NYU${date}, by Lachlan Campbell.`
+  return `${
+    course ? `Blog post for ${course} ` : 'Project '
+  }at NYU${date}, by Lachlan Campbell.`
 }
 
 export const getImage = path => {
