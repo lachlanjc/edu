@@ -15,6 +15,7 @@
     "@hackclub/icons": "^0.0.2",
     "@mdx-js/mdx": "^1.5.3",
     "@mdx-js/react": "^1.5.3",
+    "@theme-ui/components": "^0.2.50",
     "@theme-ui/preset-base": "^0.2.44",
     "@theme-ui/prism": "^0.2.50",
     "date-fns": "^2.8.1",
@@ -31,7 +32,6 @@
     "react-music-embed": "^1.0.1",
     "react-player": "^1.14.2",
     "react-song-embed": "^1.0.0",
-    "rebass": "^4.0.7",
     "resize-observer-polyfill": "^1.5.1",
     "theme-ui": "^0.2.52"
   }

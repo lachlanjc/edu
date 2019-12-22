@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx, Styled, useColorMode } from 'theme-ui'
 import { Link } from 'gatsby'
-import { Box, Link as A } from 'rebass'
+import { Box, Link as A } from '@theme-ui/components'
 import Avatar from './components/avatar'
 import Icon from './components/icon'
 import Meta from './components/meta'

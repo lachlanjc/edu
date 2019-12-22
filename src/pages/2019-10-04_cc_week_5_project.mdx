@@ -1,4 +1,4 @@
-import { Button } from 'rebass'
+import { Button } from '@theme-ui/components'
 import { Glitch } from '../components/blocks'
 
 # CC – Week 5: Functions – Log
@@ -372,7 +372,7 @@ At this point I thought of my (Apple) Watch, and realized the design of the “c
 
 ![Apple Watch Series 4](https://d2wkqk610zk1ag.cloudfront.net/items/212J2x3a0n1g1a451K2N/series-4.png)
 
-Now, the web wasn’t really designed for making upside-down arcs. But I remembered some code from my friend [@jxnblk](https://jxnblk.com) for making a [“donut” chart in React](https://github.com/rebassjs/rebass/commit/e473a26da74304689bb3dc42144ff61d6b5d7f5b#diff-3448e707cf244e61238798459dcae24c). It needed some adaption, like figuring out how to add rounded linecaps to the SVG stroke, but I figured it out:
+Now, the web wasn’t really designed for making upside-down arcs. But I remembered some code from my friend [@jxnblk](https://jxnblk.com) for making a [“donut” chart in React](https://github.com/@theme-ui/componentsjs/@theme-ui/components/commit/e473a26da74304689bb3dc42144ff61d6b5d7f5b#diff-3448e707cf244e61238798459dcae24c). It needed some adaption, like figuring out how to add rounded linecaps to the SVG stroke, but I figured it out:
 
 ```js
 const Arc = ({ value = 2 / 3, strokeWidth = 2, size = 128, ...props }) => {
