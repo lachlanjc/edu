@@ -13,6 +13,7 @@ export const getName = path =>
     .replace('Dslr', 'DSLR')
     .replace('And', '&')
     .replace('Ar ', 'AR ')
+    .replace('Post ', 'Post-')
     .replace(/^Cc/, 'CC')
     .replace(/^Cl/, 'CL')
     .replace(/^Obj/, 'OBJ')
@@ -54,7 +55,7 @@ export const getImage = path => {
   let theme = 'light'
   let name = getName(path.toString()).toString()
   let caption = name.split(' ')[0]
-  let tail = ''
+  let params = ''
   name = name.split(' ').join(' ')
   Object.keys(courses).forEach(key => {
     name = name.replace(`${key} `, '')
@@ -68,9 +69,9 @@ export const getImage = path => {
   } else {
     caption = ''
     theme = 'dark'
-    tail = '&fontSize=300px'
+    params = '&fontSize=275px'
   }
   name = encodeURIComponent(name)
   caption = encodeURIComponent(caption)
-  return `https://ima-cards.lachlanjc.now.sh/${name}.png?theme=${theme}&caption=${caption}${tail}`
+  return `https://ima-cards.lachlanjc.now.sh/${name}.png?theme=${theme}${params}&caption=${caption}`
 }
