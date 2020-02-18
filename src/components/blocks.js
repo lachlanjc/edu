@@ -161,13 +161,17 @@ export const List = props => (
   <div
     {...props}
     sx={{
-      ul: {
+      'ul, ol': {
         p: 0,
-        m: 0,
+        mx: 0,
         listStyle: 'none',
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(256px, 1fr))',
         gridGap: 4
+      },
+      'li img': {
+        my: 3,
+        borderRadius: 'base'
       },
       a: {
         fontWeight: 'bold'
@@ -195,7 +199,8 @@ export const LinkList = props => (
         fontWeight: 'bold',
         lineHeight: 'heading',
         textDecoration: 'none',
-        display: 'block'
+        display: 'block',
+        wordBreak: 'break-word'
       },
       ...props.sx
     }}

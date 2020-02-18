@@ -18,6 +18,9 @@ export const getName = path =>
     .replace(/^Cl/, 'CL')
     .replace(/^Obj/, 'OBJ')
     .replace(/^Wte/, 'WTE')
+    .replace(/^Bit/, 'BIT')
+    .replace(/^Cw/, 'CW')
+    .replace(/^Ast/, 'AST')
 
 export const hasDate = path =>
   !isEmpty(path.toString().match(/\d{4}-\d{2}-\d{2}/))
@@ -31,7 +34,11 @@ const courses = {
   CC: 'Creative Comp',
   CL: 'Comm Lab',
   WTE: 'Writing the Essay',
-  OBJ: 'Objectivity'
+  OBJ: 'Objectivity',
+  BIT: 'Big Ideas in Tech',
+  DV: 'Data Viz',
+  CW: 'Creative Writing',
+  AST: 'Assistive Tech'
 }
 
 export const getDescription = path => {
