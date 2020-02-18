@@ -17,7 +17,7 @@ export const getName = path =>
     .replace(/^Cc/, 'CC')
     .replace(/^Cl/, 'CL')
     .replace(/^Obj/, 'OBJ')
-    .replace('Wte', 'WTE')
+    .replace(/^Wte/, 'WTE')
 
 export const hasDate = path =>
   !isEmpty(path.toString().match(/\d{4}-\d{2}-\d{2}/))
