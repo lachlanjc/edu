@@ -21,6 +21,7 @@ export const YouTube = ({ url, ...props }) => (
     height={400}
     controls
     config={{ youtube: { playerVars: { showinfo: 1 } } }}
+    {...props}
   />
 )
 
