@@ -1,0 +1,50 @@
+import { Columns, YouTube } from '../components/blocks'
+
+# AST – Final Project – Update 1
+
+*Plum Champlin (they/them), David Yang (he/him), Lachlan Campbell (they/them)*
+
+## Initial ideas
+
+Micheal mentioned having difficulty with TV remotes. They have lots of tiny, difficult-to-press buttons (which are difficult to use for everyone, plus an accessibility nightmare for all kinds of disabilities), and that kind of fine motor control of fingertips is especially challenging for him.
+
+We considered a plastic keyboard grille designed for the TV remote, but it seemed too simple a project. We also considered building a mobile app connected to an infrared receiver/emitter for replacing the entire remote with a simple app, but that seemed far too complex a project for this constrained timeframe.
+
+## Selected idea: gripper
+
+Michael described particular difficulty gripping small things—the lock on door handles, picking up MetroCards, typing in PIN codes on ATMs. We’re envisioning a kind of scissor-type mechanism attached to pincers, allowing finer-grained control in a much lighter-weight tool than a wrench. Think the clamp on a kids’ dinosaur toy, or the pivot point on scissors:
+
+![Initial inspiration/sketching](https://d1fmxjrxw87eps.cloudfront.net/2020-02-24T18:34:11-05:00.jpeg)
+
+The grip tool would be along these lines, but not electronic:
+
+<Columns>
+
+<YouTube url="https://youtu.be/LU2rSG2Orwg" height={256} />
+
+<YouTube url="https://youtu.be/VHp0cNOvbKw" height={256} />
+
+</Columns>
+
+David made this sketch:
+
+![Sketch 1](https://d1fmxjrxw87eps.cloudfront.net/2020-02-24T20:34:53-05:00.png)
+
+Plum made this cardboard prototype:
+
+![Cardboard prototype](https://d1fmxjrxw87eps.cloudfront.net/2020-02-24T18:18:29-05:00.jpeg)
+
+Upon feedback from Michael about the possibility of his lacking the hand strength to power the clamp, we’re envisioning using an Arduino with Servo motors and an internal battery to reduce the necessary pressure input:
+
+![Sketch 2](https://d1fmxjrxw87eps.cloudfront.net/2020-02-24T18:13:37-05:00.jpeg)
+
+Though easy to sketch, the added complexity of the motor + software raises several potential issues:
+
+- Complexity of building—more components, software, etc
+- Durability of build—much more fragile
+- Weight—instead of just the plastic, there’s metal components, battery, Arduino, & wiring
+- Cost of manufacturing—though we’re only making one so that’s reduced
+- Recharging—battery won’t last forever, replacing it would ideally be possible
+- Aesthetics—though we don’t have the time/resources/knowledge to create something fitting all these constraints and be aesthetically pleasing, ideally the object would at leas not be visually offensive
+
+Plum, David, & I are excited to start building!
