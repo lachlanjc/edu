@@ -38,7 +38,7 @@ export const Banner = props => (
     }}
   >
     <img
-      src={`https://contrast.now.sh/fff/${theme.colors.violetBright.replace(
+      src={`https://contrast-swatch.daneden.now.sh/fff/${theme.colors.violetBright.replace(
         '#',
         ''
       )}?text=🧑🏻%E2%80%8D🎓&radius=999&size=512&fontSize=2&baseline=1`}
