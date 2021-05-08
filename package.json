@@ -24,7 +24,7 @@
     "gatsby-plugin-mdx": "^1.0.64",
     "gatsby-plugin-react-helmet": "^3.1.18",
     "gatsby-plugin-theme-ui": "^0.2.53",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "react": "^16.12.0",
     "react-codepen-embed": "^1.0.1",
     "react-dom": "^16.12.0",
