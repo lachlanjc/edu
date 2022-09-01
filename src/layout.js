@@ -119,7 +119,7 @@ export default props => {
         }}
       >
         <A
-          href="https://lachlanjc.me"
+          href="https://lachlanjc.com"
           title="Personal site"
           target="_blank"
           variant="styles.navitem"

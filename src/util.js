@@ -21,6 +21,7 @@ export const getName = path =>
     .replace(/^Bit/, 'BIT')
     .replace(/^Cw/, 'CW')
     .replace(/^Ast/, 'AST')
+    .replace(/^Pcomp/, 'PComp')
 
 export const hasDate = path =>
   !isEmpty(path.toString().match(/\d{4}-\d{2}-\d{2}/))
@@ -38,12 +39,13 @@ const courses = {
   BIT: 'Big Ideas in Tech',
   DV: 'Data Viz',
   CW: 'Creative Writing',
-  AST: 'Assistive Tech'
+  AST: 'Assistive Tech',
+  PCOMP: 'Physical Computing',
 }
 
 export const getDescription = path => {
   if (path === '/') {
-    return 'Lachlan Campbell’s coursework blog for their major, Interactive Media Arts, at NYU.'
+    return 'Lachlan Campbell’s coursework blog for their major at NYU, Interactive Media Arts.'
   }
   const name = getName(path.toString()).toString()
   const course = courses[name.split(' ')[0]]
