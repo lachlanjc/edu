@@ -3,9 +3,7 @@ import { jsx } from 'theme-ui'
 import React from 'react'
 import theme, { palette } from '../lib/theme'
 import YouTubePlayer from 'react-player/lib/players/YouTube'
-// import CodePenEmbed from 'react-codepen-embed'
-
-export const CodePenEmbed = props => <iframe {...props} />
+import CodePenEmbed from 'react-codepen-embed'
 
 export const Container = ({ wide, ...props }) => (
   <div
@@ -48,7 +46,7 @@ export const P5 = props => (
   <iframe
     sx={{ minHeight: '100%', width: '100%', border: 0, ...props.sx }}
     {...props}
-  ></iframe>
+  />
 )
 
 export const Glitch = ({ title, ...props }) => (

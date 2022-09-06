@@ -25,6 +25,7 @@
     "next": "^12.2.3",
     "next-contentlayer": "^0.2.6",
     "react": "^17.0.2",
+    "react-codepen-embed": "^1.1.0",
     "react-dom": "^17.0.2",
     "react-figma-embed": "^1.0.1",
     "react-music-embed": "^1.0.1",
