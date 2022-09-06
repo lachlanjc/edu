@@ -3,13 +3,15 @@ import Layout from '../../components/layout'
 import { pick, orderBy } from 'lodash-es'
 import { Heading } from 'theme-ui'
 import { allSheets } from 'contentlayer/generated'
+import BackButton from 'components/back'
 import SheetList from 'components/sheets'
 import { COURSES } from 'lib/util'
 
 export default function IndexPage({ course, sheets }) {
   return (
     <Layout>
-      <Heading as="h1" variant="styles.h1" sx={{ mt: 0, mb: 4 }}>
+      <BackButton text="All posts" />
+      <Heading as="h1" variant="styles.h1" sx={{ mt: 2, mb: 4 }}>
         {course}
       </Heading>
       <SheetList sheets={sheets} hideCourses />

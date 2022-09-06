@@ -3,15 +3,44 @@ import { useMDXComponent } from 'next-contentlayer/hooks'
 import components from '../lib/components'
 import Layout from '../components/layout'
 import { allSheets } from 'contentlayer/generated'
+import BackButton from 'components/back'
+import { COURSES, formatDate } from 'lib/util'
+import { Text } from 'theme-ui'
 // import type { Sheet } from 'contentlayer/generated';
 
-export default function Sheet({ sheet }) {
+export default function Sheet({ sheet, course }) {
   const Content = useMDXComponent(sheet.body.code)
 
   return (
     <Layout>
       <BaseStyles>
+        {course && (
+          <BackButton
+            icon="list"
+            href={`/courses/${sheet.course}`}
+            text={`All ${course}`}
+          />
+        )}
         <Content components={components} />
+        {sheet.date?.startsWith('20') && (
+          <Text
+            as="time"
+            dateTime={sheet.date}
+            sx={{
+              color: 'secondary',
+              fontSize: 0,
+              textAlign: 'center',
+              a: { color: 'inherit' },
+            }}
+          >
+            Posted {formatDate(new Date(sheet.date))}{' '}
+            <a
+              href={`https://github.com/lachlanjc/ima/blob/glitch/sheets/${sheet.slug}.mdx`}
+            >
+              via GitHub
+            </a>
+          </Text>
+        )}
       </BaseStyles>
     </Layout>
   )
@@ -26,5 +55,6 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const sheet = allSheets.find(sheet => sheet.slug === params?.sheet)
-  return { props: { sheet } }
+  const course = sheet.course ? COURSES[sheet.course] : null
+  return { props: { sheet, course } }
 }
