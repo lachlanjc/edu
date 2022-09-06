@@ -2,6 +2,8 @@ lockfileVersion: 5.3
 
 specifiers:
   '@emotion/react': ^11.10.0
+  '@emotion/styled': ^11.10.4
+  '@mdx-js/loader': ^2.1.3
   '@mdx-js/react': '1'
   '@next/mdx': ^12.2.5
   '@theme-ui/preset-base': ^0.14.7
@@ -28,8 +30,10 @@ specifiers:
 
 dependencies:
   '@emotion/react': 11.10.0_react@17.0.2
+  '@emotion/styled': 11.10.4_ddddcdfac2f272a738f93557f7b43ccc
+  '@mdx-js/loader': 2.1.3
   '@mdx-js/react': 1.6.22_react@17.0.2
-  '@next/mdx': 12.2.5_@mdx-js+react@1.6.22
+  '@next/mdx': 12.2.5_0011d4fe6005d6e564f94aea3cc384de
   '@theme-ui/preset-base': 0.14.7
   '@theme-ui/prism': 0.14.7_react@17.0.2+theme-ui@0.14.7
   contentlayer: 0.2.6
@@ -322,6 +326,12 @@ packages:
       '@emotion/memoize': 0.7.4
     dev: false
 
+  /@emotion/is-prop-valid/1.2.0:
+    resolution: {integrity: sha512-3aDpDprjM0AwaxGE09bOPkNxHpBd+kA6jty3RnaEXdweX1DF1U3VQpPYb0g1IStAuK7SVQ1cy+bNBBKp4W3Fjg==}
+    dependencies:
+      '@emotion/memoize': 0.8.0
+    dev: false
+
   /@emotion/memoize/0.7.4:
     resolution: {integrity: sha512-Ja/Vfqe3HpuzRsG1oBtWTHk2PGZ7GR+2Vz5iYGelAw8dx32K0y7PjVuxK6z1nMpZOqAFsRUPCkK1YjJ56qJlgw==}
     dev: false
@@ -370,8 +380,39 @@ packages:
     resolution: {integrity: sha512-OiTkRgpxescko+M51tZsMq7Puu/KP55wMT8BgpcXVG2hqXc0Vo0mfymJ/Uj24Hp0i083ji/o0aLddh08UEjq8w==}
     dev: false
 
+  /@emotion/styled/11.10.4_ddddcdfac2f272a738f93557f7b43ccc:
+    resolution: {integrity: sha512-pRl4R8Ez3UXvOPfc2bzIoV8u9P97UedgHS4FPX594ntwEuAMA114wlaHvOK24HB48uqfXiGlYIZYCxVJ1R1ttQ==}
+    peerDependencies:
+      '@babel/core': ^7.0.0
+      '@emotion/react': ^11.0.0-rc.0
+      '@types/react': '*'
+      react: '>=16.8.0'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@types/react':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.18.9
+      '@emotion/babel-plugin': 11.10.0
+      '@emotion/is-prop-valid': 1.2.0
+      '@emotion/react': 11.10.0_react@17.0.2
+      '@emotion/serialize': 1.1.0
+      '@emotion/use-insertion-effect-with-fallbacks': 1.0.0_react@17.0.2
+      '@emotion/utils': 1.2.0
+      react: 17.0.2
+    dev: false
+
   /@emotion/unitless/0.8.0:
     resolution: {integrity: sha512-VINS5vEYAscRl2ZUDiT3uMPlrFQupiKgHz5AA4bCH1miKBg4qtwkim1qPmJj/4WG6TreYMY111rEFsjupcOKHw==}
+    dev: false
+
+  /@emotion/use-insertion-effect-with-fallbacks/1.0.0_react@17.0.2:
+    resolution: {integrity: sha512-1eEgUGmkaljiBnRMTdksDV1W4kUnmwgp7X9G8B++9GYwl1lUdqSndSriIrTJ0N7LQaoauY9JJ2yhiOYK5+NI4A==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      react: 17.0.2
     dev: false
 
   /@emotion/utils/1.2.0:
@@ -454,6 +495,17 @@ packages:
       - supports-color
     dev: false
 
+  /@mdx-js/loader/2.1.3:
+    resolution: {integrity: sha512-7LtklcfzZC9aWWFREop0ivemhwcp/cke2tICHEhnDyGn+hTg7LIbWCfSos68kJv9w7Z47KYfNcg9/8zBD+8eXA==}
+    peerDependencies:
+      webpack: '>=4'
+    dependencies:
+      '@mdx-js/mdx': 2.1.2
+      source-map: 0.7.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@mdx-js/mdx/2.1.2:
     resolution: {integrity: sha512-ASN1GUH0gXsgJ2UD/Td7FzJo1SwFkkQ5V1i9at5o/ROra7brkyMcBsotsOWJWRzmXZaLw2uXWn4aN8B3PMNFMA==}
     dependencies:
@@ -490,12 +542,13 @@ packages:
     resolution: {integrity: sha512-2lWKP5Xcvnor70NaaROZXBvU8z9mFReePCG8NhZw6NyNGnPvC+8s+Cre/63LAB1LKzWw/e9bZJnQUg0gYFRb2Q==}
     dev: false
 
-  /@next/mdx/12.2.5_@mdx-js+react@1.6.22:
+  /@next/mdx/12.2.5_0011d4fe6005d6e564f94aea3cc384de:
     resolution: {integrity: sha512-b4gDNNvlt1Icf9D+nMzc66Tn1ei4lYRUFjwjWdCgdQFCo2ahKl+/f4R/g958KGzZMFmmXBJ7JIfzeAqgPv7TsA==}
     peerDependencies:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '*'
     dependencies:
+      '@mdx-js/loader': 2.1.3
       '@mdx-js/react': 1.6.22_react@17.0.2
     dev: false
 
@@ -3267,6 +3320,11 @@ packages:
   /source-map/0.6.1:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /source-map/0.7.4:
+    resolution: {integrity: sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==}
+    engines: {node: '>= 8'}
     dev: false
 
   /space-separated-tokens/1.1.5:
