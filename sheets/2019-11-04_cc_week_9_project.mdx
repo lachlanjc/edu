@@ -1,0 +1,80 @@
+import { P5 } from '../components/blocks'
+import { Button } from 'theme-ui'
+
+# CC Week 9 Project
+
+<P5 src="https://editor.p5js.org/lachlanjc/embed/pV2jiZAjK" />
+
+(Tap/click a bunch to use!)
+
+This week I made a bizarre balloon simulator. Tap/click to release new “balloons,” which will rise up into the distance, bouncing against the walls until they fling themselves into oblivion.
+
+I used `Class`es in JavaScript for each Balloon object, so they can each keep track of their coordinates (x & y), two-dimensional speed (dx & dy), size, & fill color. The collection lives in an array a user’s click appends to. Whenever they accidentally clump together, they shrink (see `isNear` & its usage inside `draw`). When they bounce off the walls, they speed up in the opposite direction, leading to their eventually-infinite speeds that can no longer be drawn.
+
+```js
+const balloons = []
+
+function setup() {
+  createCanvas(window.innerWidth, window.innerHeight)
+  noStroke()
+  balloons.push(new Balloon())
+}
+
+const newBalloon = () => balloons.push(new Balloon(mouseX, mouseY))
+function mouseClicked() {
+  newBalloon()
+}
+function touchStarted() {
+  newBalloon()
+}
+
+function draw() {
+  background(245)
+  balloons.forEach((balloon, i) => {
+    balloon.move()
+    balloon.display()
+
+    balloons.forEach((otherBalloon, ii) => {
+      if (balloon.isNear(otherBalloon)) {
+        balloon.size = balloon.size * 0.995
+      }
+    })
+  })
+}
+
+class Balloon {
+  constructor(x, y) {
+    this.x = x
+    this.y = y
+    this.dx = random(-1, 2)
+    this.dy = random(-2, 1)
+    this.size = random(width / 16, width / 2)
+    this.fill = random(['gold', 'lime', 'cornflowerblue', 'papayawhip'])
+  }
+
+  isNear(obj) {
+    const distance = dist(this.x, this.y, obj.x, obj.y)
+    return distance < this.size / 2
+  }
+
+  move() {
+    this.x = this.x + this.dx
+    if (this.x >= width || this.x <= 0) {
+      this.dx = this.dx * -1.5
+    }
+    this.y = this.y + this.dy
+    if (this.y >= height || this.y <= 0) {
+      this.dy = this.dy * -1.5
+    }
+  }
+
+  display() {
+    fill(this.fill)
+    ellipse(this.x, this.y, this.size, this.size)
+  }
+}
+```
+
+<Button as="a" href="https://editor.p5js.org/lachlanjc/sketches/pV2jiZAjK">
+  Edit on P5
+</Button>

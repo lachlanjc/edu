@@ -1,0 +1,769 @@
+import { Button } from 'theme-ui'
+import { Glitch } from '../components/blocks'
+
+# CC – Week 5: Functions – Log
+
+This week, I’m jumping into using [React](https://reactjs.org) and a server-rendering framework called [Next.js](https://nextjs.org) to make an app to track the level of CO₂ in our atmosphere. Before the apocalypse arrives, may as well enjoy some data visualizations!
+
+I’m using NASA’s CO₂ measurements, taken daily at [Mauna Loa observatory](https://en.wikipedia.org/wiki/Mauna_Loa_Observatory) in Hawaii.
+
+<Button as="a" href="https://co2.now.sh" target="_blank" children="View App" />
+
+<Glitch
+  src="https://glitch.com/embed/#!/embed/ppm?path=pages/index.js&previewSize=100"
+  title="Finished app"
+/>
+
+## Starting out
+
+I thought of this project last July, and made a super-simple version of it, but I want to take it way further today. Here’s our starting point:
+
+<Glitch
+  src="https://glitch.com/embed/#!/embed/ppm-prototype?path=pages/index.js&previewSize=100"
+  title="Protoype app"
+/>
+
+(Easter egg: if you turn on Dark Mode on macOS/iOS, the site will automatically restyle! It’s also responsive to all screen sizes.)
+
+## A quick aside on React
+
+Though we’re not learning React in class, it’s one of my favorite web frameworks. Facebook built & open-sourced React all the way back in 2014, and in the meantime, it has become a wildly-popular framework in use by almost every major technology company.
+
+I’m not going to explain all the basic concepts of React here (state, props, components, component lifecycle, etc), but if you’re interested, I highly recommend the [Getting Started tutorial](https://reactjs.org/docs/getting-started.html) on the React site. Alternatively, the designer Dan Eden wrote a great two-part tutorial series building & deploying a little coin-tossing simulator app: [part one](https://daneden.me/2019/07/29/toss-a-coin-with-react-part-1/), [part two](https://daneden.me/2019/08/10/toss-a-coin-with-react-part-2/).
+
+Next.js is a framework for building apps with React, that includes routing, server-rendering, & lots more. We’ll deploy it on [ZEIT Now](https://zeit.co).
+
+## How the site works so far
+
+The site has, roughly, three parts: the API, the page, & the configuration.
+
+### The API
+
+The API is a simple Node backend (accessible at `/api/stats`) that fetches from another API to give us the CO2 readings. Here’s the code:
+
+```js
+import fetch from 'isomorphic-unfetch'
+import toNumber from 'lodash/toNumber'
+import round from 'lodash/round'
+
+export default (req, res) =>
+  fetch('http://www.hqcasanova.com/co2/?callback=callback')
+    .then(data => data.text())
+    .then(txt => {
+      const match = txt.match(/callback\((.*)\)/)
+      if (!match) throw new Error('Invalid JSONP response')
+      return JSON.parse(match[1])
+    })
+    .then(json => ({
+      now: round(toNumber(json['0'])),
+      one: round(toNumber(json['1'])),
+      ten: round(toNumber(json['10'])),
+      date: json.date,
+      // delta: json.delta
+    }))
+    .then(json => res.json(json))
+    .catch(error => {
+      console.error(error)
+    })
+```
+
+So now if we ping that API right now:
+
+```json
+{ "now": 408, "one": 406, "ten": 385, "date": "2019-10-02T13:00:57+02:00" }
+```
+
+(This is in [JSON format](http://www.json.org).)
+
+### The page
+
+Removing the styling & page metadata, here’s how our basic page works:
+
+```js
+import fetch from 'isomorphic-unfetch'
+
+const Page = ({ now, one, ten }) => (
+  <main>
+    <section className="banner">
+      <div className="banner__left">
+        <h1>CO₂</h1>
+      </div>
+      <div className="banner__right">
+        <h2>Today: {now} PPM</h2>
+        <h2>1 year ago: {one} PPM</h2>
+        <h2>10 years ago: {ten} PPM</h2>
+      </div>
+    </section>
+  </main>
+)
+
+Page.getInitialProps = ({ req }) =>
+  fetch((req ? `http://${req.headers.host}` : '') + '/api/stats').then(res =>
+    res.json(),
+  )
+
+export default Page
+```
+
+We are:
+
+- On the server, fetching the stats from the API, and returning them as React props to the page component
+- Rendering a React component with the 3 props
+- Exporting the Page component, so Next.js renders it at the root path for the app
+
+With all the styling & page metadata, [here’s the full code](https://gist.github.com/lachlanjc/4abd46beec37a4d152abc86536422aa7).
+
+### The configuration
+
+There’s a bunch of other files making this project work, but I’m ignoring them here so we can move on.
+
+[Check them out here](https://github.com/lachlanjc/co2/commit/7cfa9e485c5dc56e2a376f169f4b02a97ce88867) if you’re interested.
+
+## What we’re adding today
+
+The main thing I want to add is a graph of historical data. There are again two primary components to this endeavor: the API, and the frontend.
+
+## Building the graph’s API
+
+Well, before we can even write the API, we need a data source. I found [a dataset on Datahub](https://datahub.io/core/co2-ppm-daily) with exactly the kind of data I’m looking for.
+
+I’m again using `fetch` & the utility library [Lodash](https://lodash.com) to write this.
+
+```js
+import fetch from 'isomorphic-unfetch'
+import { round, toNumber } from 'lodash'
+
+const path =
+  'https://pkgstore.datahub.io/core/co2-ppm-daily/co2-ppm-daily_json/data/a2f38b4d080dc6a73402fd1887de9251/co2-ppm-daily_json.json'
+
+export default (req, res) =>
+  fetch(path)
+    .then(data => data.json())
+    .then(records =>
+      records.map(data => ({
+        date: data.date,
+        value: round(toNumber(data.value)),
+      })),
+    )
+    .then(json => res.json(json))
+```
+
+## Building the graph’s frontend
+
+Well _this_ isn’t so simple. Making graphs on the web has traditionally been very difficult—HTML elements were not designed for graphing. [D3](https://d3js.org) then came along & made it possible, if not easy.
+
+But I’m using React, & D3 + React don’t work nicely together.
+
+### Attempt #1
+
+My first attempt involved using [Victory](https://formidable.com/open-source/victory/), a graphing library for React. This is as far as I got with Victory before giving up:
+
+```js
+import React from 'react'
+import fetch from 'isomorphic-unfetch'
+import { VictoryChart, VictoryArea, VictoryAxis } from 'victory'
+import { colors } from '../components/theme'
+
+const style = {
+  axis: {
+    tickLabels: {
+      fontFamily: 'system-ui',
+      fontSize: 8,
+      color: colors.white,
+    },
+    axis: { stroke: colors.white, strokeWidth: 2 },
+    ticks: {
+      size: tick => 8,
+      stroke: colors.grey,
+      strokeWidth: 2,
+    },
+    grid: {
+      stroke: tick => colors.smoke,
+      strokeWidth: 1,
+    },
+  },
+}
+
+const Graph = ({ data }) => {
+  return (
+    <VictoryChart
+      animate={{
+        duration: 768,
+        onEnter: { duration: 512 },
+      }}
+    >
+      <VictoryAxis
+        independentAxis
+        tickFormat={tick => tick.split('-')[0]}
+        tickCount={12}
+        style={style.axis}
+      />
+      <VictoryAxis
+        dependentAxis
+        tickFormat={tick => tick + ' PPM'}
+        tickCount={12}
+        style={style.axis}
+      />
+      <VictoryArea
+        data={data}
+        style={{
+          data: {
+            stroke: colors.red,
+            strokeWidth: 0.25,
+          },
+        }}
+      />
+    </VictoryChart>
+  )
+}
+
+Graph.getInitialProps = ({ req }) =>
+  fetch((req ? `http://${req.headers.host}` : '') + '/api/history')
+    .then(res => res.json())
+    .then(data => ({ data }))
+
+export default Graph
+```
+
+I couldn’t get it to work & remembered another graphing library I’ve heard about, so I decided to jump ship. That library is [vx](https://vx-demo.now.sh).
+
+### Attempt #2: vx
+
+Luckily, vx has [an example](https://vx-demo.now.sh/areas) of nearly what I’m looking for—and my implementation doesn’t need tooltips, so it can be simplified. With some credit to the example, here’s my final code:
+
+```js
+import React from 'react'
+import { AreaClosed, Line, Bar } from '@vx/shape'
+import { curveMonotoneX } from '@vx/curve'
+import { GridRows, GridColumns } from '@vx/grid'
+import { scaleTime, scaleLinear } from '@vx/scale'
+import { colors } from './theme'
+
+const min = (arr, fn) => Math.min(...arr.map(fn))
+const max = (arr, fn) => Math.max(...arr.map(fn))
+const extent = (arr, fn) => [min(arr, fn), max(arr, fn)]
+
+const xPoint = d => new Date(d.date)
+const yPoint = d => d.value
+
+const Graph = ({ data, width, height }) => {
+  const xScale = scaleTime({
+    range: [0, width],
+    domain: extent(data, xPoint),
+  })
+  const yScale = scaleLinear({
+    range: [height, 0],
+    domain: [min(data, yPoint), max(data, yPoint)],
+    nice: true,
+  })
+
+  return (
+    <svg width={width} height={height} className="graph">
+      <defs>
+        <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor={colors.red} stopOpacity={0.5} />
+          <stop offset="100%" stopColor={colors.orange} stopOpacity={0.25} />
+        </linearGradient>
+      </defs>
+      <GridRows
+        scale={yScale}
+        width={width}
+        strokeDasharray="2,2"
+        stroke="rgba(255,255,255,0.125)"
+      />
+      <GridColumns
+        scale={xScale}
+        height={height}
+        strokeDasharray="2,2"
+        stroke="rgba(255,255,255,0.125)"
+      />
+      <AreaClosed
+        data={data}
+        x={d => xScale(xPoint(d))}
+        y={d => yScale(yPoint(d))}
+        yScale={yScale}
+        strokeWidth={1}
+        stroke={'url(#gradient)'}
+        fill={'url(#gradient)'}
+        curve={curveMonotoneX}
+      />
+      <Bar
+        x={0}
+        y={0}
+        width={width}
+        height={height}
+        fill="transparent"
+        data={data}
+      />
+    </svg>
+  )
+}
+
+export default Graph
+```
+
+vx isn’t too rough to use!
+
+![Jagged graph](https://d2wkqk610zk1ag.cloudfront.net/items/2b2i2c0F283A2r2s0H1M/graph-jagged.png)
+
+However, this graph is rather jagged—it looks muddled in how many data points there are.
+
+### Bug: too jagged
+
+Sometimes, less data is better! I added a quick filter (third line) on the API to return only one record per month:
+
+```js
+fetch(path)
+  .then(data => data.json())
+  .then(records => records.filter((r, i) => i % 30 === 0))
+  .then(records =>
+    records.map(data => ({
+      date: data.date,
+      value: round(toNumber(data.value)),
+    })),
+  )
+  .then(json => res.json(json))
+```
+
+Checking back at our graph:
+
+![Smoothed graph](https://d2wkqk610zk1ag.cloudfront.net/items/0w2y462j081E26072C2b/graph-smooth.png)
+
+Looking better!
+
+### Feature: measuring screen size
+
+It’d be great for the graph to automatically fill the screen. Unfortunately, this information won’t be available when we’re rendering server-side.
+
+Luckily, vx has a solution: [@vx/responsive](https://vx-demo.now.sh/static/docs/vx-responsive.html). Let’s try it out:
+
+```js
+// …
+import Graph from '../components/graph'
+import { withScreenSize } from '@vx/responsive'
+
+const Page = withScreenSize(({ screenWidth, screenHeight, data }) => (
+  <Graph data={data} width={screenWidth || 512} height={screenHeight || 512} />
+))
+
+// …
+```
+
+## The homepage
+
+Though I’ve been developing the graph in isolation, I want to bring the graph back to the homepage as well as totally refresh the design.
+
+### Adding the graph to the homepage
+
+We need to start fetching data from both endpoints while loading the homepage. Seems doable:
+
+```js
+Page.getInitialProps = async ({ req }) => {
+  const root = req ? `http://${req.headers.host}` : ''
+  const stats = await fetch(root + '/api/stats').then(res => res.json())
+  const history = await fetch(root + '/api/history').then(res => res.json())
+  return { stats, history }
+}
+```
+
+Adding the `<Graph />` component to the page & adjusting the props, it works!
+
+![Graph on homepage, but messily](https://d2wkqk610zk1ag.cloudfront.net/items/3q1o3W0x3x3w2f3a1r0r/graph-added.png)
+
+### Redesigning the stats
+
+But the layout really does not make sense anymore. Specifically, those stats are awfully dry. How can we make them more visually interesting?
+
+At this point I thought of my (Apple) Watch, and realized the design of the “complications” might be exactly what I was looking for. (Image credit to [iphonehacks.com](http://www.iphonehacks.com/2018/09/best-apple-watch-series-4-features.html)). Check out the AQI measurement:
+
+![Apple Watch Series 4](https://d2wkqk610zk1ag.cloudfront.net/items/212J2x3a0n1g1a451K2N/series-4.png)
+
+Now, the web wasn’t really designed for making upside-down arcs. But I remembered some code from my friend [@jxnblk](https://jxnblk.com) for making a [“donut” chart in React](https://github.com/@theme-ui/componentsjs/@theme-ui/components/commit/e473a26da74304689bb3dc42144ff61d6b5d7f5b#diff-3448e707cf244e61238798459dcae24c). It needed some adaption, like figuring out how to add rounded linecaps to the SVG stroke, but I figured it out:
+
+```js
+const Arc = ({ value = 2 / 3, strokeWidth = 2, size = 128, ...props }) => {
+  const R = 16 - strokeWidth
+  const C = 2 * Math.PI * R
+  return (
+    <svg {...props} viewBox="0 0 32 32" width={size} height={size}>
+      <circle
+        cx={16}
+        cy={16}
+        r={R}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={strokeWidth}
+        strokeDasharray={C}
+        strokeDashoffset={C - value * C}
+        strokeLinecap="round"
+        transform="rotate(-90 16 16)"
+      />
+    </svg>
+  )
+}
+```
+
+I built out the rest of a React component for rendering a stat with this Arc:
+
+```js
+const Stat = ({ value, label, color = 'currentColor' }) => (
+  <div>
+    <Arc />
+    <span className="value">{value}</span>
+    <span className="label">{label}</span>
+    <style jsx>{`
+      div {
+        color: ${color};
+        display: inline-flex;
+        flex-direction: column;
+        text-align: center;
+        position: relative;
+        padding: 2.5rem 1rem;
+        height: 128px;
+        width: 128px;
+        line-height: 1;
+        margin: 1rem;
+      }
+      @media (max-width: 24em) {
+        div {
+          margin: 0.25rem;
+        }
+      }
+      div :global(svg) {
+        transform: rotate(-120deg);
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      .value {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 0.75rem;
+      }
+      .label {
+        text-transform: uppercase;
+        font-weight: 500;
+        font-size: 0.875rem;
+      }
+    `}</style>
+  </div>
+)
+
+export default Stat
+```
+
+Using them on the homepage is pretty straightforward:
+
+```js
+<Stat value={stats.ten} label="10yrs ago" color={colors.yellow} />
+<Stat value={stats.one} label="1yr ago" color={colors.orange} />
+<Stat value={stats.now} label="today" color={colors.red} />
+```
+
+### Redesign time
+
+The old layout really doesn’t make sense anymore, and the heading was dry. Here’s a big step forward:
+
+```js
+import fetch from 'isomorphic-unfetch'
+import Head from 'next/head'
+import Graph from '../components/graph'
+import Stat from '../components/stat'
+import { colors } from '../components/theme'
+import { withScreenSize } from '@vx/responsive'
+
+const Page = withScreenSize(({ screenWidth, screenHeight, stats, history }) => (
+  <main>
+    {// meta tags}
+    <Graph
+      data={history}
+      width={screenWidth || 512}
+      height={screenHeight || 512}
+    />
+    <article>
+      <h1>
+        <span>🌎🔥</span> CO₂ <abbrev title="parts per million">PPM</abbrev>
+      </h1>
+      <Stat value={stats.ten} label="10yrs ago" color={colors.yellow} />
+      <Stat value={stats.one} label="1yr ago" color={colors.orange} />
+      <Stat value={stats.now} label="today" color={colors.red} />
+    </article>
+
+    <style jsx global>{`
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        background-color: ${colors.dark};
+        color: ${colors.white};
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.66;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      body :global(.graph) {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    `}</style>
+    <style jsx>{`
+      article {
+        text-align: center;
+        padding: 1rem;
+      }
+      h1 {
+        font-weight: 800;
+        font-size: 4rem;
+        margin-top: 0;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      h1 span,
+      h1 abbrev {
+        display: inline-block;
+        margin: 0 1.5rem;
+      }
+      h1 span {
+        font-size: 2.25rem;
+      }
+      h1 abbrev {
+        font-size: 1.5rem;
+        background-image: linear-gradient(
+          rgba(255, 255, 255, 1),
+          rgba(255, 255, 255, 0.75)
+        );
+        border-radius: 0.5rem;
+        padding: 0 0.5rem;
+        color: ${colors.dark};
+      }
+      @media (min-width: 32em) {
+        article {
+          padding: 4rem 2rem;
+        }
+        h1 {
+          margin-bottom: 2rem;
+        }
+      }
+    `}</style>
+  </main>
+))
+
+Page.getInitialProps = async ({ req }) => {
+  const root = req ? `http://${req.headers.host}` : ''
+  const stats = await fetch(root + '/api/stats').then(res => res.json())
+  const history = await fetch(root + '/api/history').then(res => res.json())
+  return { stats, history }
+}
+
+export default Page
+```
+
+![New homepage design](https://d2wkqk610zk1ag.cloudfront.net/items/1l2N0G1b383x2W1r2l2E/finished-precaptioning.png)
+
+### Captions
+
+The graph has no context—what are the boundaries here? What does it even represent? Some super-simple text captions would go a long way.
+
+We can get the first record in the graph easily—`history` is already an available prop with all the data, so we can get its first record (`[0]`) and its last (`[history.length - 1]`). The data we’ll need is the year (`.date.substr(0, 4)`) and the no-strings-attached `value`.
+
+Let’s add the captions now:
+
+```js
+<footer>
+  <span>
+    {history[0].date.substr(0, 4)} – {history[0].value} PPM
+  </span>
+  <span>
+    {history[history.length - 1].date.substr(0, 4)}
+    {' – '}
+    {history[history.length - 1].value} PPM
+  </span>
+  <style jsx>{`
+    footer {
+      width: 100%;
+      height: 100%;
+      display: none;
+      justify-content: space-between;
+      align-items: space-between;
+      padding: 0.375rem 0.75rem;
+      position: fixed;
+      top: 0;
+      opacity: 0.5;
+      font-size: 0.875rem;
+    }
+    footer span:first-child {
+      margin-top: auto;
+      color: ${colors.yellow};
+    }
+    footer span:last-child {
+      color: ${colors.red};
+    }
+  `}</style>
+</footer>
+```
+
+Great!
+
+### Final homepage
+
+![Finished homepage design, with captions](https://d2wkqk610zk1ag.cloudfront.net/items/1i093n3j280d1O0g263y/finished-captioned.png)
+
+Here’s the code for the final homepage with everything:
+
+```js
+import fetch from 'isomorphic-unfetch'
+import Head from 'next/head'
+import Graph from '../components/graph'
+import Stat from '../components/stat'
+import { colors } from '../components/theme'
+import { withScreenSize } from '@vx/responsive'
+
+const Page = withScreenSize(({ screenWidth, screenHeight, stats, history }) => (
+  <main>
+    <Head>
+      <title>CO₂</title>
+      <meta property="twitter:card" content="summary" />
+      <meta property="twitter:site" content="@lachlanjc" />
+      <meta
+        property="twitter:description"
+        content="Track the PPM of CO₂ in the atmosphere."
+      />
+      <meta property="og:title" content="CO₂" />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://co2.now.sh/" />
+      <meta
+        property="description"
+        content="Track the PPM of CO₂ in the atmosphere."
+      />
+    </Head>
+    <Graph
+      data={history}
+      width={screenWidth || 512}
+      height={screenHeight || 512}
+    />
+    <article>
+      <h1>
+        <span>🌎🔥</span> CO₂ <abbrev title="parts per million">PPM</abbrev>
+      </h1>
+      <Stat value={stats.ten} label="10yrs ago" color={colors.yellow} />
+      <Stat value={stats.one} label="1yr ago" color={colors.orange} />
+      <Stat value={stats.now} label="today" color={colors.red} />
+    </article>
+    <footer>
+      <span>
+        {history[0].date.substr(0, 4)} – {history[0].value} PPM
+      </span>
+      <span>
+        {history[history.length - 1].date.substr(0, 4)} –{' '}
+        {history[history.length - 1].value} PPM
+      </span>
+    </footer>
+    <style jsx global>{`
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        background-color: ${colors.dark};
+        color: ${colors.white};
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.66;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      body :global(.graph) {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    `}</style>
+    <style jsx>{`
+      article {
+        text-align: center;
+        padding: 1rem;
+      }
+      h1 {
+        font-weight: 800;
+        font-size: 4rem;
+        margin-top: 0;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      h1 span,
+      h1 abbrev {
+        display: inline-block;
+        margin: 0 1.5rem;
+      }
+      h1 span {
+        font-size: 2.25rem;
+      }
+      h1 abbrev {
+        font-size: 1.5rem;
+        background-image: linear-gradient(
+          rgba(255, 255, 255, 1),
+          rgba(255, 255, 255, 0.75)
+        );
+        border-radius: 0.5rem;
+        padding: 0 0.5rem;
+        color: ${colors.dark};
+      }
+      footer {
+        width: 100%;
+        height: 100%;
+        display: none;
+        justify-content: space-between;
+        align-items: space-between;
+        padding: 0.375rem 0.75rem;
+        position: fixed;
+        top: 0;
+        opacity: 0.5;
+        font-size: 0.875rem;
+      }
+      footer span:first-child {
+        margin-top: auto;
+        color: ${colors.yellow};
+      }
+      footer span:last-child {
+        color: ${colors.red};
+      }
+      @media (min-width: 32em) {
+        article {
+          padding: 4rem 2rem;
+        }
+        h1 {
+          margin-bottom: 2rem;
+        }
+        footer {
+          display: flex;
+        }
+      }
+    `}</style>
+  </main>
+))
+
+Page.getInitialProps = async ({ req }) => {
+  const root = req ? `http://${req.headers.host}` : ''
+  const stats = await fetch(root + '/api/stats').then(res => res.json())
+  const history = await fetch(root + '/api/history').then(res => res.json())
+  return { stats, history }
+}
+
+export default Page
+```
+
+I deployed it on [ZEIT Now](https://zeit.co), and [open sourced all the code on GitHub](https://github.com/lachlanjc/co2).
+
+<Button as="a" href="https://co2.now.sh" target="_blank" children="View App" />
+
+<Glitch
+  src="https://glitch.com/embed/#!/embed/ppm?path=pages/index.js&previewSize=100"
+  title="Finished app"
+/>

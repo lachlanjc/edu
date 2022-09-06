@@ -1,0 +1,95 @@
+import { Embed, CodePen, Glitch } from '../components/blocks'
+import { Button } from 'theme-ui'
+
+# CL Projection Mapping Project
+
+_Irene Li, Sydney Hu, & Lachlan Campbell_
+
+![Irene, Sydney, & Lachlan happily posing with the project](https://d2wkqk610zk1ag.cloudfront.net/items/1t2E1n383D0H3z3I012P/dk5ppgd26xvjkrawdj799jrebwpeartb.jpeg)
+
+**DRAW ON YOUR SHOES**—our projection mapping project lets anyone draw their own custom pair of sneakers right on an iPad. Start with one of our three starting designs (leather, crayons, & water), or start from scratch. You can even draw your own box!
+
+![Two iPads Pro 12.9” sitting on a black table with the shoe + shoebox being projected onto in the back](https://d2wkqk610zk1ag.cloudfront.net/items/0E1p3c3e2q3U0B3H1O2n/bu52zx8jjd5w3jje4ejffhwxprd20r8q.jpeg)
+
+![Drawing on a water-themed shoe on the iPad, projected onto the real shoe in the background](https://d2wkqk610zk1ag.cloudfront.net/items/1w1C1n3H1j1l3n2F2d2J/jkw21hr4bqa5u7dka51v4d4avaj2y72d.jpeg)
+
+## Try the app
+
+_(Apple Pencil required)_
+
+<Embed src="https://cl-drawing.glitch.me/shoe/" />
+
+<Embed src="https://cl-drawing.glitch.me/box/" />
+
+<Button as="a" href="https://cl-drawing.glitch.me/shoe/">
+  Open the app
+</Button>
+
+## Log
+
+### 2019-11-13
+
+Today I created the Apple Pencil-based drawing app for our project.
+
+To start off, I investigated browser access to the Apple Pencil, since I knew I wanted to make a web app to keep things simple. Wading through the [Touch Events API docs](https://w3c.github.io/touch-events/#dom-touch-force), I discovered the API for accessing touch input metadata is not too difficult to use. Here’s a quick demo—if you have an Apple Pencil, press it onscreen & rotate it onscreen, making a sunrise/sunset gesture side-to-side.
+
+<CodePen hash="GRRYqdK" />
+
+I then found [this project by @quiteshu](https://github.com/quietshu/apple-pencil-safari-api-test) on GitHub, which provided the base code for what I wanted to do. I upgraded the code and rewrote much of it, then decided I wanted it to go further.
+
+On any stroke of the Apple Pencil, JavaScript exposes these 5 (relevant) properties:
+
+- X coordinate
+- Y coordinate
+- Force/pressure
+- Altitude angle
+- Azimuth angle
+
+Of course I’m using the x & y coordinates for the location of the stroke, but that leaves 3 channels. I’d like to avoid adding the UI for a colorpicker, but with 3 channels…that could map perfectly to color! RGB wouldn’t make any sense—there would be no pattern users could understand—but HSL (hue, saturation, lightness) could be super interesting.
+
+I mapped azimuth to color, so users can imagine a virtual colorwheel, and pick a color by rotating the Pencil in their hand. I mapped altitude to saturation, controlled by a shading/tilt gesture. Finally, force is mapped to the line width but also the lightness, darkening the stroke with increased pressure. Though the end code is simple, it took two hours to get there…
+
+Here’s a sample of relevant code:
+
+```js
+const settings = {
+  lineCap: 'round',
+  lineJoin: 'round',
+  strokeStyle: 'black',
+}
+
+const mapNum = (input, inMin, inMax, outMin, outMax) =>
+  ((input - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin
+
+const touch = e.touches[0]
+if (touch['force'] > 0) pressure = touch['force']
+x = touch.pageX * 2
+y = touch.pageY * 2
+
+const azi = mapNum(touch.azimuthAngle, 0, Math.PI * 2, 0, 360)
+const alt = mapNum(touch.altitudeAngle, 0, Math.PI / 2, 50, 100)
+const frc = mapNum(100 - pressure * 100, 0, 100, 33, 95)
+settings.strokeStyle = `hsl(${azi}, ${alt}%, ${frc}%)`
+```
+
+Here’s the final product:
+
+<CodePen hash="ExxOEwv" />
+
+### 2019-11-15
+
+We decided to have two separate iPads, one for drawing on the shoe & one for the box. With the drawing functionality itself fully built, I made two variants, one for each device. Irene made a set of four drawings of the shoe, so I added jQuery-powered buttons at the top of the screen of the Shoe app. On the Box app, I made the background black & added the box design on top of drawing layer. Source code for each:
+
+<Glitch src="https://glitch.com/embed/#!/embed/cl-drawing?path=shoe/index.html&previewSize=0" />
+
+<Glitch src="https://glitch.com/embed/#!/embed/cl-drawing?path=box/index.html&previewSize=0" />
+
+For presenting, I used the [Foo Screen](https://apps.apple.com/us/app/foo-screen/id1465367307) browser on the iPads Pro. With a USB-C to USB-A cable, the iPad connected to the MacBook Pro, where a QuickTime window mirrored the screens, and the [Syphoner app](http://www.sigmasix.ch/syphoner/) brought the video feed into [Madmapper](https://madmapper.com), which powered the projection mapping.
+
+Setting this up came with an incomprehensibly-long list of technical difficulties, from the voltage and layout of the power strips charging the laptop to Syphoner breaking when Madmapper is in full-screen mode on macOS. We got everything critical together, except for the dual live iPad setup, so only the shoe-drawing app was live projecting in time for the demo.
+
+---
+
+![Project credits being drawn on the iPad on the blank shoe drawing](https://d2wkqk610zk1ag.cloudfront.net/items/3u303h3o1p2t471H0x2f/qr64x922ezcw9q2yyapenvktxcn8d04k.jpeg)
+
+![Project credits projected onto shoe](https://d2wkqk610zk1ag.cloudfront.net/items/1p333p2b1d310J0D363g/d3u5ybp3qku1gkr02gw4qv7zj728bg8y.jpeg)

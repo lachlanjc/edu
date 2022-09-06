@@ -1,0 +1,62 @@
+import { Button } from 'theme-ui'
+
+# CC – Week 7: Sound and Video – Log
+
+This week I'm using the [p5.speech](https://idmnyu.github.io/p5.js-speech/) library to make something fun with web speech recognition.
+
+(Note: requires Chrome or another browser that supports the Web Speech API.)
+
+<Button as="a" href="https://editor.p5js.org/lachlanjc/present/ZPfBX4aIw">
+  Open Demo
+</Button>
+
+## How this works
+
+```js
+let speech = new p5.SpeechRec('en-US', parseResult)
+speech.continuous = true
+speech.interimResults = false
+
+function setup() {
+  createCanvas(window.innerWidth, window.innerHeight)
+  background(255)
+  fill(25)
+
+  textSize(48)
+  textAlign(CENTER)
+  textStyle(BOLDITALIC)
+  textFont('"Avenir Next", system-ui, sans-serif')
+  text('SAY A COLOR', width / 2, height / 2)
+  speech.start()
+}
+
+function draw() {
+  // Where we’re going we don’t need drawing
+}
+
+const colors = []
+
+function parseResult() {
+  if (speech.resultValue) {
+    const color = speech.resultString.split(' ').pop().toUpperCase()
+    colors.push(color)
+    background(color)
+    text(color, width / 2, height / 2)
+    console.log(colors)
+  }
+}
+```
+
+1. Loading the p5.speech library, in the HTML
+2. Initializing web speech for English, using continuous (as opposed to one-time) dictation
+3. Initializing a full-screen canvas
+4. Drawing some basic instructions on the screen
+5. Whenever the speech recognition returns a result, it runs a function that
+   1. Gets the last word of the string, if it's a multi-word phrase
+   2. Saves it to an array, primarily for debugging
+   3. Sets the background color
+   4. Updates the centered onscreen text with the new color name
+
+---
+
+Voilà! [Check out the code on P5](https://editor.p5js.org/lachlanjc/sketches/ZPfBX4aIw).
