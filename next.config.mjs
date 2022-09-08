@@ -12,11 +12,6 @@ const config = withContentlayer({
   images: {
     domains: ['cdn.glitch.com', 'www.icloud.com'],
   },
-  experimental: {
-    images: {
-      allowFutureImage: true,
-    },
-  },
   async rewrites() {
     return [
       { source: '/feed.xml', destination: '/_next/static/feed.xml' },
