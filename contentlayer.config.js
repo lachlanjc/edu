@@ -1,5 +1,6 @@
 import { defineDocumentType, makeSource } from 'contentlayer/source-files'
-import { hasDate, getDate, getName, COURSES } from './lib/util'
+import { hasDate, getDate, getName } from './lib/util'
+import COURSES from './lib/courses.json'
 import remarkGfm from 'remark-gfm'
 import rehypeAccessibleEmojis from 'rehype-accessible-emojis'
 import rehypeCodeTitles from 'rehype-code-title'

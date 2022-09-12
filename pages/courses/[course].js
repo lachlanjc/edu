@@ -5,7 +5,7 @@ import { Heading } from 'theme-ui'
 import { allSheets } from 'contentlayer/generated'
 import BackButton from 'components/back'
 import SheetList from 'components/sheets'
-import { COURSES } from 'lib/util'
+import COURSES from 'lib/courses.json'
 
 export default function IndexPage({ course, sheets }) {
   return (

@@ -4,7 +4,8 @@ import components from '../lib/components'
 import Layout from '../components/layout'
 import { allSheets } from 'contentlayer/generated'
 import BackButton from 'components/back'
-import { COURSES, formatDate } from 'lib/util'
+import { formatDate } from 'lib/util'
+import COURSES from 'lib/courses.json'
 import { Text } from 'theme-ui'
 // import type { Sheet } from 'contentlayer/generated';
 
