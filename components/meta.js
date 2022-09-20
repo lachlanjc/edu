@@ -1,10 +1,10 @@
 import Head from 'next/head'
 
 const Meta = ({
-  title = '@lachlanjc/ima',
-  name = '@lachlanjc/ima',
+  title = '@lachlanjc/edu',
+  name = '@lachlanjc/edu',
   description = 'Lachlan Campbell’s coursework blog for their major, Interactive Media Arts, at NYU.',
-  image = 'https://ima-cards.lachlanjc.now.sh/Coursework.png',
+  image = 'https://ima-cards.lachlanjc.vercel.app/Coursework.png',
 }) => (
   <Head>
     <title>{title}</title>
@@ -21,7 +21,7 @@ const Meta = ({
     <link
       rel="alternate"
       type="application/rss+xml"
-      href="https://ima.lachlanjc.com/feed.xml"
+      href="https://edu.lachlanjc.com/feed.xml"
     />
   </Head>
 )

@@ -74,7 +74,7 @@ const ColorSwitcher = props => {
 const Layout = ({ xl, sx, ...props }) => {
   const { asPath: path } = useRouter()
   const home = path === '/'
-  const base = '@lachlanjc/notebook'
+  const base = '@lachlanjc/edu'
   const name = home ? base : getName(path)
   const counterColor = theme.colors.secondary.replace('#', '%23')
 
@@ -114,7 +114,7 @@ const Layout = ({ xl, sx, ...props }) => {
             }}
           >
             @lachlanjc
-            {!home && '/ima'}
+            {!home && '/edu'}
           </a>
         </Link>
         <ColorSwitcher />
@@ -153,7 +153,7 @@ const Layout = ({ xl, sx, ...props }) => {
           <a href="https://twitter.com/lachlanjc" title="Twitter">
             <Icon glyph="twitter" size={36} />
           </a>
-          <a href="https://github.com/lachlanjc/ima" title="GitHub">
+          <a href="https://github.com/lachlanjc/edu" title="GitHub">
             <Icon glyph="github" size={36} />
           </a>
           <a href="mailto:lachlanjc@hey.com" title="Email">
