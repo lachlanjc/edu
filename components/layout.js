@@ -100,6 +100,7 @@ const Layout = ({ xl, sx, ...props }) => {
           display: 'flex',
           alignItems: 'center',
           mb: 4,
+          fontFamily: 'heading',
         }}
       >
         <Avatar />

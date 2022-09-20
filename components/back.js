@@ -9,6 +9,7 @@ const BackButton = ({ icon = 'back', text = 'Back', href = '/' }) => (
       sx={{
         alignItems: 'center',
         gap: 1,
+        fontFamily: 'heading',
         fontWeight: 'bold',
         color: 'primary',
         textDecoration: 'none',

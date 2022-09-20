@@ -29,6 +29,7 @@ export default function Sheet({ sheet, course }) {
             dateTime={sheet.date}
             sx={{
               color: 'secondary',
+              fontFamily: 'heading',
               fontSize: 0,
               textAlign: 'center',
               a: { color: 'inherit' },

@@ -6,6 +6,7 @@ import { isEmpty } from 'lodash-es'
 const SheetList = ({ sheets, hideCourses = false }) => (
   <ol
     sx={{
+      fontFamily: 'heading',
       listStyle: 'none',
       p: 0,
       m: 0,
