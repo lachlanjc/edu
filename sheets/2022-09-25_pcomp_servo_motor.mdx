@@ -1,0 +1,103 @@
+# Week 3 – Servo Motor
+
+I successfully wired up a Force-Sensing Resistor to my Servo motor:
+
+<video
+  src="https://cloud-61ik24a0x-lachlanjc.vercel.app/servo.mov"
+  controls
+  muted
+  autoPlay
+  playsInline
+  loop
+>Servo</video>
+
+Code from this video:
+
+```c
+#include "Servo.h"
+
+Servo servoMotor;
+long lastMoveTime = 0;  
+ 
+void setup() {
+  Serial.begin(9600);
+  servoMotor.attach(9);
+} 
+ 
+void loop() {
+  int analogValue = analogRead(A0);
+  int servoAngle = map(analogValue, 0, 1023, 0, 179);
+
+  if (millis() - lastMoveTime > 20) {
+    servoMotor.write(servoAngle);
+    lastMoveTime = millis();
+    Serial.println(servoAngle);
+  }
+}
+```
+
+I had some physical difficulty adjusting the header pins, but a pair of pliers solved it. I also couldn’t get the Servo working for several minutes, because I’d tried wiring its power into the side rail power instead of the 5V output direct from the Arduino. A few lessons learned, as always!
+
+***
+
+I noticed the motor doing a lot of minor jittering from the rapidly-fluctuating analog input. To reduce wear & tear on the motor, I found [Arduino’s sensor smoothing tutorial](https://docs.arduino.cc/built-in-examples/analog/Smoothing), which I retrofitted into my code:
+
+```c
+#include "Servo.h"
+ 
+Servo servoMotor;
+
+const int numReadings = 10;
+
+int readings[numReadings];      // the readings from the analog input
+int readIndex = 0;              // the index of the current reading
+int total = 0;                  // the running total
+int average = 0;                // the average
+ 
+void setup() {
+  Serial.begin(9600);
+  servoMotor.attach(9);
+
+  // initialize all the readings to 0:
+  for (int thisReading = 0; thisReading < numReadings; thisReading++) {
+    readings[thisReading] = 0;
+  }
+} 
+ 
+void loop() {
+  // subtract the last reading:
+  total = total - readings[readIndex];
+  // read from the sensor:
+  readings[readIndex] = analogRead(A0);
+  // add the reading to the total:
+  total = total + readings[readIndex];
+  // advance to the next position in the array:
+  readIndex = readIndex + 1;
+
+  // if we're at the end of the array, wrap around to the beginning:
+  if (readIndex >= numReadings) {
+    readIndex = 0;
+  }
+
+  // calculate the average:
+  average = total / numReadings;
+
+  int servoAngle = map(average, 0, 1023, 0, 179);
+  Serial.println(servoAngle);
+  servoMotor.write(servoAngle);
+
+  // delay in between reads for stability
+  delay(25);
+}
+
+```
+
+It worked perfectly! If you compare the sound on the videos, it’s a drastic difference in how much the motor is on for.
+
+<video
+  src="https://cloud-fccqnk2ja-lachlanjc.vercel.app/smoothed.mov"
+  controls
+  playsInline
+  loop
+>Smoothed sensor readings</video>
+
