@@ -1,0 +1,49 @@
+import Song from 'react-song-embed'
+
+# Week 4 – Interactive Object project
+
+> Group members: Kline Gareth, Lachlan Campbell
+
+Kline & I are looking to make a **Halloween-themed musical chairs game**.
+
+![System](https://cloud-ian1w8isu-lachlanjc.vercel.app/system.png)
+
+3 players join for gameplay:
+
+1. We press buttons on both systems to start music. Turn Off the Light by Kim Petras is playing. All LEDs are on.
+2. 10-ish seconds go by where the players are moving
+3. The music stops, players must sit down. Last FSR to be triggered flashes its chair’s LED until it goes out.
+4. The music starts again for another duration.
+5. This repeats until there’s one winner.
+
+<Song url="https://song.link/us/i/1580722161" />
+
+## 2022-09-27: Project plan
+
+### Materials
+
+![Parts](https://cloud-ian1w8isu-lachlanjc.vercel.app/parts.png)
+
+- Arduino for powering FSR/LED interactions
+- Wires (from the shop/our personal collections)
+- Raspberry Pi (Kline’s) + Speaker (Lachlan’s)
+- Button (from the shop)
+- 3 FSRs
+- 3 large LEDs
+
+There’s a few components we need to de-risk immediately, as they could require additional materials/planning to fix:
+
+- Sitting on a chair doesn’t trigger FSR reliably; we might need more of them or to spread out the force of the sitting somehow
+- Ease of playing music to speaker via the Raspberry Pi setup. We’re thinking Raspberry Pi instead of the Arduino since the Pi has an integrated SD card, whereas Arduino can’t store the song data.
+- Speaker is loud enough/sounds good enough to contribute vibe.
+- A _bunch_ of wires are involved, to connect each chair setup. Not sure how well we can store/scale this with stiff wires.
+
+### Installation plan
+
+We haven’t figured out whether we’ll use chairs on the floor, in the classroom, or in the hallway, but we’re expecting the physical installation to be flexible, though with the difficulty of wires/attachment to the chosen chairs.
+
+## 2022-09-28: Early prototyping
+
+Kline & I assembled a basic circuit, with few of the complexity of the finished project’s features, to test FSRs & LEDs. Our afternoon felt deeply unfulfilling, as we encountered numerous technical issues with the Arduino & FSRs not working. Here’s to tomorrow!
+
+![Prototype](https://cloud-ian1w8isu-lachlanjc.vercel.app/prototype.jpeg)
