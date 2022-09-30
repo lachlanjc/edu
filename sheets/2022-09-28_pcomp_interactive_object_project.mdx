@@ -47,3 +47,104 @@ We haven’t figured out whether we’ll use chairs on the floor, in the classro
 Kline & I assembled a basic circuit, with few of the complexity of the finished project’s features, to test FSRs & LEDs. Our afternoon felt deeply unfulfilling, as we encountered numerous technical issues with the Arduino & FSRs not working. Here’s to tomorrow!
 
 ![Prototype](https://cloud-ian1w8isu-lachlanjc.vercel.app/prototype.jpeg)
+
+## 2022-09-29: Will it sit?
+
+![Circuit](https://cloud-kjl6x3t3w-lachlanjc.vercel.app/circuit.jpeg)
+
+Today our primary goal was to de-risk our first risk: **does sitting down reliably trigger the FSR?** After today’s testing, we concluded *yes*, & decided it could be made more reliable with a cushion/cardboard board to spread out the pressure from the sitter.
+
+![Chair seat](https://cloud-kjl6x3t3w-lachlanjc.vercel.app/chair_seat.jpeg)
+
+The path, as ever, was not smooth. Wiring the FSR to the breadboard turned out unexpectedly challenging; the Shop didn’t have electrical tape, so we inserted the FSR ledes in a block terminal (itself a challenge), then wired that into a secondary breadboard taped under a chair. The breadboard setup was fragile, finicky, & frustrating, plus it required a breadboard per chair, so figuring out a better connection/mounting mechanism is paramount. Having even 2 of the 12 long wires our design calls for proved the wire management concern is anything but unfounded.
+
+![View under chair](https://cloud-kjl6x3t3w-lachlanjc.vercel.app/chair_under.jpeg)
+
+In addition to preliminary physical logistics, we got started on the coding. Both coming from higher-level programming environments like JavaScript/TypeScript, we found it challenging adjusting to the limited control flow & helper functions available in the Arduino environment. Not being afraid to write more un-scalable/basic code, with a dash of GitHub Copilot, proved the way.
+
+<details>
+<summary>Code at this stage</summary>
+
+```cpp
+int led1 = 2;
+int led2 = 3;
+int led3 = 4;
+
+int activeChairs = 3;
+int currentStage = 2;
+
+bool chair1Active = false;
+bool chair2Active = false;
+bool chair3Active = false;
+
+/*
+stages:
+0 button pressed to start game
+1 playing music (no sitting detected)
+2 music pauses/sit-down mode becomes active
+3 loser declared with LEDs
+*/
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(A1, INPUT);
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
+  pinMode(led3, OUTPUT);
+}
+
+void loop() {
+  // Sit-down race
+  if (currentStage == 2) {
+    int sensor1State = analogRead(A2);
+    chair1Active = sensor1State > 32;
+    int sensor2State = analogRead(A1);
+    chair2Active = sensor2State > 32;
+    int sensor3State = analogRead(A0);
+    chair3Active = sensor3State > 32;
+    
+    Serial.print("1: ");
+    Serial.print(chair1Active);
+    Serial.print("\t");
+    Serial.print("2: ");
+    Serial.print(chair2Active);
+    Serial.print("\t");
+    Serial.print("3: ");
+    Serial.print(chair3Active);
+    Serial.println();
+
+    if ((chair1Active && chair2Active) || (chair2Active && chair3Active) || (chair1Active && chair3Active)) {
+      Serial.println("2 CHAIRS SAT ON");
+      // advance stage
+      currentStage = 3;
+
+      // declare winner
+      if (!chair1Active) {
+        Serial.println("CHAIR 1 IS LOSER");
+        digitalWrite(led1, HIGH);
+      } else if (!chair2Active) {
+        Serial.println("CHAIR 2 IS LOSER");
+        digitalWrite(led2, HIGH);
+      } else if (!chair3Active) {
+        Serial.println("CHAIR 3 IS LOSER");
+        digitalWrite(led3, HIGH);
+      }
+    }
+  }
+}
+```
+
+</details>
+
+Ending our work today, we got the most basic implementation of the game working. With the FSRs & red LEDs on the breadboard for simplicity, pressing two FSRs together makes the light next to the third illuminate & the verdict displays in the console.
+
+<video
+  src="https://cloud-kjl6x3t3w-lachlanjc.vercel.app/demo.mov"
+  controls
+  muted
+  autoPlay
+  playsInline
+  loop
+>
+  Demo
+</video>
