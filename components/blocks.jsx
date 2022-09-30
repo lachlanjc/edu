@@ -2,7 +2,6 @@
 import { jsx } from 'theme-ui'
 import React from 'react'
 import theme, { palette } from '../lib/theme'
-import YouTubePlayer from 'react-player/lib/players/YouTube'
 import CodePenEmbed from 'react-codepen-embed'
 
 export const Container = ({ wide, ...props }) => (
@@ -11,17 +10,6 @@ export const Container = ({ wide, ...props }) => (
     sx={{
       maxWidth: wide ? 'wide' : 'container',
     }}
-  />
-)
-
-export const YouTube = ({ url, ...props }) => (
-  <YouTubePlayer
-    url={url}
-    width="100%"
-    height={400}
-    controls
-    config={{ youtube: { playerVars: { showinfo: 1 } } }}
-    {...props}
   />
 )
 

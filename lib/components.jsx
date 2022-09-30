@@ -3,6 +3,7 @@ import { Button, Themed } from 'theme-ui'
 import Prism from '@theme-ui/prism'
 import Link from 'next/link'
 import { kebabCase } from 'lodash-es'
+import YouTube from 'react-lite-youtube-embed'
 
 const headingLink = {
   color: 'inherit',
@@ -43,4 +44,5 @@ export default {
       <a href={href} {...props} />
     ),
   Button,
+  YouTube,
 }

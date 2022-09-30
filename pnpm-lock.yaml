@@ -16,8 +16,8 @@ specifiers:
   react-codepen-embed: ^1.1.0
   react-dom: ^17.0.2
   react-figma-embed: ^1.0.1
+  react-lite-youtube-embed: ^2.3.1
   react-music-embed: ^1.0.1
-  react-player: ^2.11.0
   react-song-embed: ^1.0.0
   rehype-accessible-emojis: ^0.3.2
   rehype-code-title: ^1.0.0
@@ -45,8 +45,8 @@ dependencies:
   react-codepen-embed: 1.1.0_react@17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-figma-embed: 1.0.1_sfoxds7t5ydpegc3knd667wn6m
+  react-lite-youtube-embed: 2.3.1_sfoxds7t5ydpegc3knd667wn6m
   react-music-embed: 1.0.1_sfoxds7t5ydpegc3knd667wn6m
-  react-player: 2.11.0_react@17.0.2
   react-song-embed: 1.0.0_sfoxds7t5ydpegc3knd667wn6m
   rehype-accessible-emojis: 0.3.2
   rehype-code-title: 1.0.0
@@ -2157,10 +2157,6 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: false
 
-  /load-script/1.0.0:
-    resolution: {integrity: sha512-kPEjMFtZvwL9TaZo0uZ2ml+Ye9HUMmPwbYRJ324qF9tqMejwykJ5ggTyvzmrbBeapCAbk98BSbTeovHEEP1uCA==}
-    dev: false
-
   /lodash-es/4.17.21:
     resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
     dev: false
@@ -2419,10 +2415,6 @@ packages:
       uuid: 8.3.2
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /memoize-one/5.2.1:
-    resolution: {integrity: sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==}
     dev: false
 
   /merge2/1.4.1:
@@ -3086,10 +3078,6 @@ packages:
       scheduler: 0.20.2
     dev: false
 
-  /react-fast-compare/3.2.0:
-    resolution: {integrity: sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==}
-    dev: false
-
   /react-figma-embed/1.0.1_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-X2/O6QjGnpgXeSpkR/XCpbvsx0FFReoo4WTHkb78VS6DU5IEGjIXXVCo4acYpCVJsk+g9qMhrLzs4R7Vvur6LA==}
     peerDependencies:
@@ -3104,6 +3092,16 @@ packages:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: false
 
+  /react-lite-youtube-embed/2.3.1_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-14YlE6iZPHwqaQqSmwfI614qumdVAICU9PFmk34vcGnOfiixFjaATGkOfUd2TA6pFpVMP8DT2/l9ebu5/aKeag==}
+    peerDependencies:
+      react: '>=16.0.8'
+      react-dom: '>=16.0.8'
+    dependencies:
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    dev: false
+
   /react-music-embed/1.0.1_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-j6fWYt0dP+WIyp+EQlUSJjlWYC1vaKId3TYRSj6WFYJUUNPe9VgEpteYgSJpkPCFxkE/z+M358I8Nd1K8xBI/A==}
     peerDependencies:
@@ -3113,19 +3111,6 @@ packages:
     dependencies:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
-    dev: false
-
-  /react-player/2.11.0_react@17.0.2:
-    resolution: {integrity: sha512-fIrwpuXOBXdEg1FiyV9isKevZOaaIsAAtZy5fcjkQK9Nhmk1I2NXzY/hkPos8V0zb/ZX416LFy8gv7l/1k3a5w==}
-    peerDependencies:
-      react: '>=16.6.0'
-    dependencies:
-      deepmerge: 4.2.2
-      load-script: 1.0.0
-      memoize-one: 5.2.1
-      prop-types: 15.8.1
-      react: 17.0.2
-      react-fast-compare: 3.2.0
     dev: false
 
   /react-song-embed/1.0.0_sfoxds7t5ydpegc3knd667wn6m:

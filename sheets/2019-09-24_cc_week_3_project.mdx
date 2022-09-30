@@ -1,7 +1,6 @@
 import { Box } from 'theme-ui'
-import { YouTube } from '../components/blocks'
 
-# Creative Computing – Week 3: Change – Log
+# Week 3: Change – Log
 
 This week we’re combining analog input & output, stepping toward creating a meaningful interaction with a device.
 
@@ -23,7 +22,7 @@ First in `setup`, we’re beginning `Serial` communication, the in `loop` we’r
 
 (`println` puts each output on its own line, `print` outputs inline text.)
 
-```
+```c
 void setup() {
   Serial.begin(9600);
 }
@@ -48,7 +47,7 @@ Credit to [this tutorial](https://www.sunfounder.com/learn/Super-Kit-V3-0-for-Ar
 
 Remember the 2008 MacBook Pro’s sleep indicator? (Probably not, but it was, literally, lit.)
 
-<YouTube url="https://youtu.be/WLJqDhr8jgI" />
+<YouTube id="WLJqDhr8jgI" />
 
 So like that, but with an Arduino.
 
@@ -82,7 +81,7 @@ However, I had big plans. Here’s the code I was planning if the setup of the p
 
 After initializing the LED, we’d loop from 0 to 255 (off to full brightness), adjusting the brightness continuously. Then we’d loop from 255 back down to 0, hold on for a second, and the loop would restart itself. The exact timing I’d have to tweak once I saw the project in action, but I didn’t get a chance to do that, so I kept the intervals at power-of-ten integers.
 
-```
+```c
 int pin = 13;
 
 void setup() {
