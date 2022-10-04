@@ -6,8 +6,6 @@ import Song from 'react-song-embed'
 
 Kline & I are looking to make a **Halloween-themed musical chairs game**.
 
-![System](https://cloud-ian1w8isu-lachlanjc.vercel.app/system.png)
-
 3 players join for gameplay:
 
 1. We press buttons on both systems to start music. Turn Off the Light by Kim Petras is playing. All LEDs are on.
@@ -19,6 +17,8 @@ Kline & I are looking to make a **Halloween-themed musical chairs game**.
 <Song url="https://song.link/us/i/1580722161" />
 
 ## 2022-09-27: Project plan
+
+![System](https://cloud-ian1w8isu-lachlanjc.vercel.app/system.png)
 
 ### Materials
 
@@ -147,4 +147,133 @@ Ending our work today, we got the most basic implementation of the game working.
   loop
 >
   Demo
+</video>
+
+## 2022-10-04
+
+This morning I fixed last week’s incorrect LED wiring, plus I implemented an exponential fading blink-out on the LED marking the out chair, which involved writing my first custom function in Arduino code that accepts a parameter.
+
+<details>
+<summary>Code at this stage</summary>
+
+```cpp
+int led1 = 2;
+int led2 = 3;
+int led3 = 4;
+
+int activeChairs = 3;
+int currentStage = 2;
+
+bool chair1Active = false;
+bool chair2Active = false;
+bool chair3Active = false;
+
+/*
+stages:
+0 button pressed to start game
+1 playing music (no sitting detected)
+2 music pauses/sit-down mode becomes active
+3 loser declared with LEDs
+*/
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(A1, INPUT);
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
+  pinMode(led3, OUTPUT);
+}
+
+void loop() {
+  // Sit-down race
+  if (currentStage == 2) {
+    int chair1Signal = analogRead(A2);
+    chair1Active = chair1Signal > 32;
+    int chair2Signal = analogRead(A1);
+    chair2Active = chair2Signal > 32;
+    int chair3Signal = analogRead(A0);
+    chair3Active = chair3Signal > 32;
+    
+    Serial.print("1: " + String(chair1Active) + "\t");
+    Serial.print("2: " + String(chair2Active) + "\t");
+    Serial.print("3: " + String(chair3Active) + "\t");
+    Serial.println();
+
+    if ((chair1Active && chair2Active) || (chair2Active && chair3Active) || (chair1Active && chair3Active)) {
+      Serial.println("2 CHAIRS SAT ON");
+      // advance stage
+      currentStage = 3;
+
+      // declare winner
+      if (!chair1Active) {
+        // chair 1 is the loser
+        Serial.println("CHAIR 1 IS LOSER");
+        blinkToOff(led1);
+      } else if (!chair2Active) {
+        // chair 2 is the loser
+        Serial.println("CHAIR 2 IS LOSER");
+        blinkToOff(led2);
+      } else if (!chair3Active) {
+        // chair 3 is the loser
+        Serial.println("CHAIR 3 IS LOSER");
+        blinkToOff(led3);
+      }
+
+      // reset game
+      currentStage = 2;
+    }
+  }
+}
+
+void blinkToOff(int led) {
+  digitalWrite(led, HIGH);
+
+  // blink LED for 2 seconds, exponentially decreasing speed
+  for (int i = 0; i < 10; i++) {
+    digitalWrite(led, LOW);
+    delay(500 / pow(2, i));
+    digitalWrite(led, HIGH);
+    delay(500 / pow(2, i));
+  }
+
+  // turn off LED & wait 5 seconds
+  digitalWrite(led, LOW);
+  delay(5000);
+}
+```
+
+</details>
+
+<video
+  src="https://cloud-o04s7i6lv-lachlanjc.vercel.app/2022-10-04.mov"
+  controls
+  muted
+  autoPlay
+  playsInline
+  loop
+>
+  Demo with LED fade-out
+</video>
+
+After the terminal blocks caused much hassle last week, I’ve simplified the system by inserting the FSRs directly into them, then soldering long wires onto the terminal blocks for insertion into the central breadboard. This eliminates the per-chair breadboards we’d prototyped last week. The wires can be much shorter than the previous design by arranging the chair backs to form a triangle, with the “brain” in the middle. 
+
+![Triangle](https://cloud-1p87n7nww-lachlanjc.vercel.app/triangle.jpeg)
+
+Following a tip from an ITP student, I soldered a 220 resistor directly between the extension wire & the positive lede of the each LED, simplifying hardware needed on the breadboard. In total: 27 wires soldered today! All mediocre, but they work, & I became way more confident with the soldering iron.
+
+![Heatshrink](https://cloud-1p87n7nww-lachlanjc.vercel.app/heatshrink.jpeg)
+
+With that, here’s the final configuration. For installation, the masking tape proved unreliable with the wires’ desires to slither toward the ground.
+
+![Setup](https://cloud-1p87n7nww-lachlanjc.vercel.app/setup.jpeg)
+
+I play-tested without the music with two nearby Shop-pers:
+
+<video
+  src="https://cloud-1p87n7nww-lachlanjc.vercel.app/playtest.mov"
+  preload="metadata"
+  controls
+  loop
+>
+  Playtesting the project
 </video>

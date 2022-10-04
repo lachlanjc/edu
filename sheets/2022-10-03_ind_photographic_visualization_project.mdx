@@ -1,3 +1,5 @@
+import Song from 'react-song-embed'
+
 # Week 4 – Photographic visualization project
 
 Standing outside a boba shop with my roommate recently, I was accidentally blocking a nondescript door I hadn’t noticed existed. I remarked that “every door in NYC is used by someone.” Beyond that, the doors you use say a lot about your life: whether they’re fancy, glass, padlocked, service, formal, electronically-controlled. They reveal class, occupation, habits. For this project, I wanted to photograph doors I pass through in my NYU life.
@@ -17,3 +19,5 @@ The effect is live in the browser, so requires no regeneration as I take more ph
 Conveniently, iPhone records time, latitude, & longitude on every photo (alongside a host of photographic metadata, such as the lens). Using a build script inside Next.js’s [`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching/get-static-props), I used the [`exifr`](https://github.com/MikeKovarik/exifr) npm package to programmatically read the lat/lng of each photo. This made it easy to plot a map of where each photo was taken, & lowering the opacity on the pins, it revealed the frequency with which I went to locations via a geographic color visualization.
 
 ![Map](https://cloud-dtdtrx6wn-lachlanjc.vercel.app/map.png)
+
+<Song url="https://song.link/us/i/1482422208" />
