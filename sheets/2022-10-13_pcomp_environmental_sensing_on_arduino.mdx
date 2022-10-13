@@ -1,0 +1,27 @@
+# Environmental sensing on Arduino
+
+I decided to try out the [Sparkfun SHTC3 temperature & humidity sensor](https://www.sparkfun.com/products/16467) on my Arduino.
+
+Hooking up power & ground went smoothly, but my initial assumption was that the sensors connected via analog(?) inputs on the Arduino, one for temperature & one for humidity. Those were not labeled on the board or addressed in [the tutorial](https://learn.sparkfun.com/tutorials/sparkfun-humidity-sensor-breakout---shtc3-qwiic-hookup-guide) or [schematic](https://cdn.sparkfun.com/assets/8/7/2/5/2/SparkFun_Qwiic_Humidity_Temperature_SHTC3_Schematic.pdf) I referred to. There instead were inscrutable acronyms written on the board & copied on the datasheet, `SCL` & `SDA`. After puttering around a few too many minutes, I turned to the Arduino docs, where I found [this tutorial](https://docs.arduino.cc/tutorials/nano-33-iot/i2c) explaining they’re a connection protocol. Pulling up the pinout reference I refer to constantly, I discovered they’re pins on the left side. Mystery solved!
+
+Booting up their example code, the serial monitor revealed the sensor & circuit working smoothly together:
+
+```
+16:07:39.747 -> RH = 36.77%, T = 76.73 deg F
+16:07:39.945 -> RH = 36.84%, T = 76.83 deg F
+16:07:40.143 -> RH = 36.92%, T = 76.80 deg F
+16:07:40.371 -> RH = 37.03%, T = 78.48 deg F
+16:07:40.570 -> RH = 37.37%, T = 79.88 deg F
+16:07:40.767 -> RH = 38.46%, T = 80.89 deg F
+16:07:40.966 -> RH = 40.29%, T = 81.73 deg F
+16:07:41.165 -> RH = 42.66%, T = 82.43 deg F
+16:07:41.361 -> RH = 45.11%, T = 81.97 deg F
+16:07:41.558 -> RH = 47.54%, T = 81.24 deg F
+16:07:41.789 -> RH = 49.95%, T = 80.84 deg F
+```
+
+Humans like 40-60% relative humidity, & the room felt on the dry side but unremarkable, so the readings match up with my wild guestimation of the humidity on the IMA floor. I enjoyed perusing the non-math sections of [this documentation](https://sensirion.com/media/documents/8AB2AD38/61642ADD/Sensirion_AppNotes_Humidity_Sensors_Introduction_to_Relative_Humidit.pdf) explaining how the temperature/humidity sensors themselves work.
+
+[I’ve written before](https://notebook.lachlanjc.com/2021-08-23_priotize_optimization_axes_on_the_web) about how good design takes into account the context in which its used, from ambient light brightness & color mode preference & display color gamut to window size to battery & mobile data preferences. Temperature & relative humidity are not available to web products, but they are on physical ones! For example, iPhone uses internal thermometers to let you know when the device is overheating & cannot safely operate, encouraging you to cool it down. This is a much better user experience than letting the device get fried silently. (It doesn’t play a sizzling sound effect, because Apple is elegant, but my hardware projects could.)
+
+Up next: I [used these sensor readings on a website!](/2022-10-13_pcomp_connecting_arduino_to_p5)
