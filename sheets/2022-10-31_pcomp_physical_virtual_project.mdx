@@ -1,0 +1,20 @@
+# Physical Virtual Project
+
+## 2022-10-31: Idea
+
+Background: The world has a limited supply & increasing demand for potable freshwater. Long-term, renewable energy will make electricity cheap & abundant, and we’ll scale industrial-scale desalination alongside rain harvesting, toilet-to-tap, and other technologies to provide the water supply we need. But before those plants come online & while it’s prohibitively expensive—particularly in regions with conflict & not a lot of high-tech infrastructure—and as more unpredictable, intense droughts strike areas around the earth, there will be conflict & rising prices on fresh water.
+
+My project imagines life in a drought-stricken place a decade from now, in 2032, where water has become scarce & expensive, through a callous commentary on how we treat each other. The price of water will rapidly fluctuate, and you have to decide when to buy it, but you’ll always get screwed by the rising/fluctuating prices. The player of this game will not be able to see the screen, but only get audio feedback & have the physical components in-hand, while the audience will see the screen & watch the player.
+
+The p5 sketch:
+
+- Shows the current price of water as it rapidly changes
+- Announces the new price every few seconds with Web Speech, not explicitly stating the change but relying on the player to mentally diff the price & decide if now is a good time to buy
+    - The price will change faster than announced, commenting on the poor digital infrastructure we expect from the government/institutions
+- Shows the audience how much the player has bought of what they need before they dehydrate
+
+The physical components:
+
+- A “button” (potentially made of a water bottle with a force(?) sensor inside it) for buying water
+- Communicates with the p5 sketch for input & output
+- Status LEDs showing how much of the necessary water is purchased
