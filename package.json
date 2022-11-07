@@ -20,6 +20,7 @@
     "@next/mdx": "^12.3.1",
     "@theme-ui/preset-base": "^0.14.7",
     "@theme-ui/prism": "^0.14.7",
+    "@vercel/og": "^0.0.20",
     "contentlayer": "^0.2.8",
     "lodash-es": "^4.17.21",
     "next": "^12.3.1",

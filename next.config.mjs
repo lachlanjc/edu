@@ -14,7 +14,6 @@ const config = withContentlayer({
   },
   async rewrites() {
     return [
-      { source: '/feed.xml', destination: '/_next/static/feed.xml' },
       {
         source: '/one_day_this_kid',
         destination:
