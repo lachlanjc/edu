@@ -32,9 +32,9 @@ export const getStaticProps = ({ params }) => {
   const sheets = orderBy(
     allSheets
       .filter(sheet => sheet.course === course)
-      .map(sheet => pick(sheet, ['slug', 'course', 'name', 'date'])),
-    ['date', 'course', 'name'],
-    ['desc', 'desc', 'asc'],
+      .map(sheet => pick(sheet, ['slug', 'name', 'date'])),
+    ['date', 'name'],
+    ['desc', 'asc'],
   )
   course = COURSES[course]
 
