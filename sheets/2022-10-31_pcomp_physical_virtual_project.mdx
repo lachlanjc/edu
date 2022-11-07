@@ -1,5 +1,71 @@
 # Physical Virtual Project
 
+## 2022-11-05: Almost there
+
+I nearly finished the software today! The core game mechanic wasn’t there before—you could run out of water, but there was no constraining force on your budget, which is a key aspect of the commentary. Thus, I added a budget that changes alongside your hydration level, giving you consistent income that’s just never enough to live long. I played a bunch with the numbers, and the game may be too hard, as a typical run is around 2 days in the game. The price of water in this simulation is random, though I’m starting it at an outrageous $24.
+
+![Screenshot showing budget, price of water, and hydration](https://cloud-58z1gvs20-lachlanjc.vercel.app/price_hydration_budget.png)
+
+I modified the “game over” screen to have two outcomes: dehydration & bankruptcy, which an automated voice alerts you gleefully. (I’ve got a bug where it repeats this on loop instead of allowing you to play again; to fix tomorrow.)
+
+![Dehydrated](https://cloud-58z1gvs20-lachlanjc.vercel.app/dehydrated.png)
+
+While the original idea called for hydration status LEDs, with the introduction of the budget concept in the software, reading 3 separate numbers aloud will be more confusing & frustrating to interact with than intriguing commentary; if you’re already looking at the screen, having status LEDs isn’t relevant. This cuts scope from the physical aspect of the project, unfortunately.
+
+For the physical control, I need a glorified button. I want a physical water bottle on a platform you pick up to purchase water, then set back down. I got a [read switch](https://en.wikipedia.org/wiki/Reed_switch) for this project, and an accompanying magnet to put in a small plastic water bottle I was given recently. I wired up the read switch on my breadboard & wrote a tiny program to output its value to test the interaction with the water bottle.
+
+![Circuit](https://cloud-58z1gvs20-lachlanjc.vercel.app/circuit.jpeg)
+
+I want the sensor to be hidden inside a cardboard(?) platform, and Priyanka helped me think through how to wire that: solder each end to a long wire (reused from my [interactive object](/2022-09-28_pcomp_interactive_object_project)), heatshrink both joints to prevent interference inside the platform, then connect both ends to the breadboard. I soldered, covered the joints, cut two squares of cardboard, & then taped the wiring down.
+
+![Soldered read switch with heatshrinks](https://cloud-58z1gvs20-lachlanjc.vercel.app/soldered.jpeg)
+
+Luckily, the magnet is strong enough to work fine, even with the water bottle full of water, through the plastic and cardboard. I found it triggered events decently reliably when I picked up the water bottle, but there was a lot of noise in the sensor readings, which would result in perishing in the game. I followed the [Arduino Debounce tutorial](https://www.arduino.cc/en/Tutorial/Debounce) to not trigger events in quick succession:
+
+```cpp
+int buttonState;
+int lastButtonState = HIGH;
+
+unsigned long lastDebounceTime = 0;
+unsigned long debounceDelay = 50;
+
+void setup() {
+  Serial.begin(100);
+  while(Serial == false){};
+  pinMode(2, INPUT);
+}
+
+void loop() {
+  int reading = digitalRead(2);
+
+  if (reading != lastButtonState) {
+    lastDebounceTime = millis();
+  }
+ 
+  if ((millis() - lastDebounceTime) > debounceDelay) {
+    if (reading != buttonState) {
+      buttonState = reading;
+      Serial.println(reading);
+      if (reading == LOW) {
+        Serial.println("buy");
+      }
+    }
+  }
+
+  lastButtonState = reading;
+}
+```
+
+I added serial communication to the game, which is not yet working for reasons I can’t discover through any debugging means I tried for an hour. I might try a wholly different serial library; it’s essential this works.
+
+At the end of today, the project is *close*, with the Arduino firing off buy events and the software listening for them & responding correctly, the link just isn’t working, which is frustrating.
+
+## 2022-11-03: Game underway!
+
+I haven’t started on the physical components yet, but I’ve got much of the basics in place for the software. It’s a p5 sketch that I’m running with the spacebar instead of a physical controller while I test it. I’ve got a fluctuating price for the water and a hydration level out of 4 (since humans, generously, need 4 liters of water a day). There’s one UI detail I like, where when you’re on your last bottle of water, it shakes in place.
+
+![Price and hydration screenshot](https://cloud-58z1gvs20-lachlanjc.vercel.app/price_and_hydration.png)
+
 ## 2022-10-31: Idea
 
 Background: The world has a limited supply & increasing demand for potable freshwater. Long-term, renewable energy will make electricity cheap & abundant, and we’ll scale industrial-scale desalination alongside rain harvesting, toilet-to-tap, and other technologies to provide the water supply we need. But before those plants come online & while it’s prohibitively expensive—particularly in regions with conflict & not a lot of high-tech infrastructure—and as more unpredictable, intense droughts strike areas around the earth, there will be conflict & rising prices on fresh water.
