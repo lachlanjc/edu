@@ -1,6 +1,39 @@
 # Physical Virtual Project
 
-## 2022-11-05: Almost there
+## 2022-11-08: Playtesting
+
+Playtested the game today! I unwrapped the sensor from the cardboard to improve the reliability of the read switch, at the sacrifice of aesthetics. Here’s Priyanka:
+
+<video
+  src="https://cloud-m1arse8a8-lachlanjc.vercel.app/priyanka.mov"
+  controls
+  muted
+  playsInline
+>
+  Priyanka playing the water game
+</video>
+
+Several themes emerged in my observations/the feedback:
+
+- UI isn’t clear enough. I explained the concepts of the game verbally, but many players went through several rounds of the game before they understood the elements & how they interact.
+- The interaction I chose—picking up the water bottle—was foreign/strange. Players expected putting the bottle down to execute another action, or that the height of the bottle would correspond to something.
+- The magnetic switch isn’t reliable enough. While choosing an unreliable mechanism was part of the game, having it not work several times in a row because the magnet moved inside the bottle is more frustrating that incisive commentary.
+- Purchasing water, the primary dynamic of the game, didn’t get enough prominence in the UI—it requires focus to notice the drops filling in. A full-screen animation on change, and a more prominent “progress bar” design, would help.
+- I got notes that it’s strange that the budget increases without taking any action for work. This was an intentional choice on my part, as if there was some interaction to do “work” to make money, it needs to have a counter-acting force (such as how the price of water has the counter-acting force of your limited budget), but it’s something to consider.
+
+The audience found it “anxiety-inducing,” “scary,” “nerve-wracking,” “high-concept,” & “addictive” (on the last one, several players returned to play more rounds). None of that was surprising but I’m glad the concept landed. Folks seemed to resonate with the message; though when they articulated it, they focused more on resource conservation, which wasn’t an explicit aspect, it’s logical & nonetheless on-theme.
+
+## 2022-11-07: Serial killing
+
+Made assorted improvements & bug fixes to the game, including discovering the p5 speech library’s `.interrupt = true` option, which allows the speaker to interrupt themselves, which was useful for the “game over” announcement. I used p5’s `noLoop()` to ensure this announcement wouldn’t be read aloud repeatedly.
+
+But the main problem persisted: an unreliable serial connection. I restarted my Mac, and the serial connection magically began working again. After restarting the browser or reloading the page, though, it stopped working: it would connect to the Arduino port, but the `serialEvent()` function would never be called again. The Mac restart being the only fix made me consider if it was a Mac USB issue, but macOS doesn’t make restarting USB easy. I removed the USB adapter in favor of a direct cable, but that didn’t help. After over an hour of messing around, resetting permissions, and re-flashing the Arduino code countless times, I nearly gave up. (It was 2:30 AM.) Going back to first principles, I decided to look up the raw [web serial docs](https://web.dev/serial/), popping a listener in my console to print when serial events were coming into the *browser*, not when they were processed by p5. Alas, the events were coming in!
+
+I started getting to work writing my own adapter for the vanilla serial API, but the data doesn’t come in in strings, and I realized it might take too long. On GitHub, I found [`@gohai/p5.webserial`](https://github.com/gohai/p5.webserial/), an alternative library with a smaller API surface area. I rewrote my serial code to use this library instead, and it worked seamlessly! I can’t discern what the precise bug in the previous serial library was, but it was confirmed the source. With the new library, the unreliability was coming from the read switch magnets but not the software, as intended.
+
+I switched the game to a ~~monospace~~ [duospaced](https://ia.net/topics/in-search-of-the-perfect-writing-font) font, since Avenir felt too polished previously.
+
+## 2022-11-05: So close, yet so far
 
 I nearly finished the software today! The core game mechanic wasn’t there before—you could run out of water, but there was no constraining force on your budget, which is a key aspect of the commentary. Thus, I added a budget that changes alongside your hydration level, giving you consistent income that’s just never enough to live long. I played a bunch with the numbers, and the game may be too hard, as a typical run is around 2 days in the game. The price of water in this simulation is random, though I’m starting it at an outrageous $24.
 
