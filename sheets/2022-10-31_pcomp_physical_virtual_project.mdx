@@ -1,4 +1,53 @@
+import { Glitch } from '../components/blocks'
+
 # Physical Virtual Project
+
+It’s 2032 & there’s a record-setting drought—so drinking water has become scarce & expensive. In this game, the price of water rapidly fluctuates, you have a limited budget, and you need to decide when to buy the water you need to survive, buying 4 liters per day but no more. In the end, there’s no winning: once we’re bidding against each other for human necessities, we’ve collectively lost.
+
+In person, this project came with a physical water bottle controller, which you lift off a magnetic platform to buy water. If you’re visiting online, press the space bar instead.
+
+Game (click <kbd>View Source</kbd> for JS code):
+
+<Glitch src="https://glitch.com/embed/#!/embed/water-bidding?path=script.js%3A1%3A0&previewSize=100" />
+
+<details>
+<summary>Arduino code</summary>
+
+```cpp
+int buttonState;
+int lastButtonState = HIGH;
+
+unsigned long lastDebounceTime = 0;
+unsigned long debounceDelay = 50;
+
+void setup() {
+  Serial.begin(9600);
+  while(Serial == false){};
+  pinMode(2, INPUT);
+}
+
+void loop() {
+  int reading = digitalRead(2);
+
+  if (reading != lastButtonState) {
+    lastDebounceTime = millis();
+  }
+ 
+  if ((millis() - lastDebounceTime) > debounceDelay) {
+    if (reading != buttonState) {
+      buttonState = reading;
+      Serial.println(reading);
+      if (reading == LOW) {
+        Serial.println("buy");
+      }
+    }
+  }
+
+  lastButtonState = reading;
+}
+```
+
+</details>
 
 ## 2022-11-08: Playtesting
 
