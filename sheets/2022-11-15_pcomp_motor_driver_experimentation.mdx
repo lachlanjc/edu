@@ -1,0 +1,117 @@
+# Motor Driver Experimentation
+
+Today I experimented with connecting a motor driver to the Arduino. Here’s the circuit I used:
+
+![Circuit](https://cloud-6r6ed5bfl-lachlanjc.vercel.app/circuit.jpeg)
+
+While initially I had the motor turn on only when the button is depressed, I switched it to be on all the time, changing directions & speed using PWM when the button is pressed.
+
+<video
+  src="https://cloud-6r6ed5bfl-lachlanjc.vercel.app/motor_basic.mov"
+  controls
+  muted
+  autoPlay
+  playsInline
+  loop
+>
+  Motor with basic button control
+</video>
+
+<details>
+
+<summary>Code for this demo:</summary>
+
+```cpp
+const int switchPin = 2;    // switch input
+const int motor1Pin = 3;    // Motor driver leg 1 (pin 3, AIN1)
+const int motor2Pin = 4;    // Motor driver leg 2 (pin 4, AIN2)
+const int pwmPin = 5;       // Motor driver PWM pin
+
+void setup() {
+  // set the switch as an input:
+  pinMode(switchPin, INPUT); 
+
+  // set all the other pins you're using as outputs:
+  pinMode(motor1Pin, OUTPUT);
+  pinMode(motor2Pin, OUTPUT);
+  pinMode(pwmPin, OUTPUT);
+
+  // set PWM enable pin high so that motor can turn on:
+  digitalWrite(pwmPin, HIGH);
+}
+
+void loop() {
+  // if the switch is depressed, motor will turn on one direction slowly:
+  if (digitalRead(switchPin) == LOW) {
+    analogWrite(pwmPin, 72);
+    digitalWrite(motor1Pin, LOW);   // set leg 1 of the motor driver low
+    digitalWrite(motor2Pin, HIGH);  // set leg 2 of the motor driver high
+  }
+  // if the switch is low, motor will turn in the other direction quickly:
+  else {
+    analogWrite(pwmPin, 255);
+    digitalWrite(motor1Pin, HIGH);  // set leg 1 of the motor driver high
+    digitalWrite(motor2Pin, LOW);   // set leg 2 of the motor driver low
+  }
+}
+```
+
+</details>
+ 
+---
+
+For an extra challenge, I wanted to add a potentiometer to control the speed, leaving the button to control direction. Reviewing how I wired/coded a potentiometer [week 2](/2022-09-19_pcomp_arduino_input_and_output), Sophie-Ana and I configured that:
+
+<video
+  src="https://cloud-6r6ed5bfl-lachlanjc.vercel.app/motor_pot.mov"
+  controls
+  muted
+  autoPlay
+  playsInline
+  loop
+>
+  Motor with potentiometer control
+</video>
+
+<details>
+
+<summary>Code for this demo:</summary>
+
+```cpp
+const int switchPin = 2;    // switch input
+const int motor1Pin = 3;    // Motor driver leg 1 (pin 3, AIN1)
+const int motor2Pin = 4;    // Motor driver leg 2 (pin 4, AIN2)
+const int pwmPin = 5;       // Motor driver PWM pin
+int dialValue = 0;          // Current value from pot
+
+void setup() {
+  // set the switch as an input:
+  pinMode(switchPin, INPUT); 
+
+  // set all the other pins you're using as outputs:
+  pinMode(motor1Pin, OUTPUT);
+  pinMode(motor2Pin, OUTPUT);
+  pinMode(pwmPin, OUTPUT);
+
+  // set PWM enable pin high so that motor can turn on:
+  digitalWrite(pwmPin, HIGH);
+}
+
+void loop() {
+  dialValue = analogRead(A0);
+  analogWrite(pwmPin, 255 - (dialValue / 4));
+  // if the switch is depressed, motor will turn in one direction:
+  if (digitalRead(switchPin) == LOW) {
+    analogWrite(pwmPin, 72);
+    digitalWrite(motor1Pin, LOW);   // set leg 1 of the motor driver low
+    digitalWrite(motor2Pin, HIGH);  // set leg 2 of the motor driver high
+  }
+  // if the switch is low, motor will turn in the other direction:
+  else {
+    digitalWrite(motor1Pin, HIGH);  // set leg 1 of the motor driver high
+    digitalWrite(motor2Pin, LOW);   // set leg 2 of the motor driver low
+  }
+}
+```
+
+</details>
