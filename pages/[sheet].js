@@ -37,7 +37,7 @@ export default function Sheet({ sheet, course }) {
           >
             Posted {formatDate(new Date(sheet.date))}{' '}
             <a
-              href={`https://github.com/lachlanjc/ima/blob/glitch/sheets/${sheet.slug}.mdx`}
+              href={`https://github.com/lachlanjc/edu/blob/glitch/sheets/${sheet.slug}.mdx`}
             >
               via GitHub
             </a>
