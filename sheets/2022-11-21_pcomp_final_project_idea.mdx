@@ -1,0 +1,42 @@
+# Final Project Idea
+
+**The Energy Transition: The Game.** Builds on the [water project](/2022-10-31_pcomp_physical_virtual_project) concepts, but more complicated, more nuanced, and has more positive outcomes. You need to decarbonize the energy grid (coal + gas + solar + wind) as the years tick by to minimize CO2 over time. You have certain table area & you decide how to allocate resources by laying down physical pieces like solar panels.
+
+Gameplay:
+
+- You’ll have a limited table area within which to play. (This is a critical constraint, as we can’t immediately take over all land area to cover with solar panels.) There’s energy source pieces on the table, then a digital display with the results.
+- You’ll start with a few energy sources on the board, e.g. 2 coal, 2 gas, 1 solar, 1 wind. (I’m going to do a lot of board-resetting while presenting.)
+- You need to get carbon output down while increasing total energy capacity. You do this by choosing & placing down energy source blocks from the side.
+    - If you take too much energy capacity offline (to reduce carbon), or fail to build fast enough, the game ends early, because you didn’t meet the needs of the population.
+- The year will be displayed prominently onscreen. It increases as time ticks by, so each game doesn’t take more than N0 seconds, and stalling without doing anything increases carbon, doesn’t meet energy needs, & you’ll lose.
+- The screen will be colored based on carbon. Increasing the carbon output/not decreasing its arc fast enough.
+- The background will have a graph of carbon output, ideally with a projected curve of where your current system will land you (since the rate changes with the different energy sources installed). Imagine styled like my (outdated) site https://co2.vercel.app.
+
+There’s a wide variety of scientific/technical/economic concepts related to the energy transition I plan to build into the design of the game, such as:
+
+- Energy density: solar panels take up more space to produce the same energy as a coal plant
+- Compounding costs/benefits: the longer the coal is in operation the more damage it does
+- Cost curves: solar gets cheaper through the game, whereas coal doesn’t, but replacing existing energy infra upfront costs more
+- Increasing energy needs: technologies like carbon removal, electrification of home appliances & vehicles & transit, and increasing population demand more electricity
+
+Questions abound for further thinking:
+
+- There’s a *lot going on here*, likely too much to grasp quickly.
+- How do you know when you install more energy what the consequences are? Visual guide onscreen to the cost/benefit of each one?
+- How do we measure carbon? PPM in the atmosphere, or carbon output of your energy grid since the game started?
+- Budget on the water game was random; we decide politically how much to allocate to the energy transition. I could use a randomly-changing budget like the water game as a guiding force. Do we need a visible budget, or could it be a hidden constraint, e.g. you get a warning & game ends if you install a lot quickly, but it’s not onscreen?
+- Is energy capacity worth measuring as a number onscreen (e.g. you have X TWh, you need Y in 10 years)? Does that land or is it overcomplicated? People found it difficult to track 3 numbers in the water game, & if either budget or energy capacity can be less visible, such as by working them into status text instead of as constant numerical readouts, that’d make this less overwhelming.
+- Is it worth/how do I communicate both land area needs & energy density of each piece? The land area is easy (size of pieces on the limited board size), but the density is less obvious (how do you communicate that taking a coal plant offline reduces energy capacity a lot?).
+- When the game ends, you could see either the positive outcomes of your choices (lives saved/years added to population via health improvements, jobs created, etc) or negative; this is extra scope & not clear how it changes the game dynamic.
+
+Technical details:
+
+- Game pieces will be custom designs laser-cut/fabricated; not sure what materials make sense for each one.
+    - Coal/gas: wood shapes?
+    - Solar: In my fabrication class I [designed & laser cut solar panels](/2022-11-18_fab_laser_cutting) last week, though I’ll find a different material than cardboard or wood for them. Laminate or shiny navy paint on metallic acrylic could look great.
+    - Wind: metallic or shiny acrylic?
+- Arduino & sensors for inputs, no physical outputs. This is the pattern I settled on with the water project, because I don’t have the skills to achieve high-enough-fidelity physical outputs for a great experience.
+- I’m not sure how to build the sensing of game pieces. Read switches work for detecting whether there’s a piece *present*, but not what *kind* of piece (e.g. solar vs coal), unless I can position them differently inside each piece or segment off the space for each energy type (less realistic, less flexible gameplay). Cameras get blocked by hands & tracking is harder. Need to figure this out.
+- Outputs will be onscreen for flexibility. There’s the year, the carbon trend, either the budget or energy capacity or just status text that works them in, and a legend with the consequences of each energy source.
+    - While p5 worked fine for the water game, I may switch to React/a more complex web setup for superior state management & rendering abilities.
+    - I’d love to make a digital backdrop more nuanced than pure saturated color, e.g. moving clouds all colored the hue of your carbon pathway. This is not crucial.
