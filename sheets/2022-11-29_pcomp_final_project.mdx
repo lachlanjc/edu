@@ -1,0 +1,68 @@
+# Final Project: Energy Transition Game
+
+## 2022-11-29
+
+I haven’t found a set of icons covering energy transition-related objects that’s consistent & high-quality, so for this game I’ve made my own. I started by using [Bootstrap Icons](https://icons.getbootstrap.com/) as a source—one of my favorite open source sets—but for wind, coal, & gas wanted to make custom ones. I’ve done icon design for [Supercons](http://supercons.vercel.app/) before, which taught me a ton (such as how time-consuming & labor-intensive making these simple shapes is), but these needed more custom components instead of recycling existing pieces from other icons. Pretty thrilled with how they turned out, they look somewhat professional!
+
+![Iconography](https://cloud-pgiirzz9b-lachlanjc.vercel.app/iconography.png)
+
+I went overboard with my implementation of the icons on the site, adding a microinteraction for an animation on hover to the wind turbine. In the process, I leveled up my [Tailwind CSS](https://tailwindcss.com) skills. I wrote about the process & technical details [on my Notebook](https://notebook.lachlanjc.com/2022-11-30_animating_an_icon_with_tailwind_css).
+
+<video
+  src="https://cloud-pgiirzz9b-lachlanjc.vercel.app/microanimation.mp4"
+  muted
+  autoPlay
+  playsInline
+  loop
+>
+  Microinteraction: animation of turbine blades turning on hover
+</video>
+
+## 2022-11-28
+
+I try to learn a new library or technology with each project. With the water game, I struggled with state management: a bunch of global JS variables quickly grew intertwined & difficult to reason about. In previous React project’s I’ve always used React’s built-in state/effect hooks for state management, but this project became the perfect time to try something new. I wrote an initial state machine with [Zustand](https://github.com/pmndrs/zustand). I found the model, both mentally & in code, much clearer than the mix of state & effects the hooks solution would’ve entailed, because it separated *actions in game state* from *how those actions occur*, much less *UI results of state*, which is where I’ve found this get messy in P5 or with plain hooks. Here’s the TypeScript types of the basic state I laid out:
+
+```ts
+export type SourceName = 'solar' | 'wind' | 'coal' | 'gas'
+
+interface Source {
+  source: SourceName
+  price: number
+  // t2co2e per year
+  co2Rate: number
+  // Whether it’s active or decommissioned
+  active: boolean
+}
+
+// define types for state values and actions separately
+type State = {
+  year: number
+  budget: number
+  message: string
+  installed: Array<Source>
+  sources: Record<SourceName, Omit<Source, 'source' | 'active'>>
+  emissions: Record<number, number>
+}
+
+type Actions = {
+  reset: () => void
+  tickYear: () => void
+  isGameOver: () => boolean
+  getTotalCapacity: () => number
+  getYearEmissions: () => number
+  getLifetimeEmissions: () => number
+  getLifetimeCapacityOfSource: (src: SourceName) => number
+  purchase: (src: SourceName) => void
+  decomission: (src: SourceName) => void
+}
+```
+
+## 2022-11-27
+
+I was intending to find gravel to spray-paint gray to serve as coal, but my dad mentioned genuine coal has a unique appearance. I went to [Nature’s Cover](https://www.naturescover.com/) outside my hometown in central PA to find some. I was shocked **coal is just 19¢ per lb**—that’s the cost of extraction, at least. (I didn’t even have to pay for my small bag of coal because it’d only be a few cents.) He was right, it looks super cool:
+
+![Coal](https://cloud-pgiirzz9b-lachlanjc.vercel.app/coal.jpeg)
+
+This coal is from [Blaschak Anthracite](https://www.blaschakcoal.com/) in eastern PA, which I found on a map:
+
+![Mine](https://cloud-pgiirzz9b-lachlanjc.vercel.app/mine.jpeg)
