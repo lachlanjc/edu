@@ -37,9 +37,7 @@ export default {
   ),
   a: ({ href, ...props }) =>
     href.startsWith('/') ? (
-      <Link href={href} passHref>
-        <a {...props} />
-      </Link>
+      <Link href={href} {...props} />
     ) : (
       <a href={href} {...props} />
     ),

@@ -8,7 +8,7 @@ export default function FourOhFour() {
     <Layout>
       <Themed.h1>404</Themed.h1>
       <Embed url="https://song.link/us/i/407227946" height={400} />
-      <Link href="/" passHref>
+      <Link href="/" passHref legacyBehavior>
         <Button as="a" sx={{ mt: 4 }}>
           View all posts →
         </Button>

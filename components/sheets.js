@@ -17,7 +17,7 @@ const SheetList = ({ sheets, hideCourses = false }) => (
   >
     {sheets.map(({ name, course, date, slug }) => (
       <li key={slug}>
-        <Link href={`/${slug}`} passHref>
+        <Link href={`/${slug}`} passHref legacyBehavior>
           <A
             sx={{
               display: 'grid',

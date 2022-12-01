@@ -3,7 +3,7 @@ import { Flex } from 'theme-ui'
 import Icon from 'components/icon'
 
 const BackButton = ({ icon = 'back', text = 'Back', href = '/' }) => (
-  <Link href={href} passHref>
+  <Link href={href} passHref legacyBehavior>
     <Flex
       as="a"
       sx={{

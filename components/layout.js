@@ -1,5 +1,5 @@
 /** @jsxImportSource theme-ui */
-import { Box, BaseStyles, Flex, useColorMode } from 'theme-ui'
+import { Box, Flex, useColorMode } from 'theme-ui'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Avatar from './avatar'
@@ -104,7 +104,7 @@ const Layout = ({ xl, sx, ...props }) => {
         }}
       >
         <Avatar />
-        <Link href="/" passHref>
+        <Link href="/" passHref legacyBehavior>
           <a
             sx={{
               fontWeight: 'bold',
