@@ -1,4 +1,91 @@
-# Final Project: Energy Transition Game
+# Final Project
+
+![Decarbonize cover](https://cloud-1ex5adhbm-lachlanjc.vercel.app/decarbonize-cover.png)
+
+In the upcoming decades, the US needs to both dramatically grow the capacity of our electric grid while simultaneously transitioning it to carbon-free energy, including solar and wind. In this interactive board game, you’re in the driver’s seat: install electricity to meet demand while keeping carbon emissions and energy prices down.
+
+The game runs on a mounted iPad with the physical board and pieces set in front of the iPad. The board pieces are laser cut cardboard with custom iconography for each of four energy sources: coal, gas, solar, and wind. The bottom/back of each piece has a barcode on it; the iPad scans the barcode as a purchase mechanism (think: store self-checkout). As both supply (electricity sources you install) & demand (automatically calculated to tick up through the game) change, consumer energy prices change. If you fail to grow the grid on pace, the game ends early, but the exercise of choosing the carbon trajectory of your grid lets players see the benefits/consequences of different paths we can choose as a society for our energy infrastructure.
+
+<Button as="a" href="https://decarbonize-the-game.vercel.app">Open the game</Button>
+
+If you’re playing without the physical game pieces, use keyboard shortcuts instead of the camera scanning to purchase additional energy sources: <kbd>a</kbd> (solar), <kbd>s</kbd> (wind), <kbd>d</kbd> (coal), <kbd>f</kbd> (gas).
+
+<Button as="a" href="https://github.com/lachlanjc/decarbonize-the-game">Code on GitHub</Button>
+
+## 2022-12-08
+
+I demoed to the Physical Computing class! Scanning went much better & people had positive feedback.
+
+I also went to the NYU Game Center’s Playtest Thursday to get feedback and watch how people interact with the game. Nothing like a dose of seeing other people try it to remind you how unplayable your game is. I got a great set of feedback:
+
+- Label axes of the chart
+- When scan is success, more visual fanfare
+- Sounds are too quiet (& won’t be heard during the show)
+- Chart & numbers overlap; move live numbers to the upper left
+- Is this going well? Hard to tell. Needs clearer goal/objective
+- Expand units, symbolize with electricity icon & thermometer icon
+- Alert users if the camera feed is blurry
+- The first player installed all the renewables & asked why they’d do anything else
+- Ending reflection is needed
+- Lengthen intro; people kept immediately losing. Game feels fast-paced
+- Add nuclear?
+- You run out of game pieces, not board space, so the energy density concept of having larger pieces doesn’t land
+
+I implemented several of these changes during playtesting, and found that e.g. moving the numbers then put them behind the game pieces being held up for scanning. Never a simple solution!
+
+I also had an idea for tomorrow: installing solar & wind is not carbon-free, even if the operation of it is. It’ll make the carbon graph more exciting to get bumps in the renewable installation years.
+
+## 2022-12-07
+
+After the scanning failed on Monday, I entirely rewrote it. I switched off the libraries I had been using to [quagga2](https://github.com/ericblade/quagga2), written as a [custom React hook](https://github.com/lachlanjc/decarbonize-the-game/tree/main/app/scanner.tsx). It raised the success rate an order of magnitude, so was super worthwhile.
+
+## 2022-12-06
+
+I wrote [a reflection on the project](/2022-12-06_gw_final_reflection) so far for my Green World class.
+
+I acquired hand wipes for players to use with the physical coal pieces, which I’m yet to make.
+
+## 2022-12-05
+
+I doubled the number of game pieces, and attached the bar codes. It took way longer than I expected, I did catch one piece of cardboard on fire, and the laser cutter failed to cut out the cardboard pieces, so I painstakingly X-acto knife cut them out manually. Printing out the barcodes and using the laser cutter to cut them out worked seamlessly, except for the code in the upper left of my sheets, which the ventilation system sucked away, requiring me to do several rounds.
+
+![Cutouts](https://cloud-n5kame4iu-lachlanjc.vercel.app/cutouts.jpeg)
+
+The shop ran out of glue sticks, leading me to use tacky glue which took longer and provided more wrinkles. Alas. A full set of game pieces is finished.
+
+![Gluing](https://cloud-n5kame4iu-lachlanjc.vercel.app/gluing.jpeg)
+
+Tonight was demo day/play testing day 1! I presented for my Green World class. The demo went well, except the camera-based checkout mechanism fell flat on its face, working less than 10% of the time. This surprised me as the scanning proved reliable during testing, but the game pieces I used for demo were the new batch. The room lighting, size of bar codes, and focus distance of the iPad camera compared to the MacBook I tested on could all have been factors in the failure during the demo. This needs a wholehearted revisit, in whether it’s viable at all and my specific implementation.
+
+People loved the concept, though, and the live interaction. The units were unfamiliar (kWH, tCO2), and evidently too complex as a whole, requesting an onboarding tutorial and an explanation guide. This wasn’t surprising feedback.
+
+[Here’s the software as of now](https://decarbonize-the-game-nni1j8rsm-lachlanjc.vercel.app/).
+
+## 2022-12-04
+
+Called my game designer friend Chris this afternoon for a quick consultation on why this project isn’t compelling. The budget is not a true constraint right now, and the pricing system doesn’t contribute enough to be worth the complexity. He suggested the idea of switching from purchase prices to managing the consumer price of electricity, which I implemented with a deeply basic algorithm.
+
+To make the game more playable in isolation, I added in-game messaging to guide you through various interactions. This makes the onramp easier without a formal level system. Unfortunately, the way I’ve written it has a bunch of state bugs & conflicts I need to work out.
+
+I prepped my Illustrator docs & booked the laser cutter for tomorrow, so I can make more game pieces, print out the barcodes, then laser cut the paper sheets of barcodes to glue onto the backs. By laser cutting the paper, the edges can match precisely, backing the pieces with the white paper, leaving a more consistent appearance.
+
+![Barcodes and pieces laid out in Illustrator](https://cloud-1ex5adhbm-lachlanjc.vercel.app/codes_and_pieces.png)
+
+## 2022-12-03
+
+Added sounds today, for when additional capacity is needed and when scanning goes successfully, following [Josh Comeau’s excellent article](https://www.joshwcomeau.com/react/announcing-use-sound-react-hook/) & hook. I ran into issues with Zustand’s subscription middleware, so the “additional capacity necessary” sound occasionally fires at the wrong time.
+
+## 2022-12-02
+
+The game is complex yet uncompelling right now—not a great combination. I built out the scanning mechanism today, using [react-webcam](https://github.com/mozmorris/react-webcam) for the camera feed and [zxing](https://github.com/zxing-js/library) for barcode processing. It clicked into place quickly.
+
+## 2022-12-01
+
+I implemented a virtual representation of the board to make testing concepts easier. CSS [`grid-auto-flow: dense;`](https://css-tricks.com/the-auto-flowing-powers-of-grids-dense-keyword/) came in handy!
+
+![Virtual board](https://cloud-1ex5adhbm-lachlanjc.vercel.app/virtual_board.png)
+
+![Pieces in Illustrator](https://cloud-1ex5adhbm-lachlanjc.vercel.app/pieces_illustrator.png)
 
 ## 2022-11-29
 

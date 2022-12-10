@@ -14,8 +14,8 @@ export default function IndexPage({ sheets }) {
       <Paragraph
         sx={{ color: 'secondary', mt: 1, mb: 4, a: { color: 'inherit' } }}
       >
-        <a href="https://lachlanjc.com">@lachlanjc</a>’s coursework for
-        Interactive Media Arts @ NYU.
+        <a href="https://lachlanjc.com">@lachlanjc</a>’s coursework at NYU,
+        majoring in Interactive Media Arts.
       </Paragraph>
       <SheetList sheets={sheets} />
     </Layout>
