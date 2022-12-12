@@ -1,0 +1,25 @@
+# Week 5 – Kinetic Diorama
+
+Humanity has emitted enough greenhouse gases that Earth will continue warming—with all the disastrous effects that entails—even if we stop emitting tomorrow. (And we’re not.) Thus, recent UN reports conclude that not only do we need to drastically reduce emissions, but we need to scale up technology to pull carbon we’ve already emitted out of the atmosphere and put it back in the ground. These carbon removal technologies have gotten off the ground in just the last decade, and aren’t yet part of the popular imagination when it comes to climate change. They feel nebulous, as industrial-scale equipment with effects not immediately visible.
+
+One of the most obvious, and promising, technologies for carbon removal is direct air capture (DAC), which uses giant fans powered by carbon-free electricity to suck in air, filter out the carbon, then sequester it. But I couldn’t explain how DAC works, so this week I wanted to teach myself and everyone—I made a physical diorama of how DAC works, with a functioning fan. (The carbon sequestration part is harder.)
+
+![Overhead shot](https://fab-portfolio-lachlanjc.vercel.app/img/5_overview.jpeg)
+
+This is an oversimplification, but DAC pulls air with the fan into a filter with a solvent and water, which is heated up, then pumped out for sequestration (pumping into the ground) or to be used in commercial products (such as carbon-neutral concrete and fuels, beverage carbonation, or less glamorously, enhanced oil recovery). 
+
+I started with the fan. Using a DC motor connected to my Arduino as a power source, I sliced cardboard into a Picasso-style star of fan blades. The built-in corkscrew meant the cardboard blades would spin in or spiraling off the threaded shaft, but it was kinetic. I found a plastic enclosure of the size I was looking for on the junk shelf, and set up the fan inside it, with cardboard & masking tape holding the motor in the right spot. The power source (and DAC requires massive electrical input for now; many are working on improving the energy efficiency) must be carbon-free for this process to be net carbon negative, and last week’s project of the mounted solar panel worked perfectly to adorn the breadboard.
+
+![Fan](https://fab-portfolio-lachlanjc.vercel.app/img/5.gif)
+
+Beyond the fan, the heating of the filter/solvent uses energy too. I used tightly-wrapped red tissue paper to make a heating coil, which I wrapped around a discarded tiny 3D-printed PLA tube. For the water source (DAC uses a lot of water—gigaton-scale carbon sequestration would use hundreds of cubic kilometers of water), I found a clear air bladder on the junk shelf, which I glued to a trimmed stick of hot glue angling into the back of the fan.
+
+![5_process](https://fab-portfolio-lachlanjc.vercel.app/img/5_process.jpeg)
+
+In my least-favorite part of the project, I needed a back plate for the fan, which couldn’t be flat due to the back of the motor jutting out. After trying paper, I settled on aluminum foil, which takes away from the project enormously with its crinkly mess. I couldn’t think of a better solution without 3D printing or CNC, since the laser cutter couldn’t handle the 3D curves.
+
+To improve the fan, I measured the threaded shaft of the motor with calipers, then designed quick geometrically-correct fan blades in Illustrator and laser-cut them out of thin, glossy white cardboard. My installation smeared the laser-burnt dust over one side, so I flipped the piece to show the other side with less finger-smudging. Hot glue onto the shaft kept the blades in place as the motor spins. To reduce fan speed, I tried a few resistors in my circuit, but they prevented the motor from turning on, so I left it at full voltage.
+
+Finally, I turned a junk-shelf find of a ceramic component of a lamp into a canister by labeling it with a Sharpie, and plugged in the fan to the breadboard.
+
+![Side view](https://fab-portfolio-lachlanjc.vercel.app/img/5_side.jpeg)
