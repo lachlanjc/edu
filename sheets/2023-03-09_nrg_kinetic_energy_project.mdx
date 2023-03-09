@@ -1,0 +1,43 @@
+# Kinetic energy project
+
+![Fingerwinds](https://cloud-9gbpvapvt-lachlanjc.vercel.app/fingerwinds.png)
+
+Inspired by an interactive experience from the [Our Choice eBook from 2010](https://web.archive.org/web/20120224201011/http://pushpoppress.com/ourchoice/), this installation lets you explore producing wind electricity yourself, and the role battery storage plays in a renewable grid.
+
+<video
+  src="https://cloud-9gbpvapvt-lachlanjc.vercel.app/demo.mov"
+  controls
+  muted
+  autoPlay
+  playsInline
+  loop
+>
+  Demo
+</video>
+
+Initial sketch:
+
+![Sketch 1](https://cloud-9gbpvapvt-lachlanjc.vercel.app/sketch-1.jpeg)
+
+## Energy & power
+
+- The stepper motor converts rotational kinetic energy to AC electricity. The full-bridge rectifier converts the AC power to DC. The capacitor stores this energy, allowing the LEDs to remain illuminated for a minute after the stepper motor stops being turned.
+- Via measurement:
+	- Open circuit voltage: 20.3V
+	- Short circuit current: 35-40 mA
+	- Upper power bound: 0.73 W
+- Via calculation:
+	- Initial voltage in the capacitor: 0.001 V
+	- Voltage in the capacitor when charged: 14.88 V
+	- Energy intially: 0 J
+	- Energy when charged: 1.107 J
+	- Duration of change: 18 sec
+	- Observed power: 0.0615 W
+
+## Process
+
+### 3D printing
+
+Andrés linked me [the stepper motor handle](https://www.stlfinder.com/model/stepper-motor-hand-crank-updated-g7bKQLTL/5124037/) STL file he used, which I downloaded, then redesigned using Blender to design my propellers. I printed the file and hot-glued it to the stepper motor.
+
+![Stl](https://cloud-9gbpvapvt-lachlanjc.vercel.app/stl.png)
