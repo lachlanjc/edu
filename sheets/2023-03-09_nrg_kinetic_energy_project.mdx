@@ -15,10 +15,6 @@ Inspired by an interactive experience from the [Our Choice eBook from 2010](http
   Demo
 </video>
 
-Initial sketch:
-
-![Sketch 1](https://cloud-9gbpvapvt-lachlanjc.vercel.app/sketch-1.jpeg)
-
 ## Energy & power
 
 - The stepper motor converts rotational kinetic energy to AC electricity. The full-bridge rectifier converts the AC power to DC. The capacitor stores this energy, allowing the LEDs to remain illuminated for a minute after the stepper motor stops being turned.
@@ -29,15 +25,27 @@ Initial sketch:
 - Via calculation:
 	- Initial voltage in the capacitor: 0.001 V
 	- Voltage in the capacitor when charged: 14.88 V
-	- Energy intially: 0 J
+	- Energy initially: 0 J
 	- Energy when charged: 1.107 J
 	- Duration of change: 18 sec
 	- Observed power: 0.0615 W
 
 ## Process
 
+My first idea for the project was to take the concepts shown in the UI and make them 3D, as a diorama:
+
+![Sketch 1](https://cloud-9gbpvapvt-lachlanjc.vercel.app/sketch-1.jpeg)
+
+I soon realized I couldn’t harvest enough power from the human breath to power this setup. With a small PC fan with side vents that could be blown into like a harmonica generating the voltage I needed, pivoted to a concept of building the iPad object itself with the fan built into the side, with the wiring inside the iPad.
+
+Unfortunately, possibly in the mouthpiece sanitization process, the fan stopped producing the necessary voltage and output 1 meager volt. This left the portable iPad concept dead.
+
+My final design took the screen out of the iPad, but switched from the blowing interaction I was imagining to propellor-styled handles on a stepper motor, allowing the audience to rotate the turbine themselves, see the house light up, then see the house remain illuminated for a full minute after the “wind” stops “blowing.”
+
 ### 3D printing
 
-Andrés linked me [the stepper motor handle](https://www.stlfinder.com/model/stepper-motor-hand-crank-updated-g7bKQLTL/5124037/) STL file he used, which I downloaded, then redesigned using Blender to design my propellers. I printed the file and hot-glued it to the stepper motor.
+To make the handles, I 3D modeled & printed for the first time. Classmate Andrés linked me [the stepper motor handle](https://www.stlfinder.com/model/stepper-motor-hand-crank-updated-g7bKQLTL/5124037/) STL file he used, which I downloaded. Pulling it into Blender, using the pre-designed shaft and help from [Vincent](http://vincentspitale.com/), I designed the propellors I was imagining.
 
 ![Stl](https://cloud-9gbpvapvt-lachlanjc.vercel.app/stl.png)
+
+With help from David in the shop, I printed the file from white PLA (40% infill), and hot-glued it to the stepper motor.
