@@ -1,0 +1,15 @@
+# Measurement project topic
+
+I’m studying the ever-elusive “smart grid”—how can we make appliances use energy more in tune with its peak production times, such as in tandem with home solar? While many customers don’t care, solar owners, especially in states that don’t allow net metering, increasingly want to make the most effective use of the energy they produce. Unfortunately, appliances & electric devices of all sorts don’t use. In an electrified home, charging of large battery banks like cars, stoves, & lawn care equipment (EGO etc) are frequently not time-dependent, and even tasks on computers like backups, content downloads, syncing, software updates, and more can be micro-scheduled for cheap, grid-friendly power usage.
+
+Ideally, many more devices could implement a feature like [iOS Clean Energy Charging](https://support.apple.com/en-us/HT213323) without the vendor needing to learn a lot about electric grids, run power-intensive code that requires geolocation, or bake in assumptions about the current grid that won’t age well in home appliances. Instead, web-connected devices could ping an API, or communicate via smart home protocols like Matter or to smart electric panels like [SPAN](https://www.span.io), the current status of the grid and ideal times to do more energy-intensive work.
+
+I’m wondering if we could build a standardized API running on distributed, low-latency compute such as [Vercel Edge Functions](https://vercel.com/features/edge-functions) for connected devices of all sorts to query stocks-like data about recent highs & lows in pricing, predicted times of peak supply & demand, etc.
+
+Prior work:
+
+- https://www.andrew.cmu.edu/user/cjoewong/JSAC_SmartGrid.pdf
+- https://www.hindawi.com/journals/mpe/2018/8760575/
+- On the pricing side: https://link.springer.com/article/10.1007/s40565-019-0508-7, https://www.mdpi.com/1996-1073/13/22/6138
+
+While home for spring break, I could take measurements of home appliance energy loads and calculate cost-effectiveness of a smart grid inside the home for solar owners (my parents live in a forest so regrettably don’t have solar, but neighbors do & I can get rates from them), and how this could be built & deployed inside the home or broader-scale.
