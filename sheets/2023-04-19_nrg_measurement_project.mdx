@@ -1,0 +1,90 @@
+# Measurement project
+
+Title: **Box of Rocks: A DIY Thermal Battery for Decarbonizing Industrial Heat**
+
+## I. Introduction
+
+The race to decarbonize the world is on. While electricity generation and residential applications dominate the discussion, 11% of global carbon emissions come from industrial heat (O'Donnell): steel blast furnaces, cement kilns, and instrumentation for refining, glass, and fertilizer, among other out-of-sight manufacturing processes underlaying the world, require continuously high temperatures, on the order of 300–1800ºC (Roberts). These produce global commodities for a price-sensitive market, and environmental regulation increasing costs risks sending those processes to the deregulated elsewhere (“carbon leakage”). Globally, we must figure out how to reduce these manufacturing emissions, and make the greener processes price-competitive (avoiding the “green premium”). Columbia University’s Center for Global Energy Policy highlights the hesitance to start on this decarbonization problem: “As one indication, most cement, steel, aluminum, and petrochemicals have received environmental waivers or been politically exempted from carbon limits, even in countries with stringent carbon targets” (Frieddman and Fan).
+
+Due to the inefficiency of converting fossil fuel to electricity, transmitting it, then converting the electricity back to heat, these furnaces tend to run directly on fossil fuel—meaning that decarbonizing electricity generation will not inherently decarbonize the sector. At the same time, installing enough renewable electricity capacity to power the majority of the grid means there are periods of oversupply, where the solar energy generated exceeds demand, and it’s uneconomical to store it in short-term grid storage (such as expensive lithium batteries). Enter: thermal batteries. This excess renewable electricity can be converted to heat and stored in a well-insulated box of rocks cheaply and efficiently, dispensed as needed for industrial processes. This increases efficiency of the full grid, removes the need for environmentally-destructive mining of fossil fuels, and eliminates the toxic air pollution from burning fossil fuel that predominantly affect lower-income and minority communities. If these batteries are cheap and efficient, and renewable electricity installation continues to scale, this system could work beautifully.
+
+In this project, I attempt to create a crude thermal battery and use it to generate electricity on a (literally) micro scale.
+
+## II. Experiment design
+
+### Materials used
+
+- Pyrex bowl
+- Sand ([“Imagitarium Green Calcium Reptile Sand”](https://www.petco.com/shop/en/petcostore/product/imagitarium-green-calcium-reptile-sand))
+- Peltier device ([TEC1-12706](https://www.amazon.com/GeeBat-TEC1-12706-Thermoelectric-Heatsink-Cooling/dp/B01IT8SAZG/))
+- Alligator clips
+- Multimeter
+- Oven (fossil gas powered)
+- Thermometer
+- Ice cubes
+
+### Procedure
+
+1. At room temperature (72ºF), put approximately 2 pounds of sand (no scale was accessible) in the Pyrex bowl. Shake it flat. Keep the sand uncovered.
+2. Set the oven to 300ºF. Place the sand bowl in the oven, taking note of the time.
+3. Connect the alligator clips to the multimeter probes and the Peltier device wires. Set the multimeter to micro-volts. Prepare the thermometer.
+4. Every 5 minutes, pull the sand from the oven with mitts. Plunge the thermometer in, ensuring the tip touches the sand but not the container. Place the Peltier device right-side-up on the surface, alongside a generous length of its cabling, ensuring it makes complete surface contact. Place an ice cube flat-side-down on the top of the Peltier device. Note the reading of the Peltier device immediately, then the thermometer as it stabilizes. After removing the instruments, wipe the Peltier device dry to remove water from the underside.
+5. Repeat step 4 for an hour.
+6. Turn off the oven, wipe the wet sand off your counter, wiring, multimeter, mitts, etc. (But invite the nearest gecko into the warm sand.)
+
+## III. Results
+
+**Table 1. Measurements of sand temperature and voltage generated from the thermal battery**
+
+| Temperature (ºF) | Voltage generated | Ice cube applied |
+|:--|:--|:--|
+| 72º | 0 V | — |
+| 103º | 28 µV | — |
+| 149º | 79 µV | — |
+| 168º | 161 µV | — |
+| 160º | 0.72 V | ✅ |
+| 195º | 0.354 V | ✅ |
+| 200º | 0.328 V | ✅ |
+| 210º | 0.203 V | — |
+| 208º | 0.72 V | ✅ |
+| 216º | 0.561 V | ✅ |
+| 202º | 0.460 V | ✅ |
+| 209º | 0.640 V | ✅ |
+
+**Figure 1. Chart of measurements from Table 1 with ice cube applied**
+
+![](https://uploads.linear.app/64e6b087-64e3-4a23-9bdc-3d9f0ffe06b5/e5e5dbd8-cd3b-4609-9869-f3e1c39e4cb8/43a1414e-06e8-45be-a0e5-c0c15075718c)
+
+### Sources of error
+
+- The temperature of the Peltier device itself, on both sides, varied dramatically from one measurement to the next, reducing correctness of the readings.
+- The temperature and voltage could not be recorded at precisely the same moment: the non-professional thermometer took seconds to update, during which time the Peltier device would pull heat off the sand directly beneath it and the voltage would drop. I attempted to record the highest voltage I saw while setting up the thermometer, but human error makes those significant digits insignificant.
+- The thermometer itself capped out under 210ºF, preventing measurements at higher temperatures that could show a more statistically significant trendline.
+- Melting water dripping off the ice cubes onto the surrounding sand could affect the temperature differential. The time in the oven between readings re-evaporated the water.
+- The gas oven started at room temperature (72ºF) and remained set to a constant temperature through the experiment, but internally its temperature was not a steady ascent. For instance, at the penultimate measurement, the temperature had dropped despite the sand going back in the oven for 5 minutes.
+- I measured the 5 minutes on a clock without seconds. This preventable source of error made little difference as the gas oven’s wild fluctuations meant there were no linear heat increments to be had regardless.
+
+### Evaluation of the efficiency
+
+This battery was *spectacularly* inefficient at capturing, storing, or re-outputting energy:
+
+- Heating an entire oven meant the majority of heat generated vented to the experiment room, and was not concentrated into the battery with any method whatsoever.
+- Freezing ice cubes used yet more electricity, venting additional heat to the experiment room making the temperature differential to the heated sand smaller.
+- The Peltier device, at 40mm x 40mm square, could capture a tiny fraction of the heat energy back as electricity. Using multiple simultaneously could have captured more, but with less consistency between measurements.
+- The Pyrex bowl, with a large air gap and no top insulation, allowed heat to rapidly vent out the top.
+
+## IV. Conclusion
+
+The Peltier device relies on the temperature *differential* between the top and bottom ceramic plates, not an extreme temperature on either side (which at this scale, affects the temperature on the other side). This is generally reflected by the voltage readings trending upwards as the sand temperature increased, but the trendline was far from clear, with distinct outliers (the reading at 160º, namely, for which I offer no explanation). This is the reason for the ice cube—without a cooling effect to counteract it, the radiating heat from the sand quickly warms up the top surface of the Peltier device soon after the bottom, causing electrical generation to plummet.
+
+This experiment design was sufficiently distanced from industrial thermal batteries to have no correlation with whether thermal batteries or/are not applicable or efficient for industrial heat. The industrial-scale batteries work fundamentally differently, converting (sometimes excess) renewable electricity to heat, then using the heat directly for the industrial process; this experiment applied heat directly then exported electricity. The idea of this experiment was to explore a thermal battery reduced to its essential elements with the most-accessible equipment.
+
+The experiment was a success insofar as the sand was heated (earlier attempts at experiment design, relying on direct solar heating, did not succeed) and electricity was generated, but the amount was never sufficient to do even vaguely-impressive work.
+
+## VII. Works cited
+
+Friedmann, Julio, and Zhiyuan Fan. "Low-Carbon Heat Solutions for Heavy Industry: Sources, Options, and Costs Today." *Center on Global Energy Policy*, 7 Oct. 2019, https://www.energypolicy.columbia.edu/publications/low-carbon-heat-solutions-heavy-industry-sources-options-and-costs-today.
+
+O'Donnell, John. "Why electrifying industrial heat is such a big deal." *Volts*, 24 Mar. 2023, https://www.volts.wtf/p/why-electrifying-industrial-heat.
+
+Roberts, David. "This climate problem is bigger than cars and much harder to solve." *Vox*, 31 Jan. 2020, https://www.vox.com/energy-and-environment/2019/10/10/20904213/climate-change-steel-cement-industrial-heat-hydrogen-ccs.
