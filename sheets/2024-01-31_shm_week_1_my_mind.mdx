@@ -12,3 +12,26 @@ When I’m doing something mundane or repetitive—taking a shower, vacuuming my
 
 Subsequent thoughts are spatially connected—“adjacency” in a vague, deeply human way. This person with this attribute who makes me think of this other person then their company and what happened with them on the internet so something else that came up during the same session on Twitter so the visual design of their website so where else did I see that pattern so what if I used that technique in my project so I should call someone…it’s inexplicable. Someday, we will make a computer that can model these connections naturally, but until then, we’re stuck with [“double-sided backlinks”](https://maggieappleton.com/bidirectionals) & re-reading the original [Memex](https://en.wikipedia.org/wiki/Memex) essay & a prayer that maybe spatial computing will solve this, or some more ethical version of Neuralink. (Not holding my breath.)
 
+---
+
+## Making
+
+[**Try my demo**](https://shared-minds.vercel.app/1)
+
+I wanted to make a little freeform canvas to upload people to: pictures of yourself from the past, or pictures of your friends, with fun image effects, bouncy animations, and to get a little dialogue going between them. You can model out a little conversation, think about what past versions of you would say/do, or write little affirmations about the people in the pictures.
+
+I used React with [Next.js](https://nextjs.org), [Tailwind CSS](https://tailwindcss.com/), and [Framer Motion](https://www.framer.com/motion/) as the core technologies to get going; they’re my go-to’s. I also used [Vercel](https://vercel.com) to host the site.
+
+I started by creating a new Next.js app with `npx create-next-app@latest`, then added Framer Motion (`npm install framer-motion`). I grabbed the grid background from [this demo on CodePen](https://codepen.io/jh3y/pen/qBgRLxb) I saw recently. For the interaction, I used a bit of React state. GitHub Copilot helped me write the code for the image upload the whole way through, which was super helpful. Managing `Blob` vs `File` and Base64 images are a bit tricky, and Copilot saved a bunch of time.
+
+The image effects were challenging. The `filter` CSS property is too limited, and I wanted to do something more unexpected, like a wild passport. I actually wrote all this functionality before making the canvas, [in a CodePen](https://codepen.io/lachlanjc/pen/abMyxPz) for simplicity. Starting with a simple textured background image, which I converted to base64:
+
+![Passport img bg](https://cloud-fubqur6d7-lachlanjc.vercel.app/passport-img-bg.png)
+
+I started with multiple canvas elements in the DOM, but I discovered the [`OffscreenCanvas`](https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas) JavaScript API, which lets you make a virtual canvas. I painted the background on, then set a blend mode to "color burn," which I discovered in Figma looked cool against this background. I then added a border over the edges for visual effect. It degrades the quality of the photo and distorts the colors. (This description doesn’t capture the two hours of trial and error in this process, and sounds like I knew exactly what I wanted from the start, but you can see how it turned out.)
+
+The toughest part was handling images with the P3 color gamut. Initially, they were getting blown out, with all colors outside sRGB turning `rgb(0 255 0)` green. Trying to keep the whole project in P3 seemed more complicated than it was worth, so I worked with Copilot to write a function to convert P3 to sRGB: making another offscreen canvas, setting it to sRGB, and drawing the P3 image onto it, and getting the content out as sRGB. I passed that back into my canvas for the image manipulation, and it worked. 
+
+The drag and drop I’d never done before, but Framer Motion’s props made it super easy to feel elastic and keep elements onscreen. The chat interaction is a little half-baked, I’d love to make that feel more spatial in the future, or add some 3D to the canvas.
+
+![Demo](https://cloud-fubqur6d7-lachlanjc.vercel.app/demo.png)
