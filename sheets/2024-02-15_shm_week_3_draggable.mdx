@@ -1,0 +1,35 @@
+# Week 3: Draggable
+
+![draggable](https://github.com/lachlanjc/shared-minds/assets/5074763/9bfd5605-13ac-4f5a-9959-313c4f1ac6c3)
+
+After writing about waiting for my Apple Vision Pro [last week](/2024-02-07_shm_week_2_spatial), I’ve since spent a *lot* of hours using spatial computing, enough that my body has requested me to please stop. Thoughts on that fascinating but overstimulating and nonsensical device aside, the concept of spatial computing I find compelling. Using visionOS is like having an infinite number of scalable iPads in the room around you. The core interaction of the OS, as I wrote last week, is about dragging & resizing windows—just like we’re used to on a Mac—in the 3D, augmented space around you. The windows are each interactive yet draggable.
+
+Bringing us to this week’s creation: the minimum viable spatial “OS” for the web. (Read-only websites don’t count as OSs.) Using a whole lot of fancy CSS, I’ve recreated some core UI details of visionOS.
+
+[**Try the demo**](https://shared-minds.vercel.app/3) – [read the source code](https://github.com/lachlanjc/shared-minds/blob/main/app/3/page.tsx)
+
+The main welcome panel keeps it simple, showing off the glass material visionOS uses for lighting and the interactive drag handle underneath.
+
+**Safari** uses our good old friend, `<iframe>`. While challenging the size correctly, this app was pretty straightforward and JS-free. It uses the nested corner radius trick to have a consistent border around the web content.
+
+**Photos** is a vertically-scrolling photo gallery. In addition to Next.js’s blur-up image loading, it uses [Artur Bien’s](https://expensive.toys/blog/blur-vignette) “blur vignette” CSS technique to recreate Apple’s spatial photos visual effect, without the depth. (You’ll notice this on the page backdrop too, since visionOS has a limited field of view plus foveated rendering, so the edges of the displays aren’t sharp.) I grabbed photos of projects from the IMA floor over the years.
+
+The dragging interaction is powered by Framer Motion’s [`Reorder`](https://www.framer.com/motion/reorder/) API, which I’d never noticed before. It intercepts the JavaScript drag events and turns them into smooth CSS `transform`s. But I wanted to add the depth effect, which needed `transform` too…which would require rewriting the Reorder component. But then I remembered the new [`rotate` CSS property](https://developer.mozilla.org/en-US/docs/Web/CSS/rotate), which when combined with `perspective` on the parent drag container, can create a depth effect. The end solution is elegantly concise:
+
+```css
+.window {
+  transition: 0.125s rotate ease-in-out;
+  &:first-child {
+    rotate: y 25deg;
+  }
+  &:last-child {
+    rotate: y -25deg;
+  }
+}
+```
+
+The drag handles are CSS pseudo-elements on the windows with a quick transition on them.
+
+The CSS uses CSS Modules this week, instead of Tailwind. Tailwind is great for more consistent content-based sites, but when you need crazy CSS effects, you can’t beat the regular syntax. I used PostCSS’s `env` plugin to use CSS Nesting with better backwards compatibility.
+
+If I spent more hours on this, I’d make the windows resizable—a major geometric plus interaction design challenge—and add a full app switcher view, the option to have more windows, etc.
