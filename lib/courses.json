@@ -1,20 +1,13 @@
 {
-  "cici": "Cities & Citizenship",
-  "fncities": "Food & Nature in Cities",
-  "imex": "Immersive Experiences",
-  "shm": "Shared Minds",
-  "hap": "Haptics",
+  "cc": "Creative Computing",
+  "cl": "Communication Lab",
+  "wte": "Writing the Essay",
+  "obj": "Objectivity",
 
-  "envs": "Environmental Social Movements",
-  "idp": "Interdisciplinary Projects",
-  "barch": "Berlin Architecture",
-  "de": "German",
-
-  "nrg": "Energy",
-  "daf": "Digital Audio Foundations",
-  "dis": "Discard Studies",
-  "envp": "History of US Environmental Policy",
-  "aaa": "Art & Activism",
+  "bit": "Big Ideas in Tech",
+  "dv": "Data Visualization",
+  "cw": "Creative Writing",
+  "ast": "Assistive Tech",
 
   "fab": "Fabrication",
   "pcomp": "Physical Computing",
@@ -22,13 +15,20 @@
   "ind": "Information Design",
   "gw": "Green World",
 
-  "bit": "Big Ideas in Tech",
-  "dv": "Data Visualization",
-  "cw": "Creative Writing",
-  "ast": "Assistive Tech",
+  "nrg": "Energy",
+  "daf": "Digital Audio Foundations",
+  "dis": "Discard Studies",
+  "envp": "History of US Environmental Policy",
+  "aaa": "Art & Activism",
 
-  "cc": "Creative Computing",
-  "cl": "Communication Lab",
-  "wte": "Writing the Essay",
-  "obj": "Objectivity"
+  "envs": "Environmental Social Movements",
+  "idp": "Interdisciplinary Projects",
+  "barch": "Berlin Architecture",
+  "de": "German",
+
+  "cici": "Cities & Citizenship",
+  "fncities": "Food & Nature in Cities",
+  "imex": "Immersive Experiences",
+  "shm": "Shared Minds",
+  "hap": "Haptics",
 }
