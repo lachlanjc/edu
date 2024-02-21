@@ -1,0 +1,68 @@
+# Week 4: Shareable
+
+My friends are spread across the country and globe. I spend a lot of time on FaceTime, but sometimes I want an async way to let them know I’m thinking of them.
+
+![Demo](https://cloud-1v49nq6a3-lachlanjc.vercel.app/CleanShot%202024-02-21%20at%2004.29.03@2x.png)
+
+[**Try the demo**](https://shared-minds.vercel.app/4) – [read the source code](https://github.com/lachlanjc/shared-minds/blob/main/app/4/page.tsx)
+
+This week, I took the friends concept from week 1 and the globe from week 2 and combined them with [Liveblocks](https://liveblocks.io) to make a mini-social network for sending vibes to friends around the world.
+
+The app is a simple 3D globe with markers for each friend, pulled from GitHub. When you click on a marker, you can send a vibe to that friend. The friend will see the vibe in real-time, across browser tabs across the world.
+
+I started with a JSON list of friends, with their lat/lng pairs encoded, plus their GitHub usernames. I used [react-globe.gl]() again for the globe, since I found its API intuitive before. Rendering the avatars took a few minutes to figure out, since you can’t use React/JSX for performance reasons:
+
+```tsx
+<Globe
+  htmlElementsData={FRIENDS}
+  htmlElement={(friend) => {
+    const { name, github } = friend as (typeof FRIENDS)[number];
+    const img = document.createElement("img");
+    img.src = `https://github.com/${github}.png`;
+    img.width = 48;
+    img.height = 48;
+    img.alt = name;
+    img.style.border = "2px solid rgba(255,255,255,0.5)";
+    img.style.borderRadius = "50%";
+    return img;
+  }}
+/>
+```
+
+After prototyping the functionality with simpler React state, I used Liveblocks to handle the real-time updates. First, you set up schema types:
+
+```tsx
+interface Arc extends JsonObject {
+  startLat: number;
+  startLng: number;
+  endLat: number;
+  endLng: number;
+  time: string;
+}
+
+type Storage = {
+  arcs: LiveList<Arc>;
+};
+```
+
+Then, I used the `useStorage` hook to get the current state of the arcs, and `useMutation` to edit them:
+
+```tsx
+const newArc: Arc = {
+  startLat: FRIENDS[currentFriendIdx].lat,
+  startLng: FRIENDS[currentFriendIdx].lng,
+  endLat: lat,
+  endLng: lng,
+  time: new Date().toISOString(),
+};
+
+const sendArc = useMutation(({ storage }, newArc: Arc) => {
+  storage.get("arcs").push(newArc);
+  setTimeout(() => {
+    const index = storage.get("arcs").indexOf(newArc);
+    storage.get("arcs").delete(index);
+  }, FLIGHT_TIME * 2);
+}, []);
+```
+
+If I spent more time on this, I want to stylize the arcs with different streams of emojis, and add sound effects, plus Web Push. I’d also add login (next week?) with GitHub so you can add yourself to the map to send vibes.
