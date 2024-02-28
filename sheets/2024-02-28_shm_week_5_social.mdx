@@ -1,0 +1,32 @@
+# Week 5: Social 
+
+“Our imagination is the key to our control of the world,” [Yuval Noah Harari said](https://www.youtube.com/watch?v=b5_W2ecr0r4). Though his [science may be lacking](https://www.currentaffairs.org/2022/07/the-dangerous-populist-science-of-yuval-noah-harari), his imagination is not. The tools we use influence our imagination for what we can do in the world; they provide a shape for our own feelings of agency to grab onto. If our tools are solo, we feel alone. If our tools encourage us to imagine together, that default influences how often we take that route.
+
+## Making
+
+{/* This week, I took my 3D visionOS concept from [week 3 (draggable)](/2024-02-15_shm_week_3_draggable) and connected it with Liveblocks (which I used [last week](/2024-02-21_shm_week_4_shareable)), then connected that to authentication using a new service called [Hanko](https://www.hanko.io) and a new browser technology called [Passkeys](https://www.passkeys.io). Passkeys are a web standards-based new method for handling authentication on the web not with a password or social login but by saving a cryptographically-generated, biometric-verified secret on your device’s password manager. Hanko handles the complexity of dealing with the browser APIs, and wraps it up in customizable UI using [web custom elements](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements). */}
+
+This week, I took [last week](/2024-02-21_shm_week_4_shareable)’s project and made it joinable: under the hood, I moved the static friends data to Liveblocks, then added an authentication flow through GitHub using [Clerk](https://clerk.com), all from React Server Components. After you authenticate, it uses your browser’s geolocation to add you to the globe, and you can send vibes.
+
+```typescript
+  const addToFriends = useMutation(
+    ({ storage }, lat: number, lng: number) => {
+      storage.get("friends").push({
+        lat,
+        lng,
+        github: user?.username!,
+        name: user?.fullName!,
+      });
+    },
+    [user],
+  );
+  
+  navigator.geolocation.getCurrentPosition((position) => {
+    addToFriends(
+      position.coords.latitude,
+      position.coords.longitude,
+    );
+  });
+```
+
+[**Try the demo**](https://shm.vercel.app/5) – [read the source code](https://github.com/lachlanjc/shared-minds/blob/main/app/5/page.tsx)
