@@ -137,6 +137,7 @@ export default async function (req) {
                 fontFamily: '"Elena", Georgia, serif',
                 fontSize,
                 color: colors.text,
+                textWrap: 'balance'
               }}
             >
               {title}
