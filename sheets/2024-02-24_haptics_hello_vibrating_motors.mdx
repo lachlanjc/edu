@@ -1,0 +1,210 @@
+# Hello Vibrating Motors
+
+## Acronyms
+
+- ERM: Eccentric Rotating Mass. These are the older vibrators we’re used to from flip phones.
+- LRA: Linear Resonance Actuators. These are the newer, more sophisticated models like Taptic Engine on Apple devices, which have no startup delay.
+
+## Project 1: Hello Vibes
+
+Following this circuit diagram reference, omitting the TIP 120 transistor & diode since they weren’t available:
+
+![Circuit diagram reference](https://cloud-ocs9j0oa0-lachlanjc.vercel.app/1_hello/ref.png)
+
+It worked! For now, the hardware is the simple breadboard with the ERM motor, which I’m holding between my index finger and thumb to feel acutely.
+
+I tried different combinations of vibrations & delays.
+
+- 10ms on, 50ms off was the minimum I could sense distinct vibrations, instead of a more continuous purr from the ERM
+- 15ms on/50ms delay gives me more to feel
+- Even intervals like 50ms/50ms create an industrial energy, like a sewing machine
+- I LOVE the intervening fade in/out the ERM performs while I’m uploading new software to the Arduino. Wish I knew how to replicate that gradient
+
+My favorite iteration made the vibration feel like my parents’ Motorola flip phones from the early 2000s. I did buzzes for 50, 100, 250, 500, and 500ms again with 100ms delays in between, like this:
+
+```cpp
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(50);
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(100);
+
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(100);
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(100);
+
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(250);
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(100);
+
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(500);
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(100);
+
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(500);
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(100);
+}
+```
+
+Here’s how it looked:
+
+<video
+  src="https://cloud-ocs9j0oa0-lachlanjc.vercel.app/1_hello/hello.mp4"
+  controls
+  muted
+  autoPlay
+  playsInline
+  loop
+>
+  Demo
+</video>
+
+## Project 2: Haptic Motor Driver
+
+Following this circuit diagram:
+
+![Circuit diagram reference](https://cloud-ocs9j0oa0-lachlanjc.vercel.app/2_driver/ref.png)
+
+Here’s how my circuit looked:
+
+![Circuit IRL](https://cloud-ocs9j0oa0-lachlanjc.vercel.app/2_driver/circuit.jpeg)
+
+I used the [Adafruit DRV2605](https://learn.adafruit.com/adafruit-drv2605-haptic-controller-breakout) from the ITP shop.
+
+I’ve never paid super close attention to the Apple Watch haptic alarm that wakes me up for class every day, since I always want to turn it off & I’m inherently bleary-eyed if I needed the alarm. Nonetheless, I wanted to make an alarm that’d be reasonable to wake up to:
+
+```cpp
+#include <Wire.h>
+#include "Adafruit_DRV2605.h"
+
+Adafruit_DRV2605 drv;
+
+void setup() {
+  Serial.begin(9600);
+  Serial.println("DRV test");
+  drv.begin();
+
+  drv.setMode(DRV2605_MODE_INTTRIG); // default, internal trigger when sending GO command
+
+  drv.selectLibrary(1);
+  drv.setWaveform(0, 86);
+
+  // shorter
+  drv.setWaveform(0, 84);
+  drv.setWaveform(0, 74);
+
+  // longer
+  drv.setWaveform(0, 82);
+  drv.setWaveform(0, 72);
+
+  // two clicks
+  drv.setWaveform(1, 1);
+  drv.setWaveform(1, 9);
+
+  drv.setWaveform(2, 0);  // end of waveforms
+}
+
+void loop() {
+    drv.go();
+    delay(1000);
+}
+```
+
+<video
+  src="https://cloud-ocs9j0oa0-lachlanjc.vercel.app/2_driver/demo.mp4"
+  controls
+  muted
+  autoPlay
+  playsInline
+  loop
+>
+  Demo
+</video> 
+
+I wanted to use distinct pieces, not a continuous sensation; the frequent deltas between sensations is more noticeable to wake up to than there being one change the body can get used to. I paired the ramp up with ramp down codes to create increasing little bursts of vibration in a repeating loop. I modeled it after the Apple Watch haptic, though it’s not trying to be a precise replica.
+
+![Process photo](https://cloud-ocs9j0oa0-lachlanjc.vercel.app/2_driver/process.jpeg)
+
+## Project 3: Motor Array
+
+Following this circuit diagram:
+
+![Circuit diagram reference](https://cloud-ocs9j0oa0-lachlanjc.vercel.app/3_solder/ref.png)
+
+First, I set up my circuit using the terminal blocks:
+
+![Circuit IRL](https://cloud-ocs9j0oa0-lachlanjc.vercel.app/3_solder/circuit.jpeg)
+
+Next, I soldered the three haptic motors to longer wires, so the device could become more wearable:
+
+![Soldered motors](https://cloud-ocs9j0oa0-lachlanjc.vercel.app/3_solder/soldered.jpeg)
+
+Here’s my code. I took the example and added a section to try two motors at once, then turn everything off, before repeating.
+
+```cpp
+void setup () {
+  // initialize digital pin LED_BUILTIN as an output.
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+}
+
+void loop() {
+  // turn all motors on (HIGH is the voltage level)
+  digitalWrite(2, HIGH);
+  digitalWrite(3, HIGH);
+  digitalWrite(4, HIGH);
+  // wait for a second
+  delay(1000);
+  // turn all motors off
+  digitalWrite(2, LOW);
+  digitalWrite(3, LOW);
+  digitalWrite(4, LOW);
+  delay(1000);
+
+  // turn motors on one at a time
+  digitalWrite(2, HIGH);
+  delay(1000);
+  digitalWrite(2, LOW);
+  digitalWrite(3, HIGH);
+  delay(1000);
+  digitalWrite(3, LOW);
+  digitalWrite(4, HIGH);
+  delay(1000);
+  digitalWrite(4, LOW);
+  delay(1000);
+
+  // turn sets of two motors on
+  digitalWrite(2, HIGH);
+  digitalWrite(4, HIGH);
+  delay(1000);
+  digitalWrite(2, LOW);
+  digitalWrite(3, HIGH);
+  delay(1000);
+  digitalWrite(2, HIGH);
+  digitalWrite(4, LOW);
+  delay(1000);
+
+  // turn all motors off
+  digitalWrite(2, LOW);
+  digitalWrite(3, LOW);
+  digitalWrite(4, LOW);
+｝
+```
+
+## Ideas for projects tomorrow
+
+- Make inchworms with two haptic engines on either end, see if they can wriggle across a table if synced well
+- Storytelling in a diorama with knocking on a door with the haptics & sound effects on the Arduino
+- Apple Vision Pro haptics soundboard—website or visionOS app?
+
+Final project: [**Shareable Haptic Experience**](/2024-03-04_haptics_shareable_haptic_experience)
