@@ -28,7 +28,7 @@ With two hours to build, I immediately devised a basic system of how the pieces 
 
 I knew I needed to get a WebSockets server running, and didn’t want to tackle using a library to do it myself. After spinning up a Next.js site with the button UI, I started with [PartyKit](https://www.partykit.io/), a new entrant in this space. While setup & code implementation was super quick, after I deployed once, further changes claimed to be deployed but the site never updated in production. While I’m still curious about the platform, I gave up on it with my limited time.
 
-I looked back at a project [I made last week](https://edu.lachlanjc.com/2024-02-21_shm_week_4_shareable) which used [Liveblocks](https://liveblocks.io/). Though their API documentation demonstrates that their HTTP API supports some basic GET/POST actions but *not* subscribing to events, I opened up my browser DevTools on my project. Sure enough, they’re using a standard WebSockets URL like any other realtime provider, and it didn’t require authentication or complexity to join without using their client libraries.
+I looked back at a project [I made last week](/2024-02-21_shm_week_4_shareable) which used [Liveblocks](https://liveblocks.io/). Though their API documentation demonstrates that their HTTP API supports some basic GET/POST actions but *not* subscribing to events, I opened up my browser DevTools on my project. Sure enough, they’re using a standard WebSockets URL like any other realtime provider, and it didn’t require authentication or complexity to join without using their client libraries.
 
 The client UI ended up simple:
 
@@ -63,7 +63,7 @@ export default function WithLiveblocks() {
 
 ### Connecting the Arduino
 
-It was time to get the Arduino online. I returned to an Arduino project I made [last spring](https://edu.lachlanjc.com/2023-05-04_nrg_solar_project), copying & pasting the Wi-Fi connection code out of there. After getting the password to the sandbox Wi-Fi network, I got my Arduino online.
+It was time to get the Arduino online. I returned to an Arduino project I made [last spring](/2023-05-04_nrg_solar_project), copying & pasting the Wi-Fi connection code out of there. After getting the password to the sandbox Wi-Fi network, I got my Arduino online.
 
 I spent half an hour fighting to get WebSockets running on the Arduino, spelunking long-unmaintained libraries. It’s always a difficult balance discerning when to ask for help vs pushing through yourself, but I figured one tip or link could make the project happen far sooner. I asked [an ITP friend](https://www.instagram.com/joshjoshjoshdotnet), who recommended checking out Tom Igoe’s name on the topic. [His example code](https://tigoe.github.io/websocket-examples) was straightforward to implement and worked perfectly.
 
@@ -93,4 +93,4 @@ The Next.js configuration seemed overly complex for a client-only, 4-button UI, 
 
 ---
 
-The codebase is all open source on GitHub: <https://github.com/lachlanjc/web-haptics> including [the final Arduino code](https://github.com/lachlanjc/web-haptics/blob/main/arduino.ino).
+The codebase is all [**open source on GitHub**](https://github.com/lachlanjc/web-haptics), including [the final Arduino code](https://github.com/lachlanjc/web-haptics/blob/main/arduino.ino).
