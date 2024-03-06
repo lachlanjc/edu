@@ -1,0 +1,17 @@
+# Week 6: Dimensions
+
+This week, I took my 3D visionOS concept from [week 3 (draggable)](/2024-02-15_shm_week_3_draggable) to use it as an app environment. I first dropped the 3D effect, as the effect didn’t work amazingly on a 2D screen, and added significant graphic/code complexity. I then made the windows closable, with a visionOS-styled close button next to the drag handle, and added a dock control (which visionOS does not have) to be omnipresent UI. The dock features an app launcher menu as well as an Environments button. (Make sure to click the plus button to open apps, then try closing/rearranging them.)
+
+Environments on visionOS let you mask your physical surroundings with a 3D, animated scene. In my project, it covers the entire background, which defaults to the IMA floor, with a panorama. I wanted to teleport you anywhere you wish to work. Video journalist Cleo Abrams made the case recently that some of the technologies in Vision Pro today, while early, are the first steps toward immersive teleportation, and the idea has stuck with me.
+
+<YouTube id="n7hJlyVDEc8" />
+
+I’m getting increasingly long on spatial computing as a concept. I wrote in 45 minutes [4 pages of notes about why here](https://gist.github.com/lachlanjc/d4dfeea227dce54c50be188d776b4414)—I’ll edit it into a post worth reading soon.
+
+To recreate Environments, my project uses Replicate’s text-to-image model to generate panoramic imagery to teleport you anywhere you want to be. Due to the AI nature, they results will be different every time, so you never get bored of where you’re working.
+
+![Screenshot](https://cloud-4d6gcic1s-lachlanjc.vercel.app/screenshot.jpeg)
+
+[**Try the demo**](https://shm.lachlanjc.com/6) – [read the source code](https://github.com/lachlanjc/shared-minds/blob/main/app/6/page.tsx)
+
+This is the first step toward a multi-modal, AI-first, spatial computer you can take anywhere, all in your browser. More next week!
