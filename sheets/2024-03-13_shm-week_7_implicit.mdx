@@ -1,0 +1,141 @@
+# Week 7: Implicit
+
+My visionOS demo keeps growing, and these week, it’s going all-in on questionably-useful, shoved-down-your-throat generative AI everywhere. But I learned about streaming from edge functions!
+
+![Demo](https://shm.lachlanjc.com/screenshots/7.jpeg)
+
+[**Try the demo**](https://shm.lachlanjc.com/7) – [read the source code](https://github.com/lachlanjc/shared-minds/blob/main/app/7/page.tsx)
+
+## Simple generation
+
+I started off making a reusable React component to wrap the concept of requesting a text-based prompt, then rendering UI with a generated result. It handles the state & UI related to prompts, so building “apps” around this framework is quick & the UI is consistent.
+
+```tsx
+export function AIPrompt({
+  label,
+  onSubmit,
+  children,
+}: PropsWithChildren<{
+  label: string;
+  onSubmit: (prompt: string) => Promise<void>;
+}>) {
+  const STAGES = ["prompt", "generating", "error", "response"] as const;
+  const [stage, setStage] = useState<(typeof STAGES)[number]>(STAGES[0]);
+  const [prompt, setPrompt] = useState("");
+
+  switch (stage) {
+    case "prompt":
+      return (
+        <form
+          className={styles.prompt}
+          onSubmit={(e) => {
+            e.preventDefault();
+            setStage(STAGES[1]);
+            onSubmit(prompt)
+              .then(() => setStage(STAGES[3]))
+              .catch(() => setStage(STAGES[2]));
+          }}
+        >
+          <label className={styles.promptLabel}>
+            {label}
+            <textarea
+              className={styles.promptTextarea}
+              name="prompt"
+              value={prompt}
+              onChange={(e) => setPrompt(e.currentTarget.value)}
+              rows={2}
+            />
+          </label>
+          <footer className={styles.promptFooter}>
+            <button
+              type="submit"
+              className={clsx(
+                styles.windowActionButton,
+                styles.windowActionButtonPrimary,
+              )}
+            >
+              <ArrowRight size={24} />
+            </button>
+          </footer>
+        </form>
+      );
+    case "generating":
+      return (
+        <div className={clsx(styles.prompt, styles.promptLoading)}>
+          <Spinner size={64} />
+        </div>
+      );
+    case "error":
+      return (
+        <div className={styles.prompt}>
+          <p>Ooops, something went wrong.</p>
+          <footer className={styles.promptFooter}>
+            <button
+              onClick={() => setStage(STAGES[0])}
+              className={clsx(
+                styles.windowActionButton,
+                styles.windowActionButtonPrimary,
+              )}
+            >
+              <ArrowClockwise size={24} />
+            </button>
+          </footer>
+        </div>
+      );
+    case "response":
+      return (
+        <>
+          {children}
+          <footer className={styles.promptFooter}>
+            <button
+              onClick={() => setStage(STAGES[0])}
+              className={clsx(styles.windowActionButton)}
+            >
+              <ArrowClockwise size={24} />
+            </button>
+          </footer>
+        </>
+      );
+  }
+}
+```
+
+I built new Photos and Music apps to utilize this system. The code is surprisingly similar, calling our class proxy directly from the frontend. Here’s Photos:
+
+```typescript
+export function PhotosWindow(props: WindowProps) {
+  const [src, setSrc] = useState("");
+  return (
+    <Window className={styles.windowPhoto} {...props}>
+      <AIPrompt
+        label="What do you want to see?"
+        onSubmit={(prompt) =>
+          getAIImage(prompt, 512, 768).then((url) => setSrc(url))
+        }
+      >
+        <div className={styles.windowPhotoContainer}>
+          <img
+            alt="Generated photo"
+            src={url}
+            className={styles.windowPhotoImage}
+            draggable={false}
+          />
+        </div>
+      </AIPrompt>
+    </Window>
+  );
+```
+
+The Music app works the same way, requesting a prompt then generating a looping 5-second clip. The spectrograph is blended into the backdrop of the music player window using CSS `mix-blend-mode`.
+
+## Streaming LLMs
+
+While Stable Diffusion is fun for a minute, LLMs I find currently more useful. (Not as useful as they’re hyped, but.) While they too take awhile to run, the advantage of text vs binary data is that a partial response is useful, and makes the app feel more responsive. This is possible with HTTP [streaming](https://vercel.com/blog/an-introduction-to-streaming-on-the-web).
+
+I used for the first time the [Vercel AI SDK](https://vercel.com/blog/introducing-the-vercel-ai-sdk), with which I made an edge function (server-side, but running in a data center close to the visitor) that contacts Replicate directly without the proxy, then creates a stream the frontend consumes. With this backend functionality, I made a Notes app where the title of the note becomes the prompt, then made a Grammarly ripoff with a two-column design for spotting typos & grammar errors in your writing. The Vercel AI SDK was remarkably easy to get going with for this simple use case. While I wanted to explore [generative UI](https://vercel.com/blog/ai-sdk-3-generative-ui), their latest advancement, Replicate/LLaMa doesn’t currently support the function calling capabilities needed.
+
+## Writing
+
+Using Apple Vision Pro, you have less precise control than a trackpad/mouse and keyboard, and voice input is a more natural interaction than with a desktop computer. This lends itself well to AI that can take fuzzier input and produce sharper output, whereas on a computer with precise input, fuzzier output feels foreign. AI will undoubtedly work its way into certain spatial workflows for this reason.
+
+While I use Copilot, Arc Search, and Perplexity regularly, much of the generative AI hype doesn’t work for me—it’s not fast enough, precise enough, obvious enough, integrated enough into my workflows to make sense. The output frequently remains a semblance of what I was dreaming for it. I would never want to own a computer like the one I crafted this week, which trades ownership/knowledge, creation, and specificity for bland generative abilities.
