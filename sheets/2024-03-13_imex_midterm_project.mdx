@@ -14,17 +14,17 @@ Virtual reality may not be an [empathy machine](/2024-03-13_imex_empathy_in_virt
 
 I’ve used Blender a tiny bit in high school, but this week I had to dust those few skills off and learn a redesigned UI. I modeled a basic coal power plant, a pile of coal, and a precisely-10%-the-volume pile of coal ash.
 
-![blender screenshot](https://github.com/lachlanjc/edu/assets/5074763/ba0800cc-152f-46e0-b35c-c7ef755079bd)
+![blender screenshot](https://cloud-90hcs6wll-lachlanjc.vercel.app/blender.jpeg)
 
 I used Blender’s native brick texture for the power plant building, and the metal shading for the smokestacks to give them a distinctive appearance. For the coal & ash, I installed the [BlenderKit plugin](https://www.blenderkit.com/) to download the shaders, since those were more complex.
 
-<model interactive src= />
+<model interactive src="https://cloud-90hcs6wll-lachlanjc.vercel.app/power_plant.usdc" />
 
 ## Unity
 
 This was my first time using Unity, and I struggled.
 
-![main scene](https://github.com/lachlanjc/edu/assets/5074763/3830c70b-34ea-47a5-91fe-071a3ff25342)
+![Main scene](https://cloud-90hcs6wll-lachlanjc.vercel.app/main.png)
 
 One of the first challenges was the scene layout. When opening Game Mode, the scene was always empty. I discovered Blender installs a camera by default, which Unity was jumping to and ignoring the default Unity camera I configured. Inside the nested Blender scene in the Unity scene, I deleted the Blender camera and got the scene working again.
 
@@ -32,9 +32,9 @@ Adding typography was a challenge, but I’m fairly happy with the result. I imp
 
 The models I exported from Blender didn’t retain their procedurally-generated textures as `.fbx` or `.usdz` files, or importing the Blender file directly. I never figured out how to embed them or retain them. At the last minute, I downloaded stock raster image textures to apply to the models in Unity, but they didn’t look nearly as good as the procedural Blender ones.
 
-![highway scene](https://github.com/lachlanjc/edu/assets/5074763/ea5ab8cc-534b-4b0f-b421-be7d2b0e02f8)
+![Storage scene](https://cloud-90hcs6wll-lachlanjc.vercel.app/storage.png)
 
-![storage scene](https://github.com/lachlanjc/edu/assets/5074763/ae6fd8e7-02ea-4d59-bbe4-ca2f836d6eff)
+![Highway scene](https://cloud-90hcs6wll-lachlanjc.vercel.app/highway.png)
 
 The textures not transferring was detrimental for showing a modeled globe, because a sphere has none of the meaning of a globe. I downloaded different projections of Earth’s surface, and tried re-applying them in Unity, but they looked terrible, as you can see.
 
