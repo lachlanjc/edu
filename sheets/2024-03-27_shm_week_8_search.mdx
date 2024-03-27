@@ -1,0 +1,61 @@
+# Week 8: Search
+
+I [wrote recently](https://notebook.lachlanjc.com/2024-03-08_open_source_your_schoolwork_too) about why I open source all my schoolwork, and one of the reasons I mentioned is because I constantly refer to my past work. However, my site has been lacking a search feature, so I thought it’d be fun to build one. This week was my first time ever playing with embeddings. ([Here’s a great explanation of the concept.](https://simonwillison.net/2023/Oct/23/embeddings/))
+
+I started out reading [Maxime Heckel’s article](https://blog.maximeheckel.com/posts/building-magical-ai-powered-semantic-search/) on building semantic search over OpenAI’s API from scratch. I then found [Supabase’s tutorial](https://supabase.com/docs/guides/ai/examples/nextjs-vector-search) on integrating them, since I know they make a hosted database. (In hindsight, I should’ve used it!) But I kept looking around, and found [this tutorial for ChromaDB](https://bejamas.io/blog/ai-powered-semantic-search-chroma-db-and-astro/), which I was curious about.
+
+First, I set up ChromaDB, and bought $10 credit on OpenAI. I adapted that last tutorial’s basic code for indexing, using a Next.js API Route which:
+
+1. Queries [Contentlayer](https://contentlayer.dev) for all posts
+2. Reformats the content to remove code blocks, links, images, etc, using Maxime's code
+3. Generates embeddings for each post using OpenAI
+4. Indexes the embeddings in ChromaDB
+
+Then, it was time to build the search endpoint. I followed that tutorial’s structure again, adapting it into a second Next.js API Route that queries ChromaDB for the five most relevant posts to a search query, then reformats its output to include the post’s formatted title, date, and URL.
+
+Finally, for the frontend, I figured a client-side component would be fastest to build, which was sort of correct. I added an input, hooked up React state and the form submission to fetch the search API endpoint. I spent some time making the input update the URL of the page with a query parameter, so search results could be shared via URL, and reformatting the page title.
+
+<video
+  src="https://cloud-m194omal6-lachlanjc.vercel.app/search.mp4"
+  controls
+  muted
+  autoPlay
+  playsInline
+  loop
+>
+  Search
+</video>
+
+Sadly, I didn't realize until the very end that Chroma doesn't have a hosted version, so for now, this project can only run locally on my computer. Here's the results of 3 search terms, if you're curious what they're like. Unlike traditional search, these terms don't appear directly in several of the results, they're just related to the content of the page.
+
+Food:
+
+1. [How the Other Half Ate](/2024-03-05_fnc_how_the_other_half_ate)
+2. [Paper Proposal](/2024-03-05_fnc_paper_proposal)
+3. [Week 3 Readings](/2023-02-01_dis_week_3_readings)
+4. [Freedom Farmers](/2024-03-26_fnc_freedom_farmers)
+5. [Taming Manhattan](/2024-02-14_fnc_taming_manhattan)
+
+Accessibility:
+
+1. [All Technology Is Assistive](/2022-10-04_pcomp_all_technology_is_assistive)
+2. [Week 3 Responses](/2020-02-17_ast_week_3_responses)
+3. [Accessible Immersive Experiences](/2024-03-20_imex_accessible_immersive_experiences)
+4. [Week 4 Responses](/2020-02-24_ast_week_4_responses)
+5. [Week 5 Responses](/2020-02-29_ast_week_5_responses)
+  
+Apple Vision Pro:
+
+1. [Encounter Dinosaurs](/2024-02-19_imex_encounter_dinosaurs)
+2. [Week 2 Spatial](/2024-02-07_shm_week_2_spatial)
+3. [Week 6 Dimensions](/2024-03-06_shm_week_6_dimensions)
+4. [Digital Accessibility Options](/2020-02-01_ast_digital_accessibility_options)
+5. [Accessible Immersive Experiences](/2024-03-20_imex_accessible_immersive_experiences)
+
+---
+
+Source code for this week:
+
+- [Index generation](https://github.com/lachlanjc/edu/blob/search/pages/api/generate-index.js)
+- [Search endpoint](https://github.com/lachlanjc/edu/blob/search/pages/api/search.js)
+- [Search frontend](https://github.com/lachlanjc/edu/blob/search/pages/index.js)
