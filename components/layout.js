@@ -73,10 +73,9 @@ const ColorSwitcher = props => {
 
 const Layout = ({ xl, sx, ...props }) => {
   const { asPath: path } = useRouter()
-  const home = path === '/'
+  const home = path === '/' || path === '/?q='
   const base = '@lachlanjc/edu'
-  const name = home ? base : getName(path)
-  const counterColor = theme.colors.secondary.replace('#', '%23')
+  const name = home ? base : getName(path.replace('?q=', ''))
 
   return (
     <Box
