@@ -1,0 +1,32 @@
+# Rigging an avatar
+
+I started by using [Polycam 3D Scanner](https://apps.apple.com/us/app/polycam-3d-scanner-lidar-360/id1532482376?uo=4) for a classmate to scan me using LiDAR. I got this disfigured model out of it:
+
+![Scan](https://cloud-2ng2dnrx2-lachlanjc.vercel.app/scan.jpeg)
+
+<a href="https://cloud-2ng2dnrx2-lachlanjc.vercel.app/self.usdz" rel="ar">Here’s the 3D model.</a>
+
+<model src="https://cloud-2ng2dnrx2-lachlanjc.vercel.app/self.usdz" interactive />
+
+This model was fun to put into 3D space on Apple Vision Pro:
+
+![Vision](https://cloud-2ng2dnrx2-lachlanjc.vercel.app/vision.jpeg)
+
+I used Blender to convert the `.usdz` file to `.fbx`.
+
+Next, I used [Adobe Mixamo](https://www.mixamo.com/) to do a quick rig, and download an encoded animation.
+
+In Blender again, I imported the downloaded `.fbx` and added lighting and repositioned the camera, and exported.
+
+Finally, I used `ffmpeg -i input.mkv -c copy output.mp4` to transcode the `.mkv` file.
+
+<video
+  src="https://cloud-g74wnxt6v-lachlanjc.vercel.app/excited.mp4"
+  controls
+  muted
+  autoPlay
+  playsInline
+  loop
+>
+  Excited dancing Lachlan
+</video>
