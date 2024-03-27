@@ -1,7 +1,7 @@
 /** @jsxImportSource theme-ui */
 import Layout from '../components/layout'
 import { pick, orderBy } from 'lodash-es'
-import { Heading, Paragraph, Input } from 'theme-ui'
+import { Heading, Paragraph, Input, Alert } from 'theme-ui'
 import { allSheets } from 'contentlayer/generated'
 import SheetList from 'components/sheets'
 import { useEffect, useState } from 'react'
@@ -32,14 +32,26 @@ export default function IndexPage({ sheets: initialSheets }) {
         <a href="https://lachlanjc.com">@lachlanjc</a>’s coursework at NYU,
         majoring in Interactive Media Arts.
       </Paragraph>
+      <Alert
+        sx={{
+          bg: 'red',
+          fontFamily: 'heading',
+          fontWeight: 'body',
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+          pl: 2,
+        }}
+      >
+        This search only functions in development.
+      </Alert>
       <form
         onSubmit={e => {
           e.preventDefault()
-          router.replace('/?q=' + encodeURIComponent(q))
           if (q.trim().length === 0) {
+            router.replace('/')
             setSheets(initialSheets)
-            return
           } else {
+            router.replace('/?q=' + encodeURIComponent(q))
             fetch(`/api/search?q=${q}`)
               .then(res => res.json())
               .then(data => setSheets(data))
@@ -55,7 +67,9 @@ export default function IndexPage({ sheets: initialSheets }) {
             mb: 4,
             fontFamily: 'heading',
             bg: 'elevated',
-            borderColor: 'transparent',
+            borderColor: 'sunken',
+            borderTopLeftRadius: 0,
+            borderTopRightRadius: 0,
             ':focus': { borderColor: 'primary', outline: 'none' },
           }}
         />
