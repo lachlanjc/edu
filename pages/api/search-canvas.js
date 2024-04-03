@@ -2,10 +2,6 @@ import { ChromaClient, OpenAIEmbeddingFunction } from 'chromadb'
 import { allSheets } from 'contentlayer/generated'
 import { UMAP } from 'umap-js'
 
-function getRandomBetween(min, max) {
-  return Math.random() * (max - min) + min
-}
-
 function normalize(arrayOfNumbers) {
   // find max and min in the array
   let max = [0, 0]
@@ -67,26 +63,18 @@ export default async function handler(req, res) {
 
   const records = (items.ids[0] ?? []).map((id, i) => {
     const metadata = items.metadatas[0][i]
-    // const embeddings = items.embeddings[0][i]
     return {
       slug: id,
-      distance: items[i],
       ...metadata,
-      // embeddings,
       source: allSheets.find(sheet => sheet.slug === id).body.code,
     }
   })
 
-  console.log(`records: ${records.length}`)
-
-  // const embeddings = []
   const umap = new UMAP({
     nNeighbors: 2,
-    minDist: 50,
+    minDist: 0.001,
     spread: 5,
     nComponents: 2, // dimensions
-    // random: () => 0.5, // library seeded random so it is the same random numbers every time
-    //distanceFn: 'cosine',
   })
   let fittings = umap.fit(items.embeddings[0])
   fittings = normalize(fittings) //normalize to 0-1
