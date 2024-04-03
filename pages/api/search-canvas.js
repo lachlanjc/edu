@@ -36,13 +36,12 @@ export default async function handler(req, res) {
     openai_api_key: process.env.OPENAI_API_KEY ?? '',
   })
 
-  // note that instead of `createCollection` we use `getCollection`
   const collection = await client.getCollection({
     name: COLLECTION_NAME,
     embeddingFunction: embedder,
   })
 
-  // through an error if query param is not defined
+  // throw an error if query param is not defined
   if (!query) {
     return res
       .statusCode(403)
@@ -51,7 +50,9 @@ export default async function handler(req, res) {
 
   // don'send empty reponse if query is less than 3 chars
   if (query.length < 3) {
-    return new Response()
+    return res
+      .statusCode(403)
+      .json({ error: 'Please provide longer search query phrase' })
   }
 
   // query items in ChromaDB with give query phrase
@@ -77,7 +78,7 @@ export default async function handler(req, res) {
     nComponents: 2, // dimensions
   })
   let fittings = umap.fit(items.embeddings[0])
-  fittings = normalize(fittings) //normalize to 0-1
+  fittings = normalize(fittings) // normalize to 0-1
 
   const results = records.map((record, i) => ({
     ...record,

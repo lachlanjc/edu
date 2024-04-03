@@ -126,7 +126,7 @@ export default function Page() {
               transition: 'color 0.25s ease',
               '&:has(+ form input:focus)': {
                 color:
-                  'color-mix(in srgb, var(--theme-ui-colors-primary), rgb(255 255 255 / 0.925) 85%)',
+                  'color-mix(in srgb, var(--theme-ui-colors-primary), rgb(from var(--theme-ui-colors-background) r g b / 92.5%) 85%)',
               },
             }}
           />
