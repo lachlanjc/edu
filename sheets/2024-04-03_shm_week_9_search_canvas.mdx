@@ -1,0 +1,94 @@
+# Week 9: Search Canvas
+
+We’re surrounded by vertical feeds, scrolling vertically for many hours per day. Occasionally a designer [mixes it up](https://web.archive.org/web/20181201051655/https://www.apple.com/ipad-pro/) with a horizontally-scrolling page or component, but it’s not much to break up the tedium.
+
+Barbara Tversky [argues](https://www.youtube.com/watch?v=wMCiVL2qduQ) humans fundamentally think with visuals and space, describing how people who make diagrams, talk with their hands, and explain ideas grouped thematically consistently understand and communicate ideas better. What if ideas on websites weren’t only presented in a scrolling list of links, but spatially, the way our brains work? While there’s many spatial canvas apps for creation (Apple Freeform, Figjam, [Muse](https://museapp.com/), Obsidian Canvas, [tldraw](https://www.tldraw.com/), among many others), I’ve rarely seen information presented this way automatically, suggesting relationships through positioning.
+
+[Last week,](/2024-03-27_shm_week_8_search) I used ChromaDB with OpenAI embeddings to make this blog of coursework searchable for myself, not merely by the text content but based on the ideas and related phrases inside. While the search often returned intriguing results, it was difficult to use, because you have to click in & out of each post, and have no context for how the posts might or might not be related to your query.
+
+This week, I created a search UI like nothing else I’ve made, using an infinite canvas with visual results grouped by the distances of posts’ embeddings. The full contents of posts are rendered to be read inline, instead of links out.
+
+<video
+  src="https://cloud-c1m1hyb2r-lachlanjc.vercel.app/spatial.mp4"
+  controls
+  muted
+  autoPlay
+  playsInline
+  loop
+>
+  Spatial computing
+</video>
+
+<video
+  src="https://cloud-c1m1hyb2r-lachlanjc.vercel.app/haptics.mp4"
+  controls
+  muted
+  autoPlay
+  playsInline
+  loop
+>
+  Haptics
+</video>
+
+(I remain on the ChromaDB Cloud waiting list, so for now this demo is only running locally on my computer. I’m hoping to get the embeddings on a server soon so anyone can use this more conveniently.)
+
+Source code: [Frontend](https://github.com/lachlanjc/edu/blob/search/pages/canvas.js), [Backend](https://github.com/lachlanjc/edu/blob/search/pages/api/search-canvas.js)
+
+## How I built this
+
+I started by making a new search endpoint, based on the previous one but now including:
+
+- The raw embeddings of posts, queried on the ChromaDB call
+- The full MDX source content of each post pulled from [Contentlayer](https://contentlayer.dev/)
+
+After the search results are queried, I feed the embeddings to [UMAP.js](https://github.com/PAIR-code/umap-js), with customized parameters for my layout (like the spread between items). At first, I had this functionality running client-side, so I could map the results to window dimensions, but I realized the client avoiding all the UMAP math and not needing to download the raw embeddings would improve performance. Moving UMAP to the server, after it runs, I normalize the numbers from its vast numerical space into a -1 to +1 range that makes display easy on the frontend and minimizes download payload size.
+
+```js
+  const items = await collection.query({
+    nResults: 8,
+    queryTexts: query,
+    include: ['embeddings', 'metadatas'],
+  })
+
+  const records = (items.ids[0] ?? []).map((id, i) => {
+    const metadata = items.metadatas[0][i]
+    return {
+      slug: id,
+      ...metadata,
+      source: allSheets.find(sheet => sheet.slug === id).body.code,
+    }
+  })
+
+  const umap = new UMAP({
+    nNeighbors: 2,
+    minDist: 0.001,
+    spread: 5,
+    nComponents: 2, // dimensions
+  })
+  let fittings = umap.fit(items.embeddings[0])
+  fittings = normalize(fittings) // normalize to 0-1
+
+  const results = records.map((record, i) => ({
+    ...record,
+    fitting: fittings[i],
+  }))
+```
+
+On the frontend, I started to build my own infinite canvas with D3 primitives, using the recently-open-sourced [JSON Canvas spec](https://jsoncanvas.org/). I rapidly discovered how unintuitive building those UIs with CSS transforms is, and reached for [React Flow](https://reactflow.dev/) to power a more production-ready infinite canvas. Since I’m using it for display and not a mind map-style application, I customized many of its styling/interaction options around selection and resizing, opting instead to render the full contents of posts on cards but keep them small and scrollable.
+
+The embeddings → UMAP transformation feels more art than science, and viewers will have their own interpretation of results. I allow viewers to drag the posts around and navigate the spatial canvas themselves to draw their own connections as they read. It’d be lovely to highlight the most literal and further away connections of phrases inside posts. While I looked into the [new CSS Custom Highlights API](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Custom_Highlight_API), getting it to play nice with React and MDX appears to be a deep rabbit hole.
+
+I wanted a gradient mask around the top of the viewport to draw visual attention to the search field, which was a CSS adventure. I used both the [new CSS Relative Colors API](https://chriscoyier.net/2023/05/12/add-opacity-to-an-existing-color/) and [`color-mix`](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/color-mix) (both first times for me) to change the color of the gradient, using only CSS custom properties and a CSS `:has` query to avoid encoding theme color values into this area of the site. 
+
+```js
+{
+  color: 'rgb(from var(--theme-ui-colors-background) r g b / 92.5%);',
+  backgroundImage: 'radial-gradient(ellipse at top, currentColor, currentColor 50%, transparent 70%)',
+  transition: 'color 0.25s ease',
+  '&:has(+ form input:focus)': {
+    color: 'color-mix(in srgb, var(--theme-ui-colors-primary), rgb(from var(--theme-ui-colors-background) r g b / 92.5%) 85%)',
+  }
+}
+```
+
+I included a theme switching React component in the upper right for automatic or manual dark mode.
