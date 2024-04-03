@@ -8,7 +8,7 @@ import Meta from './meta'
 import { getName, getDescription, getImage } from '../lib/util'
 import theme from '../lib/theme'
 
-const ColorSwitcher = props => {
+export const ColorSwitcher = props => {
   const [mode, setMode] = useColorMode()
   return (
     <button
