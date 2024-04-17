@@ -1,0 +1,81 @@
+# Starting with React Three Fiber
+
+I’m making a spatial interface for [OldNYC](https://www.oldnyc.org/) to build my first real project with WebXR. Here’s where I’m at so far:
+
+<video
+  src="https://cloud-2vg3vt5ts-lachlanjc-team.vercel.app/demo.mp4"
+  controls
+  muted
+  autoPlay
+  playsInline
+  loop
+>
+  Demo
+</video>
+
+***
+
+I was hoping to develop this project on Glitch, since it’d be easily accessible from multiple devices. Disappointingly, they [do not support](https://x.com/glitch/status/1779930117529026843) modern versions of Node needed for this project. So I went back to my local setup, where I initialized a dev environment using Vite, which I [tried a few weeks ago](/2024-03-04_hap_shareable_haptic_experience). I used Bun with the `react-swc-ts` template. I might move to CodeSandbox soon.
+
+I started by trimming down the dataset—34MB of JSON is definitely going to crash these mobile browsers, and I don’t know what to do with that many photos yet. I grabbed 12 entries somewhat at random so I’d have an easy JSON file to work with.
+
+I’ve long admired and barely touched the [`pmndrs`](https://github.com/pmndrs) suite of projects, including React Three Fiber, a UI kit, and various utilities for developing 3D projects in React. I downloaded them all.
+
+To start my UI, [this example project](https://codesandbox.io/p/sandbox/cards-dc5fjy?file=/src/App.js:24,31) was my jumping off point, and it had some of the essential elements: a carousel of photos, plus a hover experience, even if I wanted a different layout. I hooked the cards up to my JSON file, began removing pieces from it like the scroll interaction, and updated the geometry to work with the carousel at the bottom of the page. None of these went super smoothly or obviously, since I’m so unfamiliar with the APIs in Three. What’s easy in HTML is hard here, and what’s impossible with CSS is barely any code here—I could never dream of making these smooth animations with `transform`! Yet doing text layout is a manual nightmare.
+
+Here’s the core Scene UI—this is *all the code* I had to write for the carousel 3D rotation!
+
+```jsx
+function Scene() {
+  const ref = useRef();
+  const [hovered, hover] = useState(null);
+
+  useFrame((state, delta) => {
+    state.events.update(); // Raycasts every frame rather than on pointer-move
+    easing.damp3(
+      state.camera.position,
+      [1, state.pointer.y + 3, 9],
+      0.3,
+      delta
+    );
+    state.camera.lookAt(0, 0, 0);
+  });
+
+  return (
+    <group ref={ref} position={[0, 1.5, 0]}>
+      <Cards
+        onPointerOver={hover}
+        onPointerOut={hover}
+        data={data}
+        from={Math.PI * (3 / 4)}
+        len={Math.PI / 2}
+        position={[-0.75, -1.5, 9.5]}
+      />
+      <ActiveCard
+        hoveredI={hovered}
+        data={hovered ? data[hovered] : undefined}
+      />
+    </group>
+  );
+}
+```
+
+Since I wasn’t using a cloud IDE, I needed to get my localhost online. My beloved ngrok went commercial, but I tracked down [localtunnel](). It turns out you need your IP address handy on your target device now; [bookmarking that link for myself](https://loca.lt/mytunnelpassword).
+
+Using localtunnel, I tried my experience on my Apple Vision Pro, and it was dreadful. I fell into a black void in the center of the carousel, could only spin around to look, couldn’t interact with anything, and had to exit. Here’s a screenshot:
+
+![Black void with hanging photos](https://cloud-2vg3vt5ts-lachlanjc-team.vercel.app/avp.jpeg)
+
+In the future, this will need to not be in a blank void, and unfortunately Apple is not supporting `immersive-ar` WebXR sessions for privacy reasons. (Not even native apps get to build real AR right now.) I’m not sure what kind of environment I want it to take place in, but I did some researching on how that works.
+
+I might try the iPhone app [HDReye](https://apps.apple.com/us/app/hdreye/id1566721813) to make an HDRi and see how it looks. I tried using Polycam & Luma to scan my bedroom this week for another project and the results of those were pretty disappointing.
+
+I briefly went down the path of [the `coconut-xr` suite](https://github.com/coconut-xr/natuerlich), which is a set of projects from another developer along the lines of [`pmndrs`](https://github.com/pmndrs). While the UI capabilities worked better (not well, but did work) on my Apple Vision Pro, I decided to leave them alone for now.
+
+Without a background environment, I needed to communicate something about the content of the app through the design. Unfortunately you can’t load local fonts or include standard webfonts in Three.js—it only understands the older `.woff` format. To customize the font, I used [everythingfonts.com](https://everythingfonts.com/ttf-to-woff)’s tool to convert the TTF download of [Spectral](https://fonts.google.com/specimen/Spectral?query=spectral) to a `.woff` file to self-host. It made a world of difference in the tone of the UI.
+
+This UI is bare-bones for now, and is lacking any sense of timeline, a map of the city, neighborhood navigator, or a VR environment to be in, but it’s the start of something fun!
+
+![Still](https://cloud-2vg3vt5ts-lachlanjc-team.vercel.app/still.jpeg)
+
+[**Try the demo**](https://nyc-time-machine.vercel.app/)
