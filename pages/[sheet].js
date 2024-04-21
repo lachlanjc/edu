@@ -19,7 +19,7 @@ export default function Sheet({ sheet, course }) {
           <BackButton
             icon="list"
             href={`/courses/${sheet.course}`}
-            text={`All ${course}`}
+            text={course}
           />
         )}
         <Content components={components} />
@@ -29,7 +29,7 @@ export default function Sheet({ sheet, course }) {
             dateTime={sheet.date}
             sx={{
               color: 'secondary',
-              fontFamily: 'heading',
+              fontFamily: 'sans',
               fontSize: 0,
               textAlign: 'center',
               a: { color: 'inherit' },
@@ -57,6 +57,6 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const sheet = allSheets.find(sheet => sheet.slug === params?.sheet)
-  const course = sheet.course ? COURSES[sheet.course] : null
+  const course = sheet.course ? COURSES[sheet.course].name : null
   return { props: { sheet, course } }
 }

@@ -100,7 +100,7 @@ const Layout = ({ xl, sx, ...props }) => {
           display: 'flex',
           alignItems: 'center',
           mb: 4,
-          fontFamily: 'heading',
+          fontFamily: 'sans',
         }}
       >
         <Avatar />
@@ -119,18 +119,7 @@ const Layout = ({ xl, sx, ...props }) => {
         </Link>
         <ColorSwitcher />
       </header>
-      <Box
-        as="article"
-        sx={
-          xl
-            ? {
-                display: 'grid',
-                gridTemplateColumns: [null, '1fr 256px'],
-                gap: [4, 5],
-              }
-            : sx
-        }
-      >
+      <Box as="article" sx={sx}>
         {props.children}
       </Box>
       <Flex

@@ -1,34 +1,169 @@
 {
-  "cc": "Creative Computing",
-  "cl": "Communication Lab",
-  "wte": "Writing the Essay",
-  "obj": "Objectivity",
+  "cc": {
+    "name": "Creative Computing",
+    "rating": 1,
+    "prof": "Dan O’Sullivan",
+    "semester": "f19"
+  },
+  "cl": {
+    "name": "Communication Lab",
+    "rating": 1,
+    "prof": "Gabe Barcia-Colombo",
+    "semester": "f19"
+  },
+  "wte": {
+    "name": "Writing the Essay",
+    "rating": 2,
+    "prof": "Gabriel Heller",
+    "semester": "f19"
+  },
+  "obj": {
+    "name": "Objectivity",
+    "rating": 2,
+    "prof": "Lisa Gitelman",
+    "semester": "f19"
+  },
 
-  "bit": "Big Ideas in Tech",
-  "dv": "Data Visualization",
-  "cw": "Creative Writing",
-  "ast": "Assistive Tech",
+  "bit": {
+    "name": "Big Ideas in Tech",
+    "rating": 0,
+    "prof": "Nancy Hechinger",
+    "semester": "s20"
+  },
+  "dv": {
+    "name": "Data Visualization",
+    "rating": 0,
+    "prof": "Sinan Ascioglu",
+    "semester": "s20"
+  },
+  "cw": {
+    "name": "Creative Writing",
+    "rating": 1,
+    "prof": "Sasha Debevec-McKenney",
+    "semester": "s20"
+  },
+  "ast": {
+    "name": "Assistive Tech",
+    "rating": 1,
+    "prof": "Holly Eldi",
+    "semester": "s20"
+  },
 
-  "fab": "Fabrication",
-  "pcomp": "Physical Computing",
-  "ptf": "Print, Typography, & Form",
-  "ind": "Information Design",
-  "gw": "Green World",
+  "fab": {
+    "name": "Fabrication",
+    "rating": 1,
+    "prof": "Molly Ritmiller",
+    "semester": "f22"
+  },
+  "pcomp": {
+    "name": "Physical Computing",
+    "rating": 2,
+    "prof": "Yeseul Song",
+    "semester": "f22"
+  },
+  "ptf": {
+    "name": "Print, Typography, & Form",
+    "rating": 2,
+    "prof": "Katherine Brideau",
+    "semester": "f22"
+  },
+  "ind": {
+    "name": "Information Design",
+    "rating": 0,
+    "prof": "Katherine Dillon",
+    "semester": "f22"
+  },
+  "gw": {
+    "name": "Green World",
+    "rating": 1,
+    "prof": "Alexander Ferris",
+    "semester": "f22"
+  },
 
-  "nrg": "Energy",
-  "daf": "Digital Audio Foundations",
-  "dis": "Discard Studies",
-  "envp": "History of US Environmental Policy",
-  "aaa": "Art & Activism",
+  "nrg": {
+    "name": "Energy",
+    "rating": 2,
+    "prof": "Jeff Feddersen",
+    "semester": "s23"
+  },
+  "daf": {
+    "name": "Digital Audio Foundations",
+    "rating": 0,
+    "prof": "Michael Schumacher",
+    "semester": "s23"
+  },
+  "dis": {
+    "name": "Discard Studies",
+    "rating": 2,
+    "prof": "Robin Nagle",
+    "semester": "s23"
+  },
+  "envp": {
+    "name": "History of US Environmental Policy",
+    "rating": 2,
+    "prof": "Kimberly Carlson",
+    "semester": "s23"
+  },
+  "aaa": {
+    "name": "Art & Activism",
+    "rating": 0,
+    "prof": "Eden Chinn",
+    "semester": "s23"
+  },
 
-  "envs": "Environmental Social Movements",
-  "idp": "Interdisciplinary Projects",
-  "barch": "Berlin Architecture",
-  "de": "German",
+  "envs": {
+    "name": "Environmental Social Movements",
+    "rating": 0,
+    "prof": "Stefan Bargheer",
+    "semester": "f23"
+  },
+  "idp": {
+    "name": "Interdisciplinary Projects",
+    "rating": 1,
+    "prof": "Susanne Kriemann",
+    "semester": "f23"
+  },
+  "barch": {
+    "name": "Architecture in Berlin",
+    "rating": 2,
+    "prof": "Tarek Ibrahim",
+    "semester": "f23"
+  },
+  "de": {
+    "name": "German",
+    "rating": 1,
+    "prof": "Tobias Neubelt",
+    "semester": "f23"
+  },
 
-  "cici": "Cities & Citizenship",
-  "fnc": "Food & Nature in Cities",
-  "imex": "Immersive Experiences",
-  "shm": "Shared Minds",
-  "hap": "Haptics"
+  "cici": {
+    "name": "Cities & Citizenship",
+    "rating": 1,
+    "prof": "Rosalind Fredericks",
+    "semester": "s24"
+  },
+  "fnc": {
+    "name": "Food & Nature in Cities",
+    "rating": 2,
+    "prof": "Jacob Remes",
+    "semester": "s24"
+  },
+  "imex": {
+    "name": "Immersive Experiences",
+    "rating": 0,
+    "prof": "Akmyrat Tuyliyev",
+    "semester": "s24"
+  },
+  "shm": {
+    "name": "Shared Minds",
+    "rating": 1,
+    "prof": "Dan O’Sullivan",
+    "semester": "s24"
+  },
+  "hap": {
+    "name": "Haptics",
+    "rating": 2,
+    "prof": "Kate Hartman",
+    "semester": "s24"
+  }
 }

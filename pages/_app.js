@@ -4,6 +4,7 @@ import theme from '../lib/theme'
 import components from '../lib/components'
 import { ThemeProvider } from 'theme-ui'
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
+import '../public/fonts/fonts.css'
 
 const App = ({ Component, pageProps }) => {
   return (
