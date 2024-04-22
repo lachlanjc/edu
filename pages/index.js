@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import { pick, orderBy, groupBy } from 'lodash-es'
 import { Heading, Paragraph } from 'theme-ui'
 import { allSheets } from 'contentlayer/generated'
@@ -18,7 +19,7 @@ export default function IndexPage({ semesters }) {
         majoring in Interactive Media Arts.
       </Paragraph>
       {Object.entries(semesters).map(([semester, sheets]) => (
-        <>
+        <Fragment key={semester}>
           <Heading
             as="h2"
             sx={{
@@ -32,7 +33,7 @@ export default function IndexPage({ semesters }) {
             {formatSemester(semester)}
           </Heading>
           <SheetList sheets={sheets} />
-        </>
+        </Fragment>
       ))}
     </>
   )

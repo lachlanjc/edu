@@ -57,7 +57,7 @@ const App = ({ Component, pageProps }) => {
     <ThemeProvider theme={theme} components={components}>
       <Layout
         xl={Component.layout === 'xl'}
-        className={`${monaSans.className} ${monaSans.variable} ${gramercy.variable}`}
+        className={`${monaSans.className} ${gramercy.variable}`}
       >
         <Component {...pageProps} />
       </Layout>
