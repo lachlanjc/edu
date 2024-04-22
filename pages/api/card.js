@@ -21,15 +21,12 @@ function arrayBufferToBase64(buffer) {
 export default async function (req) {
   const fontSerif = await fetch(
     new URL(
-      '../../public/fonts/ABCGramercy-Medium-Trial.otf',
+      '../fonts/ABCGramercy-Medium-Trial.otf',
       import.meta.url,
     ).toString(),
   ).then(res => res.arrayBuffer())
   const fontSans = await fetch(
-    new URL(
-      '../../public/fonts/Mona-Sans-Regular.otf',
-      import.meta.url,
-    ).toString(),
+    new URL('../fonts/Mona-Sans-Regular.otf', import.meta.url).toString(),
   ).then(res => res.arrayBuffer())
   const username = process.env.NEXT_PUBLIC_VERCEL_GIT_REPO_OWNER ?? 'lachlanjc'
   const avatarResponse = await fetch(`https://github.com/${username}.png`)

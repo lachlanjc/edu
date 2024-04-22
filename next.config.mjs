@@ -8,7 +8,7 @@ const config = withContentlayer({
   compiler: {
     emotion: true,
   },
-  pageExtensions: ['js', 'ts', 'tsx', 'mdx'],
+  pageExtensions: ['js', 'ts', 'tsx'],
   images: {
     domains: ['cdn.glitch.com', 'www.icloud.com'],
   },

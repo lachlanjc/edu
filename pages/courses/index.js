@@ -1,5 +1,4 @@
 /** @jsxImportSource theme-ui */
-import Layout from '../../components/layout'
 import { Heading, Link as A } from 'theme-ui'
 import Link from 'next/link'
 import BackButton from 'components/back'
@@ -10,7 +9,7 @@ import { Fragment } from 'react'
 
 export default function IndexPage({ semesters }) {
   return (
-    <Layout>
+    <>
       <BackButton text="All posts" />
       <Heading as="h1" variant="styles.h1" sx={{ mt: 2, mb: 4 }}>
         Courses
@@ -63,7 +62,7 @@ export default function IndexPage({ semesters }) {
           </ol>
         </Fragment>
       ))}
-    </Layout>
+    </>
   )
 }
 

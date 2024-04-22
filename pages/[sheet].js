@@ -1,7 +1,6 @@
 import { BaseStyles } from 'theme-ui'
 import { useMDXComponent } from 'next-contentlayer/hooks'
 import components from '../lib/components'
-import Layout from '../components/layout'
 import { allSheets } from 'contentlayer/generated'
 import BackButton from 'components/back'
 import { formatDate } from 'lib/util'
@@ -13,38 +12,38 @@ export default function Sheet({ sheet, course }) {
   const Content = useMDXComponent(sheet.body.code)
 
   return (
-    <Layout>
+    <>
+      {course && (
+        <BackButton
+          icon="list"
+          href={`/courses/${sheet.course}`}
+          text={course}
+        />
+      )}
       <BaseStyles>
-        {course && (
-          <BackButton
-            icon="list"
-            href={`/courses/${sheet.course}`}
-            text={course}
-          />
-        )}
         <Content components={components} />
-        {sheet.date?.startsWith('20') && (
-          <Text
-            as="time"
-            dateTime={sheet.date}
-            sx={{
-              color: 'secondary',
-              fontFamily: 'sans',
-              fontSize: 0,
-              textAlign: 'center',
-              a: { color: 'inherit' },
-            }}
-          >
-            Posted {formatDate(new Date(sheet.date))}{' '}
-            <a
-              href={`https://github.com/lachlanjc/edu/blob/glitch/sheets/${sheet.slug}.mdx`}
-            >
-              via GitHub
-            </a>
-          </Text>
-        )}
       </BaseStyles>
-    </Layout>
+      {sheet.date?.startsWith('20') && (
+        <Text
+          as="time"
+          dateTime={sheet.date}
+          sx={{
+            color: 'secondary',
+            fontFamily: 'sans',
+            fontSize: 0,
+            textAlign: 'center',
+            a: { color: 'inherit' },
+          }}
+        >
+          Posted {formatDate(new Date(sheet.date))}{' '}
+          <a
+            href={`https://github.com/lachlanjc/edu/blob/glitch/sheets/${sheet.slug}.mdx`}
+          >
+            via GitHub
+          </a>
+        </Text>
+      )}
+    </>
   )
 }
 

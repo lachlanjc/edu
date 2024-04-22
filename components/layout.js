@@ -88,6 +88,7 @@ const Layout = ({ xl, sx, ...props }) => {
         lineHeight: 'body',
         mx: 'auto',
       }}
+      {...props}
     >
       <Meta
         title={home ? base : `${name} – ${base}`}

@@ -1,4 +1,3 @@
-import Layout from '../components/layout'
 import { pick, orderBy, groupBy } from 'lodash-es'
 import { Heading, Paragraph } from 'theme-ui'
 import { allSheets } from 'contentlayer/generated'
@@ -8,7 +7,7 @@ import { formatSemester } from 'lib/util'
 
 export default function IndexPage({ semesters }) {
   return (
-    <Layout xl>
+    <>
       <Heading as="h1" variant="styles.h1" sx={{ m: 0 }}>
         Coursework
       </Heading>
@@ -35,9 +34,10 @@ export default function IndexPage({ semesters }) {
           <SheetList sheets={sheets} />
         </>
       ))}
-    </Layout>
+    </>
   )
 }
+IndexPage.layout = 'xl'
 
 export const getStaticProps = () => {
   const sheets = orderBy(

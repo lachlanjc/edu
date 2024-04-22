@@ -10,11 +10,10 @@ const BackButton = ({ icon = 'back', text = 'Back', href = '/' }) => (
         alignItems: 'center',
         gap: 1,
         fontFamily: 'sans',
-        fontWeight: 'bold',
         color: 'primary',
         textDecoration: 'none',
         fontSize: 2,
-        '& + h1': {
+        '& + h1, & + div > h1:first-child': {
           mt: 2,
           mb: 4,
         },

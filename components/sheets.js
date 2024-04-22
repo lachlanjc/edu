@@ -50,7 +50,13 @@ const SheetList = ({ sheets, hideCourses = false, sx }) => (
                 )}
               </small>
             )}
-            <strong sx={{ fontWeight: '600', lineHeight: 'title' }}>
+            <strong
+              sx={{
+                fontFamily: 'body',
+                fontWeight: '600',
+                lineHeight: 'title',
+              }}
+            >
               {name}
             </strong>
 
