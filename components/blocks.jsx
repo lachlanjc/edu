@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui'
-import React from 'react'
 import theme, { palette } from '../lib/theme'
 import CodePenEmbed from 'react-codepen-embed'
 
