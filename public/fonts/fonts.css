@@ -14,8 +14,8 @@
 @font-face {
   font-family: 'Mona Sans';
   src:
-    url('/fonts/Mona-Sans-Bold.woff2') format('woff2'),
-    url('/fonts/Mona-Sans-Bold.woff') format('woff');
+    url('/fonts/Mona-Sans-SemiBold.woff2') format('woff2'),
+    url('/fonts/Mona-Sans-SemiBold.woff') format('woff');
   font-style: normal;
-  font-weight: bold;
+  font-weight: 600;
 }

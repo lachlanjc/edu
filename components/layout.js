@@ -99,6 +99,7 @@ const Layout = ({ xl, sx, ...props }) => {
         sx={{
           display: 'flex',
           alignItems: 'center',
+          gap: 3,
           mb: 4,
           fontFamily: 'sans',
         }}
@@ -115,6 +116,16 @@ const Layout = ({ xl, sx, ...props }) => {
           >
             @lachlanjc
             {!home && '/edu'}
+          </a>
+        </Link>
+        <Link href="/courses" passHref legacyBehavior>
+          <a
+            sx={{
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            Courses
           </a>
         </Link>
         <ColorSwitcher />

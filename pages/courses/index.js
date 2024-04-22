@@ -6,10 +6,9 @@ import BackButton from 'components/back'
 import Rating from 'components/rating'
 import COURSES from 'lib/courses.json'
 import { formatSemester } from 'lib/util'
+import { Fragment } from 'react'
 
 export default function IndexPage({ semesters }) {
-  // console.log(props)
-  // const semesters = []
   return (
     <Layout>
       <BackButton text="All posts" />
@@ -18,12 +17,19 @@ export default function IndexPage({ semesters }) {
       </Heading>
 
       {Object.keys(semesters).map((semester, i) => (
-        <>
-          <Heading as="h2" sx={{ fontSize: 2, mt: 4, mb: 3 }}>
-            {/* {formatSemester(semester)} */}
-            {semester}
+        <Fragment key={semester}>
+          <Heading
+            as="h2"
+            sx={{
+              fontSize: 1,
+              fontFamily: 'sans',
+              color: 'secondary',
+              mt: 4,
+              mb: 3,
+            }}
+          >
+            {formatSemester(semester)}
           </Heading>
-          <pre>{JSON.stringify(semesters[semester], null, 2)}</pre>
           <ol
             sx={{
               fontFamily: 'sans',
@@ -35,36 +41,34 @@ export default function IndexPage({ semesters }) {
               gap: 3,
             }}
           >
-            {/* {Object.keys(semesters[semester]).map((slug, i) => (
+            {semesters[semester].map(({ slug, name, rating }, i) => (
               <li key={slug}>
                 <Link href={`/courses/${slug}`} passHref legacyBehavior>
                   <A
                     sx={{
-                      display: 'grid',
-                      gridTemplateColumns: '1fr 24px',
+                      display: 'flex',
                       columnGap: 3,
                       alignItems: 'center',
                       color: 'primary',
                       textDecoration: 'none',
+                      lineHeight: 'title',
                     }}
                   >
-                    <strong sx={{ lineHeight: 'title' }}>
-                      {COURSES[slug].name}
-                    </strong>
-                    <Rating val={COURSES[slug].rating} />
+                    {semester !== 's24' && <Rating val={rating} />}
+                    {name}
                   </A>
                 </Link>
               </li>
-            ))} */}
+            ))}
           </ol>
-        </>
+        </Fragment>
       ))}
     </Layout>
   )
 }
 
 export const getStaticProps = async () => {
-  const semesters = []
+  const semesters = {}
   let semesterKeys = new Set(Object.values(COURSES).map(c => c.semester))
   const courses = Object.keys(COURSES).map(slug => {
     return {

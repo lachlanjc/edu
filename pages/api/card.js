@@ -5,6 +5,8 @@ export const config = {
   runtime: 'experimental-edge',
 }
 
+const colors = {}
+
 /** @type {(buffer: ArrayBuffer) => string} */
 function arrayBufferToBase64(buffer) {
   let binary = ''
@@ -17,11 +19,17 @@ function arrayBufferToBase64(buffer) {
 
 /* @type {(req: NextRequest) => Promise<ImageResponse>} */
 export default async function (req) {
-  const fontElenaBold = await fetch(
-    new URL('../../public/fonts/Elena-Bold.otf', import.meta.url).toString(),
+  const fontSerif = await fetch(
+    new URL(
+      '../../public/fonts/ABCGramercy-Medium-Trial.otf',
+      import.meta.url,
+    ).toString(),
   ).then(res => res.arrayBuffer())
-  const fontKlimaRegular = await fetch(
-    new URL('../../public/fonts/Klima-Regular.otf', import.meta.url).toString(),
+  const fontSans = await fetch(
+    new URL(
+      '../../public/fonts/Mona-Sans-Regular.otf',
+      import.meta.url,
+    ).toString(),
   ).then(res => res.arrayBuffer())
   const username = process.env.NEXT_PUBLIC_VERCEL_GIT_REPO_OWNER ?? 'lachlanjc'
   const avatarResponse = await fetch(`https://github.com/${username}.png`)
@@ -41,21 +49,20 @@ export default async function (req) {
     const caption = searchParams.has('caption')
       ? searchParams.get('caption').slice(0, 100)
       : undefined
-    const fontSize = searchParams.has('fontSize')
-      ? Number(searchParams.get('fontSize').match(/\d+/))
-      : 235
 
     const colors =
       theme === 'dark'
         ? {
             bg: '#170026',
-            dots: '#362045',
             text: '#c975ff',
+            primary: '#c975ff',
+            secondary: '#867392',
           }
         : {
-            bg: '#fcf6ff',
-            dots: '#f0e6ff', // 'rgba(0,0,0,0.125)'
-            text: '#8900e1',
+            text: '#291d30',
+            primary: '#8900e1',
+            secondary: '#7e6c88',
+            bg: '#faf7fd',
           }
 
     return new ImageResponse(
@@ -63,30 +70,22 @@ export default async function (req) {
         <div
           style={{
             backgroundColor: colors.bg,
-            backgroundImage: `radial-gradient(circle at 25px 25px, ${colors.dots} 3%, transparent 0%),   
-            radial-gradient(circle at 75px 75px, ${colors.dots} 3%, transparent 0%)`,
-            backgroundSize: '100px 100px',
             height: '100%',
             width: '100%',
             display: 'flex',
-            textAlign: 'center',
-            alignItems: 'center',
+            alignItems: 'flex-start',
             flexDirection: 'column',
-            flexWrap: 'nowrap',
-            fontFamily: 'Klima, system-ui, sans-serif',
+            fontFamily: '"Mona Sans", system-ui, sans-serif',
             letterSpacing: '-.01em',
+            padding: 100,
           }}
         >
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
-              alignContent: 'center',
-              justifyContent: 'center',
-              justifyItems: 'center',
-              fontSize: '105px',
-              padding: '50px',
-              marginTop: 25,
+              justifyContent: 'flex-start',
+              fontSize: '100px',
             }}
           >
             <img
@@ -96,25 +95,11 @@ export default async function (req) {
               style={{
                 borderRadius: 75,
                 margin: 0,
-                marginRight: 35,
+                marginRight: 50,
               }}
             />
-            <span
-              style={{
-                color: '#8492a6',
-              }}
-            >
-              {username}/
-            </span>
-            <span
-              style={{
-                color: colors.text,
-                // fontWeight: 'bold',
-                marginLeft: '1ch',
-              }}
-            >
-              edu
-            </span>
+            <span style={{ color: colors.secondary }}>{username}/</span>
+            <span style={{ color: colors.primary }}>edu</span>
           </div>
           <div
             style={{
@@ -122,22 +107,20 @@ export default async function (req) {
               marginBottom: 'auto',
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center',
-              alignContent: 'center',
               justifyContent: 'center',
-              justifyItems: 'center',
             }}
           >
             <div
               style={{
-                margin: '-0.25em 0.375em 0.25em',
-                paddingBottom: 25,
-                lineHeight: 1.125,
+                margin: '-0.5em 0 0.25em',
+                lineHeight: 0.875,
                 whiteSpace: 'pre-wrap',
-                fontFamily: '"Elena", Georgia, serif',
-                fontSize,
-                color: colors.text,
-                textWrap: 'balance'
+                fontFamily: '"Gramercy", Georgia, serif',
+                letterSpacing: '-0.01em',
+                fontSize:
+                  title.length > 24 ? 200 : title.length < 14 ? 300 : 250,
+                color: colors.primary,
+                textWrap: 'balance',
               }}
             >
               {title}
@@ -145,10 +128,9 @@ export default async function (req) {
             {caption && (
               <div
                 style={{
-                  textTransform: 'uppercase',
-                  color: '#7a8c97',
+                  color: colors.secondary,
                   letterSpacing: 0,
-                  fontSize: fontSize * 0.375,
+                  fontSize: '100px',
                 }}
               >
                 {caption}
@@ -163,14 +145,14 @@ export default async function (req) {
         // debug: true,
         fonts: [
           {
-            name: 'Klima',
-            data: fontKlimaRegular,
+            name: 'Mona Sans',
+            data: fontSans,
             weight: 400,
             style: 'normal',
           },
           {
-            name: 'Elena',
-            data: fontElenaBold,
+            name: 'Gramercy',
+            data: fontSerif,
             weight: 700,
             style: 'normal',
           },

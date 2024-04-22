@@ -18,9 +18,11 @@ export default function IndexPage({ course, sheets }) {
       <Paragraph sx={{ fontSize: 3, color: 'secondary', mt: 0, mb: 2 }}>
         with {course.prof}
       </Paragraph>
-      <RatingWithDetails val={course.rating} showText />
+      {course.semester !== 's24' && (
+        <RatingWithDetails val={course.rating} showText />
+      )}
       <div sx={{ height: 48 }} />
-      <SheetList sheets={sheets} hideCourses sx={{ mt: 4 }} />
+      <SheetList sheets={sheets} hideCourses />
     </Layout>
   )
 }

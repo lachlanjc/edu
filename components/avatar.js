@@ -7,7 +7,6 @@ const Avatar = ({ size = 48, ...props }) => (
     size={size}
     src="https://github.com/lachlanjc.png"
     alt="Lachlan's avatar"
-    mr={3}
   />
 )
 

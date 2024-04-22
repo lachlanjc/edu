@@ -7,7 +7,6 @@ import COURSES from 'lib/courses.json'
 import { formatSemester } from 'lib/util'
 
 export default function IndexPage({ semesters }) {
-  console.log(semesters)
   return (
     <Layout xl>
       <Heading as="h1" variant="styles.h1" sx={{ m: 0 }}>
@@ -21,7 +20,16 @@ export default function IndexPage({ semesters }) {
       </Paragraph>
       {Object.entries(semesters).map(([semester, sheets]) => (
         <>
-          <Heading as="h2" sx={{ fontSize: 2, mt: 4, mb: 3 }}>
+          <Heading
+            as="h2"
+            sx={{
+              fontSize: 1,
+              fontFamily: 'sans',
+              color: 'secondary',
+              mt: 4,
+              mb: 3,
+            }}
+          >
             {formatSemester(semester)}
           </Heading>
           <SheetList sheets={sheets} />
