@@ -1,4 +1,4 @@
-import { defineDocumentType, makeSource } from 'contentlayer2/source-files'
+import { defineDocumentType, makeSource } from 'contentlayer/source-files'
 import { hasDate, getDate, getName } from './lib/util'
 import COURSES from './lib/courses.json'
 import remarkGfm from 'remark-gfm'
