@@ -18,11 +18,11 @@ The codebase is [all open source here](https://github.com/lachlanjc/spatial-twit
 
 ## Background
 
-I’m a Twitter power-user. I’ve met many of my closest friends through Twitter, and owe much of my career to it. This past month I crossed 10 years on Twitter, and over the course of this project I crossed 300,000 liked tweets, and countless bookmarks. All these tweets meant something to me, but the onslaught of newness means they’re rapidly forgotten.
+I’m a Twitter power user. I’ve met many of my closest friends through Twitter, and owe much of my career to it. This past month I crossed 10 years on Twitter, and over the course of this project I crossed 300,000 liked tweets, and countless bookmarks. All these tweets meant something to me, but the onslaught of newness means they’re rapidly forgotten.
 
-Twitter knows me wildly well, and no one else in the world has my exact feed: a mix of many kinds of design, web dev, open source, pop music, young musicians, queer media, climate science, environmental policy, and so much more. My feed is wildly compelling to me, which is why I spend so much time there. I’m intrigued that social networks calculate so many factors on posts/people—which is why they’re so good at recommending content—but compress all this metadata into one number: the ranking of posts in your feed for any given session.
+Twitter knows me wildly well, and no one else in the world has my exact feed: a mix of many kinds of design, web dev, tech news, Apple, pop music, queer media, climate science, environmental policy/politics, and so much more. My feed is wildly compelling to me, which is why I spend so much time there.
 
-This project is trying to explode back out the gems of my Twitter feed into multiple dimensions. It’s an advanced semantic search tool for my Twitter likes + bookmarks, using an infinite canvas spatial UI to make it a tool for
+I’m intrigued that social networks calculate so many factors on posts/people—which is why they’re so good at recommending content—but compress all this metadata into one number: the ranking of posts in your feed for any given session. This project is trying to explode back out the gems of my Twitter feed into multiple dimensions. It’s an advanced semantic search tool for my Twitter likes + bookmarks, using an infinite canvas spatial UI to make it a tool for grouping thoughts together.
 
 The elements of this project came from a few sentiments in the water recently. On the Twitter side:
 
@@ -102,9 +102,7 @@ Testing with some classmates, I got great feedback across a number of areas:
 - Reasoning for the ordering/positioning of results is unclear. Can they be grouped with text labels?
 - I noticed people struggling with the browser trackpad gestures for two-finger swipe back causing people to lose their place
 
-## Second iteration
-
-### Filters
+## Filters
 
 Filters seemed like a key first step to narrow results. I came up with four axes of filtering:
 
@@ -113,7 +111,7 @@ Filters seemed like a key first step to narrow results. I came up with four axes
 3. Links: URLs, hashtags, mentions
 4. Interaction: bookmarked, liked, retweeted
 
-A general engineering principle I have in Next.js projects is to move logic as far up the stack as I can; build scripts over server endpoints/rendering/components over client. In my embed script, I added basic heuristics based on the JSON of tweets, so Chroma could handle filtering for me; if I handled the filtering outside the search, I’d have to gather many more results from Chroma, then potentially return too few once that set was filtered. Chroma doesn’t support boolean types, so I
+A general engineering principle I have in Next.js projects is to move logic as far up the stack as I can; build scripts over server endpoints/rendering/components over client. In my embed script, I added basic heuristics based on the JSON of tweets, so Chroma could handle filtering for me; if I handled the filtering outside the search, I’d have to gather many more results from Chroma, then potentially return too few once that set was filtered. Chroma doesn’t support boolean types, so I convert the boolean values to numbers:
 
 ```js
 await collection.add({
@@ -155,13 +153,13 @@ This took a few hours to piece together in total. Here’s the UI:
 
 ![Filters](https://cloud-6gmaemigz-lachlanjc-team.vercel.app/filters.png)
 
-### Suggested searches
+## Suggested searches
 
 Suggested searches came together quickly. Since the project only has my liked tweets, I found some topics that had intriguing results & labeled them across the bottom of the screen before you search anything:
 
 ![Suggested](https://cloud-6gmaemigz-lachlanjc-team.vercel.app/suggested.png)
 
-### Layout
+## Layout
 
 The infinite canvas layout issue was the chunk I spent the most cycles on. I liked the ability to move the tweets around on the canvas, but the overlapping made it hard to sift through visual results rapidly. Having recently read about the upcoming [CSS Masonry Layout](https://webkit.org/blog/15269/help-us-invent-masonry-layouts-for-css-grid-level-3/), I made another page in the Next app that removed the infinite canvas in favor of a masonry grid.
 
@@ -177,7 +175,7 @@ const [GRID_WIDTH, GRID_HEIGHT] = [550 + 55, 55 * 3];
 
 The overlapping issue I could partially solve with two new aspects in my `positionTweets` function: rounding the x/y coordinates to the same grid width/height (simple arithmetic), and preventing any tweets from starting at the same x/y coordinates (using a `Set` & `while` loop). This can’t be fully be solved—without incredibly complex offscreen rendering and sizing code—because I can’t know how tall tweets will be on the canvas before they’re rendered, and the positioning code must run before they’re rendered. I decided my intervening measures were good enough for demo.
 
-### UI
+## UI
 
 I wanted to upgrade the UI, so I added [Radix Themes](https://www.radix-ui.com/themes) for easily stylable, accessible UI components. I paired it with [next-themes](https://github.com/pacocoursey/next-themes) for a quick dark mode. I upgraded React Flow to its v12 beta to use its dark mode, which I connected to `next-themes`.
 
