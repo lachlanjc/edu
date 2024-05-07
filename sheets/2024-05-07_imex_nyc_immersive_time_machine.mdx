@@ -1,0 +1,112 @@
+# NYC Immersive Time Machine
+
+## Project brief
+
+NYC Portal is a WebVR experience to see what the city looked like a century ago, centered in three places I spend the most time in around NYC. A 360-degree photosphere grounds viewers in each location, but focuses on an interactive 3D carousel of photos. Viewers can rifle through the deck of photos, organized in a chronological timeline, and see the photos up close, with details like the year, the exact location, and captions of the photos transcribed from the archives.
+
+<video src="https://github.com/lachlanjc/edu/assets/5074763/4b7d9968-669a-4886-9ae9-9df95e1b926c" controls muted autoPlay playsInline loop>Demo</video>
+
+Try it yourself: https://nyc-portal.vercel.app/
+
+View codebase on GitHub: https://github.com/lachlanjc/nyc-portal
+
+It’s not exclusively for New Yorkers, but I expect people who have been to New York/specifically these areas will get more out of the experience than random internetters with VR hardware. It’s designed to be used stationary, likely at home. While the content would be updated a bit for the context, a version could go in a building lobby, a gallery, or a museum to showcase the history of the neighborhood.
+
+The content viewers are focused is more an AR experience, but they’re set in the surroundings of the chosen location in a 360 photo-sphere. There’s sound effects on interaction. It’s usable inside a desktop-sized web browser, or on a VR headset like Meta Quest or Apple Vision Pro using WebVR.
+
+## Data
+
+I used the [OldNYC](https://www.oldnyc.org/) dataset for this project, which is a geotagged set of photos from the New York Public Library. I downloaded the JSON dump from GitHub, then sorted through the results manually to find photos near each of my chosen three locations. I saved each photo entry into a JSON file for each location .
+
+Annoyingly, OldNYC intelligently prevents serving their photos from other domains, so they’re not paying the bandwidth costs for projects like mine. That meant I needed to download the photos to re-host myself, which manually got tiring quickly.
+
+I wrote a simple [Bun](https://bun.sh) script to check I had no duplicates in my datasets and download the photos from the JSON files:
+
+<details>
+<summary>Bun script</summary>
+
+```js
+const seenIds = new Set();
+
+Bun.file("src/locations/stuytown.json")
+  .text()
+  .then((text) => JSON.parse(text))
+  .then((data) => {
+    data.forEach((location) => {
+      if (seenIds.has(location.photo_id)) {
+        console.log(`Duplicate photo_id: ${location.photo_id}`);
+      } else {
+        seenIds.add(location.photo_id);
+      }
+      const filepath = `public/photos/${location.photo_id}.jpg`;
+      if (!Bun.file(filepath)) {
+        console.log(`Downloading ${location.image_url}`);
+        fetch(location.image_url)
+          .then((res) => res.blob())
+          .catch((err) => console.error(err))
+          .then((data) => {
+            const file = new File([data], filepath, { type: "image/jpeg" });
+            Bun.write(filepath, file);
+          });
+      } else {
+        console.log(`File already exists: ${filepath}`);
+      }
+    });
+  });
+
+```
+
+</details>
+
+Learning Bun’s file I/O methods have been a game-changer for automation scripting for me recently. Little tasks while I’m coding that I wouldn’t have automated before because fighting with Node.js’s `fs` was so difficult I can now do super quickly, especially with GitHub Copilot helping along the way.
+
+I manually cleaned up some of the JSON entries, separating out long blocks of text in captions that were meant to be split across photos, and filling in the `date` columns from some of the captions.
+
+## Photo gallery
+
+Two weeks ago, I [started out](/2024-04-17_imex_starting_with_react_three_fiber) with React Three Fiber & WebXR, building the core photo gallery interaction of a 3D carousel with a pointer interaction for viewing the details of a photo. I updated the geometry code to rotate the gallery vertically instead.
+
+In class, my professor noted the similarity to the macOS Downloads stack visual, which I hadn’t thought of as a design reference but I love.
+
+## UI
+
+Building such a simple UI with React Three Fiber was harder than I ever imagined. I wanted a stripped-down UI that was easy to read, deferential to the content, and vaguely followed Apple Vision’s design ideas. I expected this not to be too difficult due to the [pmndrs/uikit](https://docs.pmnd.rs/uikit/getting-started/introduction) library, which replicates the industry-favorite [shadcn/ui](https://github.com/shadcn-ui/ui) library but with React Three Fiber primitives. The Apfel UI kit looked easy.
+
+Unfortunately, there’s very few examples with the UI kit library of how to do layout. When you’re using the experience inside a web browser frame, tilting UI like the photo detail pane makes it unnecessarily harder to read. (This is why screenshots are so bad on Apple Vision Pro: they’re like taking an iPhone photo of your laptop display, instead of screenshotting the content itself.) I used the [`Fullscreen` primitive](https://docs.pmnd.rs/uikit/getting-started/components-and-properties#fullscreen) of `uikit` to connect the location switcher & detail panel toggles to the viewport. Ideally, in the VR environment this would switch to being scene-based, instead of head-tracked, as the head-tracked UI makes the experience claustrophobic.
+
+If I’d known from the start how broken the WebVR experience would be, I could have bailed on rendering the UI using Three.js & just used CSS, and made something better looking and more performant in a fraction of the time. Lived & learned.
+
+## Sound effects
+
+I used Josh Comeau’s ever-handy [`use-sound`](https://github.com/joshwcomeau/use-sound) library to add subtle sound effects to the photo deck and location switcher.
+
+## Surroundings
+
+I wanted the photos to teleport viewers to the places they’re viewing the history of. My first attempts were inside at each of the locations, but I realized all the photos they’re viewing are of buildings/outside, so I took a second pass outside.
+
+I used the Insta360 X2 camera on a small tripod to capture the panoramic photographs for the background imagery. Here’s the resulting photos:
+
+![locations](https://github.com/lachlanjc/edu/assets/5074763/178db3c6-1f0e-402e-bf63-eaac7414ddcb)
+
+
+I tried the iPhone app [HDReye](https://apps.apple.com/us/app/hdreye/id1566721813) to make an HDRi inside 370 Jay St, but it took a long time, there were terrible stitching artifacts, and the contrast was way too high:
+
+![HDReye result](https://hdreye.s3.amazonaws.com/file/67df3170-23f1-4c5d-81ee-76f7462a6bad/0de396bf-75d0-4a9b-b091-615c9587814b.jpg)
+
+In the future, I’d like to upgrade the “surroundings:”
+
+- Adding background audio recordings of each of the locations
+- Getting a higher-resolution 360 camera
+- Spending the time to use more ideal locations for photographing, like further into the park & in the center of Stuytown
+- Using a higher tripod for a more human-level POV
+- Photoshopping out the tripod
+
+If I had an order of magnitude more time for the project, I’d pursue an approach like Jeffrey Yoo Warren’s [3D VR reconstruction](https://unterbahn.com/chinatown/) of historic Chinatown in Providence, RI, where he 3D modeled the buildings & overlaid the images as textures. Using AI image upscaling/sharpening could help in this process. Alternatively, 3D transforming the images to be in the geographically correct locations around the viewer, instead of as a placeless gallery directly in front, would add more meaning to the photos.
+
+## Reflection
+
+This project was my first time trying WebXR, and using Three.js for something real. I spent the majority of my time on the technicalities of the setup and not nearly as much as I hoped on the content of the art piece; there’s still many outstanding bugs, especially when viewing in VR, and the experience is far from ideal there. I thought I’d scoped this project down enough from my initial visions, but using wholly unfamiliar tooling made even that version less polished than I hoped. I expected more of my web/React experience to be relevant, but Three.js has little overlap with frontend DOM.
+
+WebXR is promising, but has been littered in false starts from various organizations contributing to it. Mozilla invested a lot then gave up, Chrome is holding down the fort but the implementation on Meta Quest’s fork has tons of bugs desktop Chromium doesn’t, Apple’s implementation thus far is subpar with no AR support, requiring users to remain stationary, and not allowing hand occlusion.
+
+I’m a fan of the project, but I wish it felt a little more transporting than it does, through sound, the surroundings, and the gallery. It taught me a lot to produce an immersive experience though; this was my first time designing for 360º, and my inclinations toward what I’m used to in 2D/spatial computing design show through, as it doesn’t take full advantage of the infinite real estate.
