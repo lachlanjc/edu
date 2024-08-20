@@ -165,5 +165,30 @@
     "rating": 2,
     "prof": "Kate Hartman",
     "semester": "s24"
+  },
+
+  "draw": {
+    "name": "Drawing",
+    "rating": null,
+    "prof": "Diti Almog",
+    "semester": "f24"
+  },
+  "psd": {
+    "name": "Psychological Data",
+    "rating": null,
+    "prof": "Marcelo Mattar",
+    "semester": "f24"
+  },
+  "um": {
+    "name": "Useless Machines",
+    "rating": null,
+    "prof": "Blair Simmons",
+    "semester": "f24"
+  },
+  "wear": {
+    "name": "Wearables",
+    "rating": null,
+    "prof": "Daniel Ryan Johnston",
+    "semester": "f24"
   }
 }
