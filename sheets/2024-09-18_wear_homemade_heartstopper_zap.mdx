@@ -1,0 +1,56 @@
+import Song from 'react-song-embed'
+
+# Homemade Heartstopper switch
+
+In _Heartstopper_, a queer YA Netflix show, whenever the main characters’ hands touch each other, animated lightning bolts & zap sound effects play to emphasize the steps along their relationship.
+
+![Heartstopper zap](https://cloud-jquzth0jd-lachlan-jc.vercel.app/dl.webp)
+
+Inspired by that interaction, I made the lowest-tech physical implementation possible, where touching two hands together shines a yellow light.
+
+<video
+  src="https://cloud-l24obt9x4-lachlan-jc.vercel.app/demo.mp4"
+  controls
+  muted
+  autoPlay
+  playsInline
+  loop
+>
+  Demo
+</video>
+
+On the first finger, I wrapped a CR2032 battery in masking tape to adhere it to my finger, to electrically insulate its top/side, and to keep the yellow LED in place. On the second finger, I wrapped a thimble/sleeve of conductive fabric. When the fingers touch, the conductive fabric creates a bridge from the LED’s positive lede to the positive side of the battery, illuminating the LED.
+
+![Project](https://cloud-l24obt9x4-lachlan-jc.vercel.app/project.jpeg)
+
+At first, I was stuck on the idea of keeping the battery on one finger and the LED on the other, but keeping the circuit closed by default with the power and ground disconnected made construction difficult. With such lightweight components, I didn’t mind keeping both on one side, and having the lightweight thimble on the other is a nice texture. The tape construction is obviously highly temporary.
+
+My earlier idea was to use my bracelet as a conductor, but for the same reason as above, I couldn’t think of a construction that wouldn’t cause sometimes-overlapping loops of conductive material on my skin to not short-circuit. The idea of jewelry that’s aware of its neighbors/acts differently when connected to other pieces of jewelry appeals to me, and I’ll save it for the future.
+
+## Playing with multimeters
+
+In the shop today, I tried out various multimeter settings.
+
+First, I checked the voltage of a CR2032 battery, and verified it was in the 3V range:
+
+![Multimeter_battery](https://cloud-l24obt9x4-lachlan-jc.vercel.app/multimeter_battery.jpeg)
+
+I grabbed a 10K resistor from the bins, and verified that resistance to be true:
+
+![Multimeter_resistor](https://cloud-l24obt9x4-lachlan-jc.vercel.app/multimeter_resistor.jpeg)
+
+I probed a few objects around the space for conductivity. The aluminum ladder had half the conductivity this doorhandle had:
+
+![Multimeter ladder](https://cloud-l24obt9x4-lachlan-jc.vercel.app/multimeter_ladder.jpeg)
+
+![Multimeter_doorknob](https://cloud-l24obt9x4-lachlan-jc.vercel.app/multimeter_doorknob.jpeg)
+
+The junk shelf this week didn’t have great materials for wearables, as a lot of them are large-scale. A reliable choice are the cables, since I was listening to Caroline Polachek this morning with her lyric “sexting sonnets under the tables / tangled in cables / billions”.
+
+// <Song url=”https://song.link/i/1669096369” />
+
+I’ve done plenty of wire cutting & stripping in the past—[this Physical Computing project](/2022-09-28_pcomp_interactive_object_project) required 27—and wired breadboards many times.
+
+## Reading: [Make Wearable Electronics](https://www.amazon.com/Make-Wearable-Electronics-prototype-interactive/dp/1449336515), Ch 3
+
+I loved the variety of switches in this chapter, several of which I’d never encountered, like the sandwich switch. I’m hoping to make one along those lines this semester. The “Embrace Me” project at the end inspired my *Heartstopper* switch this week.
