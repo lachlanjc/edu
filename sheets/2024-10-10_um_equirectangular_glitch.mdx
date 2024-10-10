@@ -1,0 +1,17 @@
+# Equirectangular Glitch
+
+Last spring, investigating using AI image generation tools to make immersive media, I tried getting Adobe Firefly to make me [equirectangular](https://en.wikipedia.org/wiki/Equirectangular_projection) imagery for the backdrop of a VR experience. I was surprised by the results, because they vaguely looked like equirectangular photos, but the AI system had no understanding of the requirements of that format (seamless wraparound, for instance, or the precise geometries of the distortion pattern). Here’s a “forest in Sweden:”
+
+![Equi](https://cloud-aq2i5chcv-lachlan-jc.vercel.app/equi.jpeg)
+
+At first glance, it looks okay, but the edges don’t line up if you render this in a 3D environment. It was simulating the vibe of equirectangularity without the real thing. 
+
+I wondered, does the same principle apply to other photo formats? I asked a Replicate model for a forest in a Pixar style, but rendered as a still of a 3D movie, and all I got was some half-baked chromatic abberration, not anything like a 3D movie still:
+
+![3D](https://cloud-aq2i5chcv-lachlan-jc.vercel.app/3d.jpeg)
+
+So I whipped up a website to try living inside the equirectangular worlds this model creates, a glitch of a fake 3D space that’s not very compelling.
+
+[**Try the site**](https://equirectangular-glitch.vercel.app/) and [**view the source code**](https://github.com/lachlanjc/equirectangular-glitch)
+
+My first attempt at this project was way over-ambitious, using WebXR (which I’ve [struggled with before](/2024-05-07_imex_nyc_immersive_time_machine)) to make this a VR project where you’re surrounded by this terrible imagery. After I wasted an hour trying to get the various Three.js packages to work correctly together, I bailed for the 2D web I’m more familiar with, and used [this handy library](https://www.npmjs.com/package/react-pannellum) for the panorama rendering.
