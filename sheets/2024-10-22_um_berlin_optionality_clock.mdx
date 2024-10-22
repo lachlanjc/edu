@@ -1,0 +1,150 @@
+# Berlin Optionality Clock
+
+[Time & place](https://album.link/us/i/1651294847) are inextricably linked: obviously via sunset/sunrise, timezones & daylight saving time, but also places around you. One of the best perks of NYC (to me, at this age) is how it’s the most 24/7 city in the country; everything in San Francisco, meanwhile, closes hours earlier. When you’re in Vermont, there’s probably only one place open after 9pm, and it’s not chic.
+
+In America, the least-bougie businesses that are open the most hours of the day. I’ve never been anywhere in Asia, but I’ve heard there’s more kinds of 24-hour businesses than we’re used to here. When I lived in Berlin last year, I found the time of week to dramatically influence what you could do: retail (including grocery stores) are near-universally, by law, closed on Sundays there, so you have to plan your weekend carefully.
+
+I made a “clock” based on what percentage of nearby POIs of various types are open at any given time—a visualization of your optionality. It’s not very useful as a clock—it’s hard to guess what time it is from most states of the optionality clock. It’s more an exploration of how the time changes the (mostly commercial) availability of space around you.
+
+[**Open the site**](https://berlin-optionality.vercel.app/) – [read the source code](https://vercel.com/lachlan-jc/berlin-maps/144HKjEGQiK5JmtzPLyJzNpK2Xrn/source?f=src%2Fapp%2F(optionality)%2Fpage.tsx)
+
+![Demo](https://cloud-2zbo8z05n-lachlan-jc.vercel.app/demo.png)
+
+## Data
+
+Here’s the list of place types I decided on, which felt relevant to different kinds of people:
+
+```
+bar
+restaurant
+cafe
+museum
+park
+night_club
+church
+store
+gym
+```
+
+Based on the [Google Maps Nearby Search API](https://developers.google.com/maps/documentation/places/web-service/nearby-search), I downloaded 20 places’ details in each category centered around the St. Agnes building in Berlin:
+
+```sh
+curl -X POST -d '{
+  "includedPrimaryTypes": ["park"],
+  "excludedTypes": ["restaurant", "cafe", "bar", "store", "museum", "hotel"],
+  "locationRestriction": {
+    "circle": {
+      "center": {
+        "latitude": 52.5474044,
+        "longitude": 13.3526812},
+      "radius": 5000.0
+    }
+  }
+}' \
+-H 'Content-Type: application/json' -H "X-Goog-Api-Key: KEY_HERE" \
+-H "X-Goog-FieldMask: places.id,places.primaryType,places.types,places.displayName,places.formattedAddress,places.regularOpeningHours" \
+https://places.googleapis.com/v1/places:searchNearby >> places/park.json
+```
+
+The 8 JSON files total 321 KB in total, with fields including the type of business, name, address, and regular opening hours.
+
+## Time calculation
+
+To figure out what POIs are open at any given time, I needed to take a `<input type="datetime">` and get the weekday/time in Berlin, then compare across the JSON listings of every category.
+I used ChatGPT to help write this logic; I don’t use LLMs constantly while coding, but for tasks like this, it’s super helpful.
+
+```tsx
+interface Place {
+  name: string
+  id: string
+  openingHours: OpeningHours
+  isOpenNow: boolean
+}
+
+interface OpeningHoursTime {
+  day: number
+  hour: number
+  minute: number
+}
+
+interface OpeningHours {
+  openNow: boolean
+  periods: Array<{
+    open: OpeningHoursTime
+    close?: OpeningHoursTime
+  }>
+  weekdayDescriptions: Array<string>
+}
+
+function isOpenAtTime(openingHours: OpeningHours, currentDate: Date): boolean {
+  const currentDay = currentDate.getDay()
+  const currentHour = currentDate.getHours()
+  const currentMinute = currentDate.getMinutes()
+
+  const currentDayPeriod = openingHours.periods?.find(
+    (period) => period.open.day === currentDay
+  )
+  if (currentDayPeriod) {
+    const { open, close } = currentDayPeriod
+
+    if (!close) return true
+
+    if (
+      open.hour !== undefined &&
+      open.minute !== undefined &&
+      close?.hour !== undefined &&
+      close?.minute !== undefined
+    ) {
+      const { hour: startHour, minute: startMinute } = open
+      const { hour: endHour, minute: endMinute } = close
+
+      if (
+        (currentHour > startHour ||
+          (currentHour === startHour && currentMinute >= startMinute)) &&
+        (currentHour < endHour ||
+          (currentHour === endHour && currentMinute < endMinute))
+      ) {
+        return true // If the current time is within the open period for the current day, return true
+      }
+    }
+  }
+
+  return false // If no open periods match the current time, the place is considered closed
+}
+```
+
+All this logic runs server-side via React Server Components, as an edge function, using the current time by default (UTC +2 for Berlin) or a cookie if the frontend sets another time to explore. This keeps all that JSON with the source hours out of the client bundle, sending a minimal array of names and current open states instead.
+
+Under this paradigm, we do need some client-server interaction if the visitor wants to explore a time other than the current one. On the frontend, I used [Next.js Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations#forms) for the `datetime` input, to set a cookie when a time is set. When the input changes, the form submits, updating the cookie and re-rendering the page server-side.
+
+```tsx
+<form
+  action={async (formData: FormData) => {
+    "use server"
+    const formTime = formData.get("chosenTime")?.toString()
+    if (formTime) {
+      cookies().set("chosenTime", formTime);
+    }
+  }}
+>	
+  <Input defaultValue={currentTime} />
+</form>
+```
+
+## Frontend
+
+For visualizing the clocks, I tried the generative AI frontend tool [`v0`](https://v0.dev) by Vercel first, [asking it](https://v0.dev/r/rkalmOrKWvn) to generate a grid of clocks. The promise of such a tool was immediately broken when it generated SVG icons of clocks instead of live clocks. Womp womp. [Regenerating it again](https://v0.dev/chat/SkcPwMLqKHD?b=b_05APUjofRLG), it created something closer to what I had in mind, with strange visual artifacts in the shading. If I’ve got interfaces and a clear task like the business hours function above, LLM-powered autocomplete is great, but for higher-level creative tasks, many AI tools are still a waste of time to even attempt during my development process.
+
+Nearly a decade ago, [I worked on a project](https://github.com/lachlanjc/watch) to make watchfaces in React, which I dusted off for the face of the clock component. GitHub search remains an undefeated tool, as annoying as it is to use.
+
+I reached for [Radix Themes](https://www.radix-ui.com/themes) for the app UI, since it has some nice default styling, and I didn’t have a strong aesthetic direction for the prototype. It was a great fit for this project. The input and the dialog are React client components, while the structure of the page plus the clocks are all server components, with zero client-side JavaScript. The dialog, scroll, table, and badge components made it super quick to add a readout of the places in each category:
+
+![Readout](https://cloud-2zbo8z05n-lachlan-jc.vercel.app/readout.png)
+
+It’s all typeset in [Geist Sans](https://vercel.com/font) by Vercel.
+
+## Future
+
+It’d be fun to hook this up to both current location and authentication, so the site used your current location plus places you’ve saved in each category to personalize the visualization. I care less that the night clubs or churches nearest me are open than that my saved places in those categories, even if they’re currently further away, are accessible. That’s all just an order of magnitude more complex than scraping this data once, and I don’t love this first iteration of my visualization enough to build all that backend.
+
+Making use of 3D maps would be incredible, to light up buildings based on their open status & color them by category. Waterloo student Akshar Barot just made a [beautiful 3D map](https://spots.aksharbarot.com/) using Mapbox of available study spots on campus, overlaying beacon lights onto buildings. Bringing these ideas to WebXR could be next-level.
