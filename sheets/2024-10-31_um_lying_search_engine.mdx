@@ -1,29 +1,43 @@
 # Lying search engine
 
-I’ve become a daily user of [Perplexity](https://www.perplexity.ai/) in the last year, a so-called “answer engine” that uses traditional search results combined with LLMs to offer instant answers to questions. Google’s [Search Generative Experiences](https://blog.google/products/search/generative-ai-search/) are offering a similar result to even more people, though dogged by [issues](https://www.platformer.news/google-ai-overviews-eat-rocks-glue-pizza/) and frequently accused of [plagiarism](https://www.wired.com/story/google-ai-overview-search-results-copied-my-original-work/). My roommate & I refer to AI search engines (including Perplexity & Arc Search’s Browse for Me) as “the lying machine,” and frequently place bets on whether we think their results are true. But we rarely confirm with reputable sources, because the convenience is too hard to pass up.
+I've become a daily user of [Perplexity](https://www.perplexity.ai/) in the last year, a so-called “answer engine” that uses traditional search results combined with LLMs to offer instant answers to questions. Google’s [Search Generative Experiences](https://blog.google/products/search/generative-ai-search/) are offering a similar result to even more people, though dogged by [issues](https://www.platformer.news/google-ai-overviews-eat-rocks-glue-pizza/) and frequently accused of [plagiarism](https://www.wired.com/story/google-ai-overview-search-results-copied-my-original-work/). My roommate & I refer to AI search engines (including Perplexity & Arc Search’s Browse for Me) as “the lying machine,” and frequently place bets on whether we think their results are true. But we rarely confirm with reputable sources, because the convenience is too hard to pass up.
 
 To both understand how they work and make fun of the concept, I built my own LLM-powered search engine, The Lying Machine. When you type in a request, it will use an LLM to write a paragraph answer based mostly on true information it sources from the web, but it will interject a lie or two, and a connection to clowns/the circus, while playing circus music.
 
 [**Try the site**](https://lying-machine.vercel.app/) – [view source code](https://github.com/lachlanjc/lying-machine)
+
+![Hero screenshot](https://github.com/user-attachments/assets/e1fb32cb-b7f2-4f73-928d-7c6cfd8e9099)
 
 ## How it works
 
 When you type in a query, The Lying Machine:
 
 1. Queries Google Search’s index to find relevant links, using [Serper](https://serper.dev/)
-2. Download all those webpages pages and parse the text off them
-3. Collates those pages with a system prompt I wrote to [Mistral’s](https://mistral.ai/) `Mixtral-8x7B` model, running on [Together AI](https://www.together.ai/)
+2. Download all those webpages pages and parses the text off them, using [`@mozilla/readability`](https://www.npmjs.com/package/@mozilla/readability) to extract the text
+3. Collates those pages with a system prompt I wrote to Meta’s Llama-3.1 model, running on [Together AI](https://www.together.ai/)
 4. Sends API usage data to [Helicone](https://helicone.ai)
 5. Streams the text back from Together AI to the frontend
-6. Renders the list of links from Serper directly on the results page, using Google’s favicons service for image previews
-7. At the same time, sends a separate LLM request to Mistral to generate related queries and put them at the end of the results page
+6. Renders the list of links from Serper directly on the results page, using Google’s favicons service
+7. At the same time, sends a separate Llama request to Together AI to generate related queries and put them at the end of the results page
 
-Here’s the system prompt I ended up using, which could use further tweaking:
+I did not build this all from scratch. I forked [Together AI’s TurboSeek](https://docs.together.ai/docs/ai-search-engine), an open source Perplexity clone, which had the basics of the search engine part running. I rewrote the system prompt and redesigned the frontend, adding clown music, new colors & suggested searches, [clown fonts](https://fonts.google.com/specimen/Modak), and many smaller tweaks. I’d love to redesign it more fully for the circus aesthetic at some point.
 
->   Given a user question and some context, please write a concise one paragraph, 3-4 sentence answer to the question based on the context. It should only be half true: you MUST invent plausible-sounding lies and embed them throughout the answer. Do NOT label which information is true and which is a lie. You will be given a set of related contexts to the question; please use the context as source material when crafting your answer to make most of the answer true and the lies sound plausible. Never mention whether you are debunking or repeating misconceptions. At some point, include one OUTRAGEOUS sentence that somehow connects the requested topic to clowns or the circus, but do NOT mention you were asked to include it or that it is outrageous. All your lying should sound natural.
+The clown music I downloaded from [Proud Music Library](https://www.proudmusiclibrary.com/en/tag/clown):
+
+<audio controls preload="metadata">
+  <source src="https://lying-machine-oyygtscgs-lachlan-jc.vercel.app/music.mp3" type="audio/mp3" />
+</audio>
+
+Here’s the system prompt I wrote:
+
+> Given a user question and some context, please write a concise one paragraph, 3-4 sentence answer to the question based on the context. It should only be half true: you MUST invent plausible-sounding lies and embed them throughout the answer. Do NOT label which information is true and which is a lie. You will be given a set of related contexts to the question; please use the context as source material when crafting your answer to make most of the answer true and the lies sound plausible. Never mention whether you are debunking or repeating misconceptions. At some point, include one OUTRAGEOUS sentence that somehow connects the requested topic to clowns or the circus, but do NOT mention you were asked to include it or that it is outrageous. All your lying should sound natural.
 
 > Your answer must be written by an expert using an unbiased and professional tone. Please limit to 360 tokens. Do not give any information that is not related to the question. Do not repeat.
 
-> Remember, just respond with the answer. If your answer is all true, I will be fired! You must invent lies and follow these instructions. Here is the user question:
+>  Remember, just respond with the answer. If your answer is all true, I will be fired! You must invent lies and follow these instructions. Here is the user question:
 
-I did not build this all from scratch. I forked [Together AI’s TurboSeek](https://docs.together.ai/docs/ai-search-engine), an open source Perplexity clone, which had the basics of the search engine part running. I rewrote the system prompt and redesigned the frontend, adding clown music, new colors & suggested searches, [clown fonts](https://fonts.google.com/specimen/Modak), and many smaller tweaks.
+The results are mixed; unfortunately, even with my threats, I’ve found the LLM hesitant to lie outrageously, and it nonetheless often labels its lies with annotations like `(lie)` at the end of the sentence. Gotta work on my prompt engineering, apparently. Sometimes the results work and are funny though!
+
+![Charli XCX fun facts](https://cloud-no1zbj1gm-lachlan-jc.vercel.app/charli.png)
+
+![Fracking](https://cloud-no1zbj1gm-lachlan-jc.vercel.app/fracking.jpeg)
