@@ -1,0 +1,82 @@
+# Indoor drought plant
+
+It [finally rained](https://gothamist.com/news/it-finally-rained-in-nyc-but-dry-days-are-still-ahead-forecast-says) in the New York area this weekend for the first time in many weeks, after the [driest October](https://gothamist.com/news/october-was-the-driest-month-ever-recorded-in-nyc-dont-expect-much-rain-soon) we’ve ever seen. Yet most New Yorkers are unaware of our water trends, because city-goers experience dry spells as a lack of the daily inconvenience of rain. We keep watering the plants in our apartments, and the landscaped plants outside get watered by other humans. Yet with Brooklyn’s brush fires and New Jersey’s full-on forest fires, and our low levels in our drinking water reservoirs, these climate swings affect our lives nonetheless.
+
+I wanted to make a mechanical plant (that can only exist inside) that visualizes the precipitation outside: one that’s “watered” by the recent rainfall, bringing the context of our water trends into our inside lives. Making the physical plant would be a huge challenge, though. For an MVP, I made the drought digital with a tamagotchi plant in a state of aliveness corresponding to recent rainfall.
+
+![Demo](https://cloud-2vskmqkvm-lachlan-jc.vercel.app/demo.jpeg)
+
+[**Open the site**](https://drought-plant.vercel.app/) – [view source code](https://github.com/lachlanjc/drought-plant)
+
+## Weather data
+
+Data-wise, I was inspired by Apple Weather’s remarkable “Averages” widget, which is one of the best examples of climate-change-aware UI design in recent years. It doesn’t scream “climate feature,” but it subtly reminds tens or hundreds of millions of people who use Apple Weather that the weather exists in the context of all of which came before it.
+
+![Apple Weather Averages screenshot](https://cloud-2vskmqkvm-lachlan-jc.vercel.app/apple-weather.jpeg)
+
+I started this project by finding an API for historical weather data. I was looking for the last 60 days of precipitation totals, which I’d want to make a chart of. Ideally it’d show the expected amounts based on historical averages too. I found [Open Meteo](https://open-meteo.com/en/docs/historical-weather-api), a free and open source weather API that includes historical data, no API key required. Though its response formats are strange, it comes with a TypeScript package and example code that’s easy enough.
+
+I set up a Next.js project with a Route Handler to get the historical precipitation, which I formatted like this (`precip` in mm):
+
+```js
+[
+  {dt: "2024-09-18T00:00:00.000Z", precip: 0},
+  {dt: "2024-09-19T00:00:00.000Z", precip: 0},
+  {dt: "2024-09-20T00:00:00.000Z", precip: 0},
+  {dt: "2024-09-21T00:00:00.000Z", precip: 0},
+  {dt: "2024-09-22T00:00:00.000Z", precip: 0},
+  {dt: "2024-09-23T00:00:00.000Z", precip: 0.10},
+  {dt: "2024-09-24T00:00:00.000Z", precip: 0},
+  {dt: "2024-09-25T00:00:00.000Z", precip: 1.10},
+]
+```
+
+I pulled the monthly averages from [rssWeather](https://rssweather.com/climate/New%20York/New%20York%20Central%20Park/), which is not a strong data source since it’s just monthly averages, and I had to convert inches to centimeters.
+
+## Weather visualization
+
+On the Next.js page, I pulled in the historical weather data plus the averages in a React Server Component, then got to work on the frontend. I’m using [Incremental Static Regeneration](https://nextjs.org/docs/app/building-your-application/data-fetching/incremental-static-regeneration) each hour, so the page is static but refreshes itself consistently.
+
+To visualize the precipitation, I originally had in mind a super-scrubbable timeline interaction like [Rauno’s run log](https://rauno.me/run). Unfortunately the code for that project is not open source, and I couldn’t find any open source projects with a similar interaction. I’d still love to build this idea in the future, but it could easily be 12+ hours in itself. I love his sound design and iPad-inspired cursor morph effect built into that project.
+
+In lieu of that, I reached for my typical React charting library, [Recharts](https://recharts.org/), styled by [shadcn/ui](https://ui.shadcn.com/docs/components/chart). I was able to make a decent-looking bar chart of the precipitation pretty rapidly, tooltip and all.
+
+Looking back at it, I should have pulled up the Apple Weather example before I made my chart, and copied theirs; it’s a much strong visualization of the historical average compared to the result than makes sense with the bar chart, where I bailed on visualizing the monthly averages.
+
+## Plant
+
+I tried many tools and attempts to draw the plant. I started by asking [v0.dev to draw a 3D shader](https://v0.dev/chat/s84fXvyY5n3?b=b_Kwm2c5vRTKl), which was giving major [SOPHIE PRODUCT singles artwork](https://nmbrs.net/releases/sophie-product-special-editions-nmbrs48/) energy. I learned a bunch about shaders trying to adapt those results though, and I’ve never used shaders in a project before. I might return to this concept of the plant as a surface that looks nearly plastic, as a WALL-E world type energy.
+
+![V0 product](https://cloud-2vskmqkvm-lachlan-jc.vercel.app/v0-product.png)
+
+As I asked for more realism, v0 produced increasingly horrific creations. Its next pass created a 3D amalgamation of seaweed leaves intersecting one another. Its final creation of Monstera leaves look like oil spill-covered grim reaper leaves. Computers don’t know anything about plants, apparently.
+
+![V0 seaweed](https://cloud-2vskmqkvm-lachlan-jc.vercel.app/v0-seaweed.png)
+
+![V0 reaper](https://cloud-2vskmqkvm-lachlan-jc.vercel.app/v0-reaper.png)
+
+I read [this tutorial on plant shaders](https://matiasgf.dev/experiments/shaders-plants) and tried to import that into my project, but ran into technical issues with Next.js. Procedurally drawing plants is a [whole field academically](https://dl.acm.org/doi/fullHtml/10.1145/3610548.3618218), apparently.
+
+![Tutorial](https://cloud-2vskmqkvm-lachlan-jc.vercel.app/tutorial.jpeg)
+
+To get an MVP together, I used [v0.dev to draw the plant with SVG](https://v0.dev/chat/gHWq7xF7XHz?b=b_6sLBdv1lc7k). It’s a comically basic drawing of a Monstera plant, which transforms the project into more of a children’s toy vibe than either the tamagotchi housemate I was thinking or the SOPHIE energy. I pulled the SVG into Figma to redraw the pot, which was totally directionally messed up by v0.
+
+![Basic SVG version](https://cloud-2vskmqkvm-lachlan-jc.vercel.app/svg.png)
+
+I added the shadcn slider to make it easy to see the full range of the plant, set initially to the percentage of the expected rainfall in the last two months that has fallen, with a quick text description of those numbers. Ideally, the slider would disappear & scrubbing the chart would animate the plant, but I didn’t get to that interaction in time.
+
+## Lighting
+
+As a final touch, I just saw Jacky Zhao launch [open source webpage sunlight](https://x.com/_jzhao/status/1856103807903773015), which is pure HTML + CSS + one image to recreate some of the effect [Basement built](https://basement.studio/blog/daylight-shadows) into the [Daylight website](https://daylightcomputer.com/) this May. I added it super quickly to the site, which added some much-needed naturalism to the page.
+
+<video
+  src="https://cloud-2vskmqkvm-lachlan-jc.vercel.app/demo.mp4"
+  poster="https://cloud-2vskmqkvm-lachlan-jc.vercel.app/demo.jpeg"
+  controls
+  muted
+  autoPlay
+  playsInline
+  loop
+>
+  Demo of dragging slider on plant
+</video>
