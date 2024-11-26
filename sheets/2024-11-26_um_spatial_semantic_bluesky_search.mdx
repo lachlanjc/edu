@@ -1,0 +1,60 @@
+# Spatial Semantic Bluesky Search
+
+Every day, I like more posts across the social networks I use, leaving behind a trail of valuable data about what resonates with me: nearly 5K likes on Bluesky already, and over 300K from a decade of daily Twitter use. Social networks use these likes as high-value signals toward showing me an ever-more-attuned feed of content I might like, but they leave us powerless to make use of this data ourselves. Searching likes has been a top feature request of mine on Twitter for a decade. I guess it doesn’t drive engagement sufficiently though, since no popular social network has ever done even the basics to make these like streams digestible. Yet they remain filled with gems I regularly wish I could revisit.
+
+Last spring I hacked around the lack of Twitter API access for the masses to download my Twitter likes + bookmarks, and make an [infinite canvas search tool centered around semantic search](/2024-05-07_shm_spatial_semantic_twitter_search). Today, I revitalized the project for ATProtocol, downloading my Bluesky likes instead since that’s where I spend my internet time these days.
+
+**Spatial Semantic Search for Bluesky!** It’s an OpenAI embeddings-powered search tool for my Bluesky likes, with advanced filtering, on an infinite canvas with draggable results. The semantic search part is key to making it a fuzzier tool for finding things: you can search for “pet” and find photos of dogs and cats where the post never said “pet.” The more traditional filters are great when you know exactly what you’re looking for (e.g. a link, photo, or video).
+
+![Screenshot of a masonry grid of bluesky posts all showing pet photos, with a search field that says "pet" and a filter for "has photo" enabled](https://cdn.bsky.app/img/feed_fullsize/plain/did:plc:5clwkdkmns2fk7luffo6efol/bafkreidvooa2czyrqstsizhnbedok7vrzztglbrtts4hjqwqup3l3k5gue@jpeg)
+
+[View source code](https://github.com/lachlanjc/spatial-bsky-search)
+
+## Adapting from the Twitter version
+
+Most of the story of building this [I wrote in the spring](/2024-05-07_shm_spatial_semantic_twitter_search), but adapting to ATProto took a few steps. In broad strokes, they were adapting the data download to ATProto, updating the database logic for the new schema of posts, then rewiring the frontend to use Bluesky embeds.
+
+First, switching to their API. It’s such a welcome relief to have a real package with a real authentication mechanism for free to download my entire history of likes without hacking around DevTools. Downloading 100 likes to start testing with was incredibly easy, less than 10 lines of code:
+
+```js
+import { AtpAgent } from "@atproto/api";
+
+const identifier = process.env.BS_USER;
+const password = process.env.BS_PASSWORD;
+const agent = new AtpAgent({ service: "https://bsky.social" });
+const user = await agent.login({ identifier, password });
+const response = await agent.getActorLikes({
+  actor: user.data.did,
+  limit: 100,
+});
+const posts = response.data.feed.map((posts) => posts.post);
+console.log(`${posts.length} posts downloaded`);
+Bun.write("lib/db/likes.json", JSON.stringify(posts));
+```
+
+I used ChatGPT to write a simple loop to download the full archive recursively, but it’s still dramatically simpler than anything to do with Twitter’s GraphQL mess these days.
+
+Second, adding the posts to Chroma for semantic search was more complex. [Read the source code here](https://github.com/lachlanjc/spatial-bsky-search/blob/main/lib/tasks/embed.js), but I had to implement some parsing of Bluesky’s rich text system to get a “full text” version of posts, which includes:
+
+- Author display name
+- Author handle
+- Post text
+- URLs in their original entirety
+- Alt text of any images attached
+
+In the future, it’d be incredible to do OCR on images lacking alt text, or have an image-to-text model automatically generate alt text. I should also figure out a system for quote posts and include embedded post content.
+
+Third, I needed to embed the Bluesky posts on the frontend. I reached for [`bsky-react-post`](https://bsky-react-post.rhinobase.io/), though moments later (the ATProto dev community is [bubbling](https://bsky.app/profile/paulbutler.org/post/3lbti22jq2k2a) these days!) a [competing library launched](https://bluesky-embed-rsc.vercel.app/) based on RSC + Tailwind. Implementing the former seemed simple at first, but its documentation lacked a key step around importing the embed’s CSS, and I found [some bugs](https://github.com/rhinobase/react-bluesky/pull/3) in the library in the process as well.
+
+I made only minor modifications to the automatic canvas positioning, which I’m still not happy with. Vector math is not my strong suit.
+
+This version of the project makes use of many open source libraries:
+
+- [Next.js](https://nextjs.org/) for running the website
+- [Bun](https://bun.sh/) for scripting (downloading posts/setting up database)
+- [`@atproto/api`](https://github.com/bluesky-social/atproto/tree/main/packages/api#readme) for interfacing with ATProtocol
+- [Chroma](https://trychroma.com) for embeddings database
+- [`umap-js`](https://github.com/PAIR-code/umap-js) for positioning posts
+- [React Flow](https://reactflow.dev/) for infinite canvas
+- [`bsky-react-post`](https://bsky-react-post.rhinobase.io/) for post embeds
+- [Radix Themes](https://www.radix-ui.com/) for search UI
