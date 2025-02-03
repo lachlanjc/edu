@@ -169,25 +169,25 @@
 
   "draw": {
     "name": "Drawing",
-    "rating": null,
+    "rating": 1,
     "prof": "Diti Almog",
     "semester": "f24"
   },
   "psd": {
     "name": "Psychological Data",
-    "rating": null,
+    "rating": 0,
     "prof": "Marcelo Mattar",
     "semester": "f24"
   },
   "um": {
     "name": "Useless Machines",
-    "rating": null,
+    "rating": 2,
     "prof": "Blair Simmons",
     "semester": "f24"
   },
   "wear": {
     "name": "Wearables",
-    "rating": null,
+    "rating": 1,
     "prof": "Daniel Ryan Johnston",
     "semester": "f24"
   }
