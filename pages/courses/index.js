@@ -53,7 +53,7 @@ export default function IndexPage({ semesters }) {
                       lineHeight: 'title',
                     }}
                   >
-                    {semester !== 'f24' && <Rating val={rating} />}
+                    {rating && <Rating val={rating} />}
                     {name}
                   </A>
                 </Link>
