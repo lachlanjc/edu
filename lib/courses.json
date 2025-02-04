@@ -190,5 +190,30 @@
     "rating": 1,
     "prof": "Daniel Ryan Johnston",
     "semester": "f24"
+  },
+
+  "caps": {
+    "name": "Capstone",
+    "rating": null,
+    "prof": "Diti Almog",
+    "semester": "s25"
+  },
+  "mart": {
+    "name": "Modern Art",
+    "rating": null,
+    "prof": "Pepe Karmel",
+    "semester": "s25"
+  },
+  "nyg": {
+    "name": "NY Underground",
+    "rating": null,
+    "prof": "Katie Schneider Paolantonio",
+    "semester": "s25"
+  },
+  "dfab": {
+    "name": "Digital Fabrication",
+    "rating": null,
+    "prof": "Maya Pollack",
+    "semester": "s25"
   }
 }
