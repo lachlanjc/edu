@@ -26,6 +26,15 @@ const config = withContentlayer({
       },
     ]
   },
+  async redirects() {
+    return [
+      {
+        source: '/2025-03-04_caps_annotated_bibliography',
+        destination: '/2025-03-04_caps_superfund_map_concept',
+        permanent: true,
+      },
+    ]
+  },                              
 })
 
 export default config
