@@ -1,0 +1,34 @@
+# Production timeline
+
+## Phase One: Testing Hypothesis
+
+My project relies on the assumption that feeding the accessible documents about Superfund sites to an LLM results in easy-to-understand, grounded-in-truth, useful summaries and answers. I need to test this hypothesis first to de-risk the project.
+
+1. Download all the files related to one Superfund site
+2. Use an LLM manually (e.g. with Raycast AI) to extract all the text from the PDFs
+3. Script adding these documents to a local embeddings database
+4. Set up a basic RAG setup where I can ask an LLM various questions based on the documents, and evaluate if the answers are interesting
+
+If LLM results are sufficiently interesting as to not need to reconsider the whole project or the LLMs involved, I will move to phase two.
+
+## Phase Two: Gathering Data
+
+I need to decide the exact scope of sites included on the map: National Priorities List Superfund sites, all Superfund sites including those removed from NPL (aka cleaned up to some extent), or include other kinds of hazardous waste sites. I know I’m scoping the project to the U.S., but I could scope down geographically further.
+
+I need to download PDFs from both federal EPA repositories and possibly various state repositories I haven’t investigated outside of California. (If insufficient documentation is available, I could narrow the project to California to begin.) I will begin writing web scrapers that download these lists of sites, then downloading all the documentation to my computer.
+
+Next, I need to handle scanning, chunking, and embedding. I’ve done initial research and concluded I’ll use a traditional relational database in PostgresQL with pg_vector, but I’m not positive where I’ll run this process. Next, I need to decide on the tools I need for reading the PDFs in bulk, running OpenAI embeddings, and adding these results to the database. I’ve already written an initial schema with Drizzle ORM.
+
+## Phase Three: Map UI
+
+I need to make a website, most likely with Next.js & Mapbox, that shows a responsive 3D map with all the pins on them. On clicking on a pin, I need to pop up an information panel with key information. Making the map feature-complete includes a “locate me”/basic search functionality, web routing on pin navigation, etc. Ideally you’d be able to browse the documents inline.
+
+## Phase Four: Prompting
+
+On each site, I want to run various standard queries to categorize and extract highlights from the document sets. I need to come up with exactly those queries (“write a timeline of events,” “apply the appropriate of these category tags to the site,” “summarize what happened here” etc), run them en masse, and store them in the database.
+
+## Phase Five: Interaction Flow
+
+First, I want a basic chat UI where you can ask additional questions and the RAG LLM pipeline can answer them. Ideally, this would include citations to specific documents and/or page numbers, ideally with some way to peek at the original sources.
+
+I’ve come up with some novel ideas for interacting with the map/RAG LLM beyond the basic chat interface, positioning floating panels on the map, including the document viewer, and selecting text to continue asking questions and learning about the world. These interactions need to be built in code to truly test/evaluate/continue designing since I’ve never seen UI like this before.
