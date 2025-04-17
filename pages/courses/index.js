@@ -53,7 +53,7 @@ export default function IndexPage({ semesters }) {
                       lineHeight: 'title',
                     }}
                   >
-                    {rating && <Rating val={rating} />}
+                    {typeof rating === 'number' && <Rating val={rating} />}
                     {name}
                   </A>
                 </Link>
