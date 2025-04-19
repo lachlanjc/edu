@@ -16,6 +16,7 @@
     "@emotion/react": "11.11.4",
     "@mdx-js/loader": "1",
     "@mdx-js/react": "1",
+    "@mux/mux-player-react": "^3.3.4",
     "@theme-ui/preset-base": "^0.14.7",
     "@theme-ui/prism": "^0.14.7",
     "@vercel/og": "^0.0.21",

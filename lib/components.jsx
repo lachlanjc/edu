@@ -4,6 +4,8 @@ import Prism from '@theme-ui/prism'
 import Link from 'next/link'
 import { kebabCase } from 'lodash-es'
 import YouTube from 'react-lite-youtube-embed'
+import MuxPlayer from '@mux/mux-player-react/lazy'
+import '@mux/mux-player/themes/minimal'
 
 const headingLink = {
   color: 'inherit',
@@ -43,4 +45,23 @@ export default {
     ),
   Button,
   YouTube,
+  MuxPlayer: ({ id, title, ...props }) => (
+    <MuxPlayer
+      playbackId={id}
+      theme="minimal"
+      {...props}
+      metadata={{
+        video_title: title,
+        ...props.metadata,
+      }}
+      poster={`https://image.mux.com/${id}/thumbnail.jpg?width=1024&fit_mode=pad&time=0`}
+      style={{
+        width: '100%',
+        height: '100%',
+        maxWidth: 'unset',
+        maxHeight: 'unset',
+        borderRadius: 'extra',
+      }}
+    />
+  ),
 }
