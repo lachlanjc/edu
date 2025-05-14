@@ -17,7 +17,7 @@ export default function IndexPage({ course, sheets }) {
       <Paragraph sx={{ fontSize: 3, color: 'secondary', mt: 0, mb: 2 }}>
         with {course.prof}
       </Paragraph>
-      {course.rating && (
+      {typeof course.rating === 'number' && (
         <RatingWithDetails val={course.rating} showText />
       )}
       <div sx={{ height: 48 }} />
