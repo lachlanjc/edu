@@ -194,25 +194,25 @@
 
   "caps": {
     "name": "Capstone",
-    "rating": null,
+    "rating": 1,
     "prof": "Rashida Kamal",
     "semester": "s25"
   },
   "mart": {
     "name": "Modern Art",
-    "rating": null,
+    "rating": 2,
     "prof": "Pepe Karmel",
     "semester": "s25"
   },
   "nyg": {
     "name": "NY Underground",
-    "rating": null,
+    "rating": 1,
     "prof": "Katie Schneider Paolantonio",
     "semester": "s25"
   },
   "dfab": {
     "name": "Digital Fabrication",
-    "rating": null,
+    "rating": 2,
     "prof": "Maya Pollack",
     "semester": "s25"
   }
