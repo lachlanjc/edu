@@ -10,7 +10,7 @@ const config = withContentlayer({
   },
   pageExtensions: ['js', 'ts', 'tsx'],
   images: {
-    domains: ['cdn.glitch.com', 'www.icloud.com'],
+    domains: ['www.icloud.com'],
   },
   async rewrites() {
     return [
@@ -34,7 +34,7 @@ const config = withContentlayer({
         permanent: true,
       },
     ]
-  },                              
+  },
 })
 
 export default config
