@@ -22,11 +22,11 @@ Our eyes are shockingly easy to trick, and surprisingly adaptable. Those of us w
 
 This week, I made a quick visualization of data near and dear to my heart: the U.S. exports of liquified natural gas, from its first export terminal in the Northeast. This is a huge topic I made a project about [last fall](https://flareup.vercel.app/), but at the end of the research I discovered [LNG Monthly](https://www.energy.gov/fecm/articles/lng-monthly-2023), a treasure trove from the Department of Energy of spreadsheets of every natural gas shipment out of this country. I’ve wanted to begin visualizing it in 3D for awhile, so this week provided the perfect opportunity to get going.
 
-![Numbers](https://cloud-hyld2850h-lachlanjc.vercel.app/numbers.png)
+![Numbers](/2024-02-07_shm_week_2_spatial/numbers.png)
 
 I started in Numbers, simplifying the spreadsheet down to only the columns I’d make use of, and exported as CSV.
 
-![Notion](https://cloud-hyld2850h-lachlanjc.vercel.app/notion.png)
+![Notion](/2024-02-07_shm_week_2_spatial/notion.png)
 
 In our theme of trying AI tooling, I tried using Notion AI autofill to complete adding the latitude/longitude coordinates I needed for the visualization to my spreadsheet. This worked extraordinarily poorly. I asked my friend who works on this feature and he said using LLMs to do this was a terrible idea in general.
 
@@ -34,11 +34,11 @@ I then asked ChatGPT to write me a script for pulling this information, which it
 
 I gave up and used GitHub Copilot right in my editor, flying in the face of scientific recommendation but it was quick & easy. Peace on earth, or at least earthly coordinates.
 
-![Copilot](https://cloud-hyld2850h-lachlanjc.vercel.app/copilot.png)
+![Copilot](/2024-02-07_shm_week_2_spatial/copilot.png)
 
 After a quick [`npx csv2json`](https://www.npmjs.com/package/csv2json), I proceeded to start coding the site. I discovered the spectacular [`Globe.GL`](https://globe.gl/) library, which I made use of via React. I added the points as the other export terminals, color-coded with a legend, then the exports as arcs.
 
-![Demo](https://cloud-hyld2850h-lachlanjc.vercel.app/demo.png)
+![Demo](/2024-02-07_shm_week_2_spatial/demo.png)
 
 In the future, I’d like to add a switcher between all the terminals, and do an animation throughout the year with a slider, preferably in AR, but that was beyond the scope of this week.
 
